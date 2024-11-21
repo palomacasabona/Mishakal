@@ -12,9 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comentarios', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('id_comentario'); // ID del comentario
+            $table->text('contenido'); // Contenido del comentario
+            $table->timestamp('fecha_comentario'); // Fecha del comentario
+            $table->unsignedBigInteger('usuario_id')->nullable(); // Relación con Usuarios
+            $table->unsignedBigInteger('incidencia_id')->nullable(); // Relación con Incidencias
+            $table->timestamps(); // Campos created_at y updated_at
         });
+
     }
 
     /**

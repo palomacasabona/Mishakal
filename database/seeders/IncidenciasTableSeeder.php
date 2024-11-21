@@ -12,6 +12,7 @@ class IncidenciasTableSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Incidencia::factory(30)->create();
-    }
+        \App\Models\Usuario::all()->each(function ($usuario) {
+            \App\Models\Incidencia::factory(rand(1, 5))->create(['usuario_id' => $usuario->id_usuario]);
+        });    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comentario;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class ComentarioController extends Controller
 {

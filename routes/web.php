@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,3 +16,7 @@ Route::delete('/api/incidencias/{id}', [IncidenciaController::class, 'destroy'])
 
 
 Route::resource('usuarios', UsuarioController::class);
+
+
+Route::resource('comentarios', ComentarioController::class);
+Route::resource('archivos', ArchivoController::class);

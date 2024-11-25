@@ -14,11 +14,8 @@ class IncidenciaController extends Controller
      */
     public function index()
     {
-        // Obtener todas las incidencias de la base de datos
-        $incidencias = Incidencia::all();
-
-        // Pasar las incidencias a la vista de listado
-        return view('incidencias.index', compact('incidencias'));
+        $incidencias = Incidencia::all(); // Obtener todas las incidencias
+        return view('incidencias.index', compact('incidencias')); // Pasar los datos a la vista
     }
 
     /**

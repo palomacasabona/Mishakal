@@ -1,9 +1,16 @@
 <?php
 
+use App\Http\Controllers\ArchivoController;
 use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
+
+// ROUTA PARA EL INDEX
+
+Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,3 +27,4 @@ Route::resource('usuarios', UsuarioController::class);
 
 Route::resource('comentarios', ComentarioController::class);
 Route::resource('archivos', ArchivoController::class);
+Route::resource('mensajes', MensajeController::class);

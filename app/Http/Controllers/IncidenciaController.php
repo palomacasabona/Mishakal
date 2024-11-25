@@ -14,10 +14,9 @@ class IncidenciaController extends Controller
      */
     public function index()
     {
-        $incidencias = Incidencia::all(); // Obtener todas las incidencias
-        return view('incidencias.index', compact('incidencias')); // Pasar los datos a la vista
+        $incidencias = Incidencia::all(); // Obtiene todas las incidencias de la base de datos
+        return view('Incidencias.index', compact('incidencias')); // Pasa los datos a la vista
     }
-
     /**
      * Muestra el formulario para crear una nueva incidencia.
      * GET /incidencias/create

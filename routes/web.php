@@ -7,7 +7,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
 
-// ROUTA PARA EL INDEX
+// RUTA PARA EL INDEX INCIDENCIAS
 
 Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
 

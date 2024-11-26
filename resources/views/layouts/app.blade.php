@@ -34,7 +34,7 @@
             <li class="px-8">
                 <a href="#" class="hover:text-gray-300 relative text-2xl">
                     <i class="fas fa-bell"></i>
-                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">3</span>
+                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
                 </a>
             </li>
             <li class="pl-8">

@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplicación de Incidencias')</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-gray-100">
 <!-- Barra de navegación superior -->
-<header class="flex items-center justify-between p-4 bg-blue-700 text-white shadow-md">
+<header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
         <div class="mr-4">
             <!-- Logo -->
@@ -19,12 +20,28 @@
     </div>
     <!-- Menú para dispositivos grandes -->
     <nav class="hidden md:block">
-        <ul class="flex space-x-4">
-            <li><a href="#" class="hover:text-gray-300">Log</a></li>
-            <li><a href="#" class="hover:text-gray-300">Registrarse</a></li>
-            <li><a href="#" class="hover:text-gray-300">Notificaciones</a></li>
-            <li><a href="#" class="hover:text-gray-300">Ajustes</a></li>
-
+        <ul class="flex">
+            <li class="pr-8">
+                <a href="#" class="hover:text-gray-300 text-2xl">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+            </li>
+            <li class="px-8">
+                <a href="#" class="hover:text-gray-300 text-2xl">
+                    <i class="fas fa-user-plus"></i>
+                </a>
+            </li>
+            <li class="px-8">
+                <a href="#" class="hover:text-gray-300 relative text-2xl">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">3</span>
+                </a>
+            </li>
+            <li class="pl-8">
+                <a href="#" class="hover:text-gray-300 text-2xl">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </li>
         </ul>
     </nav>
     <!-- Botón hamburguesa para dispositivos pequeños -->

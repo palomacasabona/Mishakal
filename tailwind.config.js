@@ -14,6 +14,9 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                celeste: '#007bff', // Azul celeste personalizado
+            },
         },
     },
     plugins: [],

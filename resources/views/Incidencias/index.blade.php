@@ -31,4 +31,8 @@
             </tbody>
         </table>
     </div>
+    <!-- Paginador -->
+    <div class="mt-4">
+        {{ $incidencias->appends(request()->query())->links() }}
+    </div>
 @endsection

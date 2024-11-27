@@ -22,8 +22,10 @@ class IncidenciaController extends Controller
                 ->orWhere('titulo', 'LIKE', "%{$search}%");
         }
 
-        $incidencias = $query->orderBy('fecha_creacion', 'desc')->get();
+        // Reemplaza get() por paginate(), especificando el número de registros por página
+        $incidencias = $query->orderBy('fecha_creacion', 'desc')->paginate(14); // 10 registros por página
 
+        // Pasamos la variable `search` a la vista para que se preserve en la paginación
         return view('incidencias.index', compact('incidencias'));
     }
     /**

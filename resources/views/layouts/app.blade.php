@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplicación de Incidencias')</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon_io/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon_io/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon_io/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
+
+    <!-- Estilos globales -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body class="bg-gray-100">
 <!-- Barra de navegación superior -->
@@ -22,7 +32,7 @@
     <nav class="hidden md:block">
         <ul class="flex">
             <li class="pr-8">
-                <a href="#" class="hover:text-gray-300 text-2xl">
+                <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl">
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
             </li>

@@ -8,13 +8,11 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
 
+//-----------------------------------------------------------------------------------------
 // RUTA PARA EL INDEX INCIDENCIAS
 Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
 
-// RUTA PARA EL INICIO (WELCOME)
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 // RUTAS PARA LOGIN Y REGISTRO
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -26,11 +24,16 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 
 
-// RUTA AUTH UNIFICADA PARA LOGIN Y REGISTRO
+
+// Ruta para la vista de autenticación (auth.blade.php)
+// Esta ruta devuelve la vista 'auth', que incluye los formularios
+// para iniciar sesión y registrarse en una misma página.
+// El nombre de la ruta es 'auth', lo que facilita su uso en enlaces
+// como {{ route('auth') }} en las vistas.
+
 Route::get('/auth', function () {
     return view('auth');
 })->name('auth');
-
 
 
 // RUTAS PARA API INCIDENCIAS

@@ -14,19 +14,24 @@ class IncidenciaController extends Controller
      */
     public function index(Request $request)
     {
+        // Inicializamos la consulta
         $query = Incidencia::query();
 
+        // Aplicamos el filtro de búsqueda si está presente
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('id_incidencia', 'LIKE', "%{$search}%")
                 ->orWhere('titulo', 'LIKE', "%{$search}%");
         }
 
-        // Reemplaza get() por paginate(), especificando el número de registros por página
-        $incidencias = $query->orderBy('fecha_creacion', 'desc')->paginate(14); // 10 registros por página
+        // Ordenamos por fecha de creación descendente y aplicamos la paginación
+        $incidencias = $query->orderBy('fecha_creacion', 'desc')->paginate(14);
 
-        // Pasamos la variable `search` a la vista para que se preserve en la paginación
-        return view('incidencias.index', compact('incidencias'));
+        // Retornamos la vista con las incidencias y preservamos el valor del filtro de búsqueda
+        return view('incidencias.index', [
+            'incidencias' => $incidencias,
+            'search' => $request->input('search') // Por si necesitas mostrar el valor del input en la vista
+        ]);
     }
     /**
      * Muestra el formulario para crear una nueva incidencia.

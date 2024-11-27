@@ -18,11 +18,13 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl w-full p-6">
     <!-- Branding -->
     <div class="flex flex-col items-center lg:items-start justify-center text-center lg:text-left space-y-4">
-        <div class="flex items-center justify-center space-x-4">
-            <!-- Logo -->
-            <img src="{{ asset('images/logo.png') }}" alt="Logo Mishakal" class="h-32">
-            <!-- Texto -->
-            <h1 class="text-6xl font-bold text-blue-500">MISHAKAL</h1>
+        <div class="flex items-center mb-4">
+            <!-- Logo alineado a la izquierda -->
+            <a href="{{ route('incidencias.index') }}" class="mr-4">
+                <img src="{{ asset('images/logo.png') }}" class="h-28 w-auto" alt="Logo">
+            </a>
+            <!-- Título alineado a la derecha del logo -->
+            <h1 class="text-lg sm:text-xl font-bold text-blue-500">MISHAKAL</h1>
         </div>
         <p class="text-3xl text-gray-600 max-w-2xl leading-relaxed">
              Te ayuda a gestionar y organizar tus incidencias de manera eficiente.
@@ -49,9 +51,9 @@
         </div>
         <hr class="my-8">
         <!-- Register Form -->
-        <button type="submit" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105">
+        <a href="{{ route('register') }}" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105 text-center block">
             Crear Cuenta
-        </button>
+        </a>
     </div>
 </div>
 </body>

@@ -7,6 +7,13 @@ use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
+
+Route::get('/cache-test', function () {
+    $value = Cache::get('prueba');
+    return $value ? "El valor de la caché es: $value" : "No se encontró el valor en la caché.";
+});
+
 
 //-----------------------------------------------------------------------------------------
 // RUTA PARA EL INDEX INCIDENCIAS

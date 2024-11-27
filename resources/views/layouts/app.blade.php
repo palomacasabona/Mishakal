@@ -12,8 +12,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
-    <!-- Estilos globales -->
+    <!-- Scripts -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/sidebar.js'])
+    <!-- Estilos globales -->
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -30,13 +34,13 @@
     </div>
     <div class="flex items-center space-x-4">
         <!-- Formulario de búsqueda -->
-        <form method="GET" action="{{ route('incidencias.index') }}" class="flex items-center">
+        <form method="GET" action="{{ route('incidencias.index') }}" class="mb-6 flex items-center">
             <input
                 type="text"
                 name="search"
                 placeholder="Buscar por ID o Título"
                 value="{{ request('search') }}"
-                class="border rounded-md px-4 py-2 mr-2 w-40 sm:w-56 text-gray-800"
+                class="border rounded-md px-4 py-2 mr-2 w-1/3"
             >
             <button
                 type="submit"
@@ -76,25 +80,23 @@
 <!-- Contenedor principal con menú lateral y contenido central -->
 <div class="flex">
     <!-- Menú lateral -->
-    <nav class="w-1/8 bg-gray-700 text-white h-screen px-4 py-6"> <!-- Reducí el ancho y ajusté los paddings -->
+    <nav id="sidebar" class="w-1/8 bg-gray-700 text-white h-screen px-4 py-6 relative"> <!-- Añadimos "relative" al menú -->
+        <button id="toggle-sidebar" class="absolute top-4 right-[-20px] bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition duration-200">
+            <i class="fas fa-arrow-left"></i>
+        </button>
         <ul>
             <li class="mb-2">
-                <a href="/incidencias" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm"> <!-- Padding reducido -->
-                    Incidencias
-                </a>
+                <a href="/incidencias" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Incidencias</a>
             </li>
             <li class="mb-2">
-                <a href="/usuarios" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">
-                    Usuarios
-                </a>
+                <a href="/usuarios" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Usuarios</a>
             </li>
             <li class="mb-2">
-                <a href="/estadisticas" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">
-                    Estadísticas
-                </a>
+                <a href="/estadisticas" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Estadísticas</a>
             </li>
         </ul>
     </nav>
+
     <!-- Contenido central -->
     <main class="flex-1 p-4">
         @yield('content')

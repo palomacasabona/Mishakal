@@ -16,6 +16,10 @@ export default {
             },
             colors: {
                 celeste: '#007bff', // Azul celeste personalizado
+                verde: '#28a745',  // Verde para botones
+            },
+            screens: {
+                xs: '475px', // Extra pequeño (para dispositivos móviles más pequeños)
             },
         },
     },

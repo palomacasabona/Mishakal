@@ -9,21 +9,37 @@ class Incidencia extends Model
 {
     use HasFactory;
 
+    // Nombre de la tabla en la base de datos
     protected $table = 'incidencias';
 
+    // Nombre de la clave primaria (ajustar si es necesario)
     protected $primaryKey = 'id_incidencia';
 
-    public $timestamps = true;
+    // Si no tienes columnas de timestamps (created_at y updated_at)
+    public $timestamps = false;
 
-    protected $fillable = ['titulo', 'descripcion', 'estado', 'categoria', 'prioridad', 'fecha_creacion', 'usuario_id'];
+    // Campos permitidos para asignación masiva
+    protected $fillable = [
+        'titulo',
+        'descripcion',
+        'estado',
+        'categoria',
+        'prioridad',
+        'fecha_creacion',
+        'usuario_id'
+    ];
 
-    // Relación con usuario (1 incidencia pertenece a 1 usuario)
+    /**
+     * Relación: una incidencia pertenece a un usuario.
+     */
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario_id', 'id_usuario');
     }
 
-    // Relación con comentarios (1 incidencia tiene muchos comentarios)
+    /**
+     * Relación: una incidencia puede tener múltiples comentarios.
+     */
     public function comentarios()
     {
         return $this->hasMany(Comentario::class, 'incidencia_id', 'id_incidencia');

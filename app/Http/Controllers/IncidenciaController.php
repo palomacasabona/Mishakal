@@ -12,10 +12,19 @@ class IncidenciaController extends Controller
      * Muestra una lista de todas las incidencias.
      * GET /incidencias
      */
-    public function index()
+    public function index(Request $request)
     {
-        $incidencias = Incidencia::all(); // Obtiene todas las incidencias de la base de datos
-        return view('Incidencias.index', compact('incidencias')); // Pasa los datos a la vista
+        $query = Incidencia::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('id_incidencia', 'LIKE', "%{$search}%")
+                ->orWhere('titulo', 'LIKE', "%{$search}%");
+        }
+
+        $incidencias = $query->orderBy('fecha_creacion', 'desc')->get();
+
+        return view('incidencias.index', compact('incidencias'));
     }
     /**
      * Muestra el formulario para crear una nueva incidencia.

@@ -28,60 +28,73 @@
         </div>
         <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>
     </div>
-    <!-- Menú para dispositivos grandes -->
-    <nav class="hidden md:block">
-        <ul class="flex">
-            <li class="pr-8">
-                <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl">
-                    <i class="fas fa-sign-in-alt"></i>
-                </a>
-            </li>
-            <li class="px-8">
-                <a href="#" class="hover:text-gray-300 text-2xl">
-                    <i class="fas fa-user-plus"></i>
-                </a>
-            </li>
-            <li class="px-8">
-                <a href="#" class="hover:text-gray-300 relative text-2xl">
-                    <i class="fas fa-bell"></i>
-                    <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
-                </a>
-            </li>
-            <li class="pl-8">
-                <a href="#" class="hover:text-gray-300 text-2xl">
-                    <i class="fas fa-cog"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- Botón hamburguesa para dispositivos pequeños -->
-    <div class="block md:hidden">
-        <button id="menu-toggle" class="focus:outline-none">
-            <!-- Icono de menú -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-        </button>
+    <div class="flex items-center space-x-4">
+        <!-- Formulario de búsqueda -->
+        <form method="GET" action="{{ route('incidencias.index') }}" class="flex items-center">
+            <input
+                type="text"
+                name="search"
+                placeholder="Buscar por ID o Título"
+                value="{{ request('search') }}"
+                class="border rounded-md px-4 py-2 mr-2 w-40 sm:w-56 text-gray-800"
+            >
+            <button
+                type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+                Buscar
+            </button>
+        </form>
+        <!-- Iconos -->
+        <nav>
+            <ul class="flex items-center space-x-6">
+                <li>
+                    <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-gray-300 text-2xl">
+                        <i class="fas fa-user-plus"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-gray-300 relative text-2xl">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-gray-300 text-2xl">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </header>
-
 <!-- Contenedor principal con menú lateral y contenido central -->
 <div class="flex">
     <!-- Menú lateral -->
-    <nav class="w-1/4 bg-gray-700 text-white h-screen p-4">
+    <nav class="w-1/8 bg-gray-700 text-white h-screen px-4 py-6"> <!-- Reducí el ancho y ajusté los paddings -->
         <ul>
             <li class="mb-2">
-                <a href="/incidencias" class="block py-2 px-4 hover:bg-gray-600 rounded">Incidencias</a>
+                <a href="/incidencias" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm"> <!-- Padding reducido -->
+                    Incidencias
+                </a>
             </li>
             <li class="mb-2">
-                <a href="/usuarios" class="block py-2 px-4 hover:bg-gray-600 rounded">Usuarios</a>
+                <a href="/usuarios" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">
+                    Usuarios
+                </a>
             </li>
             <li class="mb-2">
-                <a href="/estadisticas" class="block py-2 px-4 hover:bg-gray-600 rounded">Estadísticas</a>
+                <a href="/estadisticas" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">
+                    Estadísticas
+                </a>
             </li>
         </ul>
     </nav>
-
     <!-- Contenido central -->
     <main class="flex-1 p-4">
         @yield('content')

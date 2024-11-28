@@ -34,17 +34,17 @@
     </div>
     <div class="flex items-center space-x-4">
         <!-- Formulario de búsqueda -->
-        <form method="GET" action="{{ route('incidencias.index') }}" class="mb-6 flex items-center">
+        <form method="GET" action="{{ route('incidencias.index') }}" class="flex items-center space-x-2">
             <input
                 type="text"
                 name="search"
                 placeholder="Buscar por ID o Título"
                 value="{{ request('search') }}"
-                class="border rounded-md px-4 py-2 mr-2 w-1/3"
+                class="border rounded-md px-4 py-2"
             >
             <button
                 type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                class="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-blue-600"
             >
                 Buscar
             </button>

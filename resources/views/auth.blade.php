@@ -13,6 +13,8 @@
     <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
     @vite('resources/css/app.css') <!-- Estilos globales -->
+    @vite(['resources/js/app.js'])<!-- Javascript -->
+
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl w-full p-6">
@@ -51,9 +53,10 @@
         </div>
         <hr class="my-8">
         <!-- Register Form -->
-        <a href="{{ route('register') }}" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105 text-center block">
+        <button id="crear-cuenta" type="button" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105">
             Crear Cuenta
-        </a>
+        </button>
+
     </div>
 </div>
 </body>

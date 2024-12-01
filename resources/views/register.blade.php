@@ -43,21 +43,33 @@
             <label for="name" class="block text-sm font-medium text-gray-700">Nombre:</label>
             <input type="text" id="name" name="name" required
                    class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+            @error('name')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required
                    class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+            @error('email')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Contraseña:</label>
             <input type="password" id="password" name="password" required
                    class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+            @error('password')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar Contraseña:</label>
             <input type="password" id="password_confirmation" name="password_confirmation" required
                    class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+            @error('password_confirmation')
+            <p class="text-red-500 text-sm">{{ $message }}</p>
+            @enderror
         </div>
         <button type="submit"
                 class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 shadow-md transition-transform transform hover:scale-105">

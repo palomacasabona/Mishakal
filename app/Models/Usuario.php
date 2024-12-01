@@ -17,6 +17,19 @@ class Usuario extends Model
 
     protected $fillable = ['nombre', 'email', 'contraseña', 'telefono', 'foto_perfil', 'rol', 'fecha_registro'];
 
+    // Lista de roles permitidos
+    const ROLES = [
+        'user',       // Usuario regular
+        'admin',      // Técnico
+        'superadmin', // Superadministrador
+    ];
+
+    // Método para obtener los roles disponibles
+    public static function getRoles()
+    {
+        return self::ROLES;
+    }
+
     // Relación con incidencias (1 usuario tiene muchas incidencias)
     public function incidencias()
     {
@@ -28,4 +41,6 @@ class Usuario extends Model
     {
         return $this->hasMany(Comentario::class, 'usuario_id', 'id_usuario');
     }
+
+
 }

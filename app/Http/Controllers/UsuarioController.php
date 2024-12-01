@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 
 class UsuarioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar lista de usuarios.
      */
     public function index()
     {
@@ -17,7 +19,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar el formulario para crear un nuevo usuario.
      */
     public function create()
     {
@@ -25,25 +27,44 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacenar un usuario recién registrado.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Escuchar y registrar consultas SQL
+        DB::listen(function ($query) {
+            logger($query->sql, $query->bindings, $query->time);
+        });
+
+        // Validar los datos del formulario
+        $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email',
-            'password' => 'required|string|min:8',
-            'telefono' => 'nullable|string|max:20',
-            'rol' => 'required|string|in:admin,usuario', // Validar roles
+            'contraseña' => [
+                'required',
+                'string',
+                'min:8', // Mínimo 8 caracteres
+                'regex:/[A-Z]/', // Al menos una mayúscula
+                'regex:/[a-z]/', // Al menos una minúscula
+                'regex:/[@$!%*?&#]/', // Al menos un símbolo
+                'confirmed',
+            ],
         ]);
 
-        $validated['password'] = bcrypt($validated['password']); // Encriptar contraseña
-        Usuario::create($validated); // Crear usuario
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
+        // Crear el usuario
+        Usuario::create([
+            'nombre' => $validatedData['nombre'],
+            'email' => $validatedData['email'],
+            'contraseña' => bcrypt($validatedData['contraseña']),
+            'rol' => 'user', // Asignar el rol "user" por defecto
+        ]);
+
+        // Redirigir después del registro
+        return redirect()->route('incidencias.index')->with('success', 'Usuario registrado exitosamente.');
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar los detalles de un usuario específico.
      */
     public function show($id)
     {
@@ -52,29 +73,30 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Mostrar el formulario para editar un usuario.
      */
     public function edit($id)
     {
         $usuario = Usuario::findOrFail($id); // Buscar usuario
-        return view('usuarios.edit', compact('usuario'));
+        $roles = Usuario::getRoles(); // Obtener roles disponibles
+        return view('usuarios.edit', compact('usuario', 'roles'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar información de un usuario (incluyendo rol).
      */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email,' . $id,
-            'password' => 'nullable|string|min:8',
+            'contraseña' => 'nullable|string|min:8',
             'telefono' => 'nullable|string|max:20',
-            'rol' => 'required|string|in:admin,usuario',
+            'rol' => ['required', Rule::in(Usuario::getRoles())],
         ]);
 
-        if ($request->filled('password')) {
-            $validated['password'] = bcrypt($validated['password']); // Encriptar nueva contraseña
+        if ($request->filled('contraseña')) {
+            $validated['contraseña'] = bcrypt($validated['contraseña']); // Encriptar nueva contraseña
         }
 
         $usuario = Usuario::findOrFail($id);
@@ -83,7 +105,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un usuario.
      */
     public function destroy($id)
     {

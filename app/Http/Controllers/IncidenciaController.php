@@ -14,23 +14,23 @@ class IncidenciaController extends Controller
      */
     public function index(Request $request)
     {
-        // Inicializamos la consulta
+        // Inicializamos la consulta base
         $query = Incidencia::query();
 
-        // Aplicamos el filtro de búsqueda si está presente
+        // Aplicamos el filtro de búsqueda si el campo 'search' tiene algún valor
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('id_incidencia', 'LIKE', "%{$search}%")
                 ->orWhere('titulo', 'LIKE', "%{$search}%");
         }
 
-        // Ordenamos por fecha de creación descendente y aplicamos la paginación
+        // Ordenamos las incidencias y aplicamos la paginación
         $incidencias = $query->orderBy('fecha_creacion', 'desc')->paginate(14);
 
-        // Retornamos la vista con las incidencias y preservamos el valor del filtro de búsqueda
+        // Retornamos la vista con los datos necesarios
         return view('incidencias.index', [
             'incidencias' => $incidencias,
-            'search' => $request->input('search') // Por si necesitas mostrar el valor del input en la vista
+            'search' => $request->input('search'), // Por si necesitas mostrar el valor actual del input en la vista
         ]);
     }
     /**

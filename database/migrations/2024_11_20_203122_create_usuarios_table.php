@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('contraseña'); // Contraseña del usuario
             $table->string('telefono')->nullable(); // Teléfono (puede ser nulo)
             $table->string('foto_perfil')->nullable(); // Foto de perfil (ruta)
-            $table->string('rol'); // Rol del usuario
+            $table->string('rol')->default('user')->change();
             $table->timestamp('fecha_registro'); // Fecha de registro
             $table->timestamps(); // created_at y updated_at
         });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Usuario;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -26,7 +28,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard'); // Cambiar a la ruta deseada
+            return redirect()->route('incidencias.index'); // Redirige a una ruta existente
         }
 
         return back()->withErrors([
@@ -36,17 +38,30 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
+    {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
+            'email' => 'required|email|unique:usuarios,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Mínimo 8 caracteres
+                'regex:/[A-Z]/', // Al menos una mayúscula
+                'regex:/[@$!%*?&#]/', // Al menos un carácter especial
+                'confirmed',
+            ],
+        ]);
+        dd('Validación exitosa', $validated);
+    }
+
+        Usuario::create([
+            'nombre' => $request->name,
+            'email' => $request->email,
+            'contraseña' => bcrypt($request->password), // Cambiar a 'password' si es necesario
+            'rol' => 'user',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
 
         return redirect()->route('login')->with('success', 'Registro exitoso, ahora puedes iniciar sesión.');
     }
@@ -55,7 +70,4 @@ class AuthController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-
-
 }

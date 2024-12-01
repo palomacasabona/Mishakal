@@ -26,9 +26,12 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 // Rutas para el registro
-Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+
+//REGISTRO DE UN USUARIO NORMAL :
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 
 

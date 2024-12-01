@@ -20,7 +20,9 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
+
     {
+        dd("hola");
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -30,6 +32,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect()->route('incidencias.index'); // Redirige a una ruta existente
         }
+        //dd("hola");
 
         return back()->withErrors([
             'email' => 'Credenciales incorrectas.',
@@ -39,7 +42,6 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:usuarios,email',
@@ -52,8 +54,7 @@ class AuthController extends Controller
                 'confirmed',
             ],
         ]);
-        dd('Validación exitosa', $validated);
-    }
+
 
         Usuario::create([
             'nombre' => $request->name,
@@ -63,11 +64,15 @@ class AuthController extends Controller
         ]);
 
 
-        return redirect()->route('login')->with('success', 'Registro exitoso, ahora puedes iniciar sesión.');
+        return redirect()->route('incidencias.index')->with('success', 'Registro exitoso, ahora puedes iniciar sesión.');
     }
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function hola(){
+        dd("hola");
     }
 }

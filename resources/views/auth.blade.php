@@ -52,7 +52,7 @@
             </form>
         </div>
         <hr class="my-8">
-        <!-- Register Form -->
+        <!-- BOTON CREAR CUENTA -->
         <button id="crear-cuenta" type="button" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105">
             Crear Cuenta
         </button>

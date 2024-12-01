@@ -20,12 +20,12 @@ Route::get('/cache-test', function () {
 Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
 
 
-
-// RUTAS PARA LOGIN Y REGISTRO
+// RUTAS PARA LOGIN Y REGISTRO (GENERAL)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('inicio');
 
-// Rutas para el registro
+
+// Rutas para el form de registro
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
@@ -46,11 +46,7 @@ Route::get('/auth', function () {
 })->name('auth');
 
 
-// RUTAS PARA API INCIDENCIAS
-Route::get('/api/incidencias', [IncidenciaController::class, 'index']);
-Route::post('/api/incidencias', [IncidenciaController::class, 'store']);
-Route::put('/api/incidencias/{id}', [IncidenciaController::class, 'update']);
-Route::delete('/api/incidencias/{id}', [IncidenciaController::class, 'destroy']);
+
 
 // RUTAS MENU LATERAL
 Route::resource('usuarios', UsuarioController::class);

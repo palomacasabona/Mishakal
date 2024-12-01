@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     use HasFactory;
 
@@ -42,5 +42,9 @@ class Usuario extends Model
         return $this->hasMany(Comentario::class, 'usuario_id', 'id_usuario');
     }
 
+    public function getAuthPassword()
+    {
+        return $this->contraseña; // Reemplaza 'contraseña' por el nombre exacto del campo en la base de datos
+    }
 
 }

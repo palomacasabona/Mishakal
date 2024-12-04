@@ -52,10 +52,13 @@
         <!-- Iconos -->
         <nav>
             <ul class="flex items-center space-x-6">
+                <!-- boton SALIR -->
                 <li>
-                    <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl">
+                    @auth
+                    <a href="{{ route('logout') }}" class="hover:text-gray-300 text-2xl">
                         <i class="fas fa-sign-in-alt"></i>
                     </a>
+                    @endauth
                 </li>
                 <li>
                     <a href="#" class="hover:text-gray-300 text-2xl">

@@ -21,8 +21,8 @@ Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incide
 
 
 // RUTAS PARA LOGIN Y REGISTRO (GENERAL)
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('inicio');
+//Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 // Rutas para el form de registro
@@ -32,6 +32,11 @@ Route::post('/register', [AuthController::class, 'register']);
 //REGISTRO DE UN USUARIO NORMAL :
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+//RUTA PARA CERRAR SESIÓN
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 

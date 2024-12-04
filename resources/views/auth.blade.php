@@ -35,8 +35,25 @@
 
     <!-- Login and Register Forms -->
     <div class="bg-white shadow-md rounded-lg p-10">
+        @auth
+            <p>Ya estás logueado como {{ Auth::user()->nombre }}. Si deseas, puedes gestionar tus incidencias o cerrar sesión.</p>
+            <div class="flex space-x-4">
+                <!-- Botón para gestionar incidencias -->
+                <a href="{{ route('incidencias.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Gestionar Incidencias
+                </a>
+                <!-- Botón para cerrar sesión -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </div>
+        @endauth
         <!-- Login Form -->
         <div class="mb-6">
+            @guest
             <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Iniciar Sesión</h2>
             <form action="{{ route('login') }}" method="POST" class="space-y-6">
                 @csrf
@@ -56,7 +73,7 @@
         <button id="crear-cuenta" type="button" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105">
             Crear Cuenta
         </button>
-
+            @endguest
     </div>
 </div>
 </body>

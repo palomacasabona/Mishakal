@@ -19,10 +19,26 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function login(Request $request)
+    public function logout(Request $request)
+    {
+        // Cierra la sesión del usuario autenticado
+        Auth::logout();
+
+        // Invalida la sesión actual
+        $request->session()->invalidate();
+
+        // Regenera el token CSRF para mayor seguridad
+        $request->session()->regenerateToken();
+
+        // Redirige al usuario a la página de autenticación
+        return redirect()->route('auth')->with('success', 'Has cerrado sesión correctamente.');
+    }
+
+    public function login(Request $request): \Illuminate\Http\RedirectResponse
 
     {
-        dd("hola");
+        //dd("hola");
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -72,7 +88,5 @@ class AuthController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function hola(){
-        dd("hola");
-    }
+
 }

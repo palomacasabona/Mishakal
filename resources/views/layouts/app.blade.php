@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon_io/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon_io/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
     <!-- Scripts -->
@@ -33,7 +34,8 @@
         <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>
     </div>
     <div class="flex items-center space-x-4">
-        <!-- Formulario de búsqueda -->
+        <!--------------------------------- BOTONES ---------------------------------->
+        <!-- Formulario de BUSCAR -->
         <form method="GET" action="{{ route('incidencias.index') }}" class="flex items-center space-x-2">
             <input
                 type="text"
@@ -42,34 +44,46 @@
                 value="{{ request('search') }}"
                 class="border rounded-md px-4 py-2 text-black"
             />
+            <!-- Botón con Lupa -->
             <button
                 type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                class="text-2xl"
+                style="color: #ffffff; background-color: transparent; border: none;"
             >
-                Buscar
+                <i class="fas fa-search"></i>
             </button>
         </form>
-        <!-- Iconos -->
+        <!-- BARRA CON LOS ICONOS NAVBAR -->
         <nav>
             <ul class="flex items-center space-x-6">
                 <!-- boton SALIR -->
-                <li>
-                    @auth
-                    <a href="{{ route('logout') }}" class="hover:text-gray-300 text-2xl">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </a>
-                    @endauth
-                </li>
-                <li>
-                    <a href="#" class="hover:text-gray-300 text-2xl">
-                        <i class="fas fa-user-plus"></i>
-                    </a>
-                </li>
+                <ul class="menu">
+                    @if(Auth::check())
+                        <!-- Botón de CERRAR SESION -->
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="hover:text-gray-300 text-2xl">
+                                    <i class="fas fa-sign-out-alt"></i> Salir
+                                </button>
+                            </form>
+                        </li>
+                    @else
+                        <!-- Botón INICIO DE SESIÓN con tooltip estilizado -->
+                        <li class="flex items-center justify-center">
+                            <a href="{{ route('login') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
+                                <i class="fas fa-user"></i>
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+                <!-- boton NOTIFICACIONES -->
                 <li>
                     <a href="#" class="hover:text-gray-300 relative text-2xl">
                         <i class="fas fa-bell"></i>
                         <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
                     </a>
+                    <!-- boton AJUSTES -->
                 </li>
                 <li>
                     <a href="#" class="hover:text-gray-300 text-2xl">

@@ -11,12 +11,12 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login');
+        return view('register');
     }
 
     public function showRegisterForm()
     {
-        return view('register');
+        return view('auth');
     }
 
     public function logout(Request $request)
@@ -31,7 +31,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         // Redirige al usuario a la página de autenticación
-        return redirect()->route('auth')->with('success', 'Has cerrado sesión correctamente.');
+        return redirect()->route('login')->with('success', 'Has cerrado sesión correctamente.');
     }
 
     public function login(Request $request): \Illuminate\Http\RedirectResponse

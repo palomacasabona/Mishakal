@@ -55,7 +55,7 @@
         <div class="mb-6">
             @guest
             <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Iniciar Sesión</h2>
-            <form action="{{ route('login') }}" method="POST" class="space-y-6">
+            <form action="{{ route('auth') }}" method="POST" class="space-y-6">
                 @csrf
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>

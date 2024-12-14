@@ -34,8 +34,21 @@ Route::get('/auth', function () {
     return view('auth');
 })->name('auth');
 
+
+Route::post('/auth', [AuthController::class,
+    'login'])->name('auth');
+
 // Rutas del menú lateral
 Route::resource('usuarios', UsuarioController::class);
 Route::resource('comentarios', ComentarioController::class);
 Route::resource('archivos', ArchivoController::class);
 Route::resource('mensajes', MensajeController::class);
+
+//RUTAS DEL USUARIO
+//Route::get('/dashboard', [IncidenciaController::class, 'userDashboard'])->middleware('auth')->name('dashboard');
+
+//RUTA PARA VER EL PERFIL DE USUARIO
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth')->name('perfil');
+

@@ -133,4 +133,16 @@ class IncidenciaController extends Controller
         // Redirigir al listado con un mensaje de éxito
         return redirect()->route('incidencias.index')->with('success', 'Incidencia eliminada exitosamente.');
     }
+
+    public function userDashboard()
+    {
+        $userId = auth()->id(); // ID del usuario autenticado
+
+        return view('perfil', [
+            'totalIncidencias' => Incidencia::where('usuario_id', $userId)->count(),
+            'incidenciasAbiertas' => Incidencia::where('usuario_id', $userId)->where('estado', 'abierta')->count(),
+            'incidenciasCerradas' => Incidencia::where('usuario_id', $userId)->where('estado', 'cerrada')->count(),
+            'incidencias' => Incidencia::where('usuario_id', $userId)->get(),
+        ]);
+    }
 }

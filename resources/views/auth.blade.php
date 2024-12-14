@@ -35,6 +35,7 @@
 
     <!-- Login and Register Forms -->
     <div class="bg-white shadow-md rounded-lg p-10">
+        <!-- Para usuarios autenticados -->
         @auth
             <p>Ya estás logueado como {{ Auth::user()->nombre }}. Si deseas, puedes gestionar tus incidencias o cerrar sesión.</p>
             <div class="flex space-x-4">
@@ -51,29 +52,32 @@
                 </form>
             </div>
         @endauth
-        <!-- Login Form -->
-        <div class="mb-6">
-            @guest
-            <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Iniciar Sesión</h2>
-            <form action="{{ route('auth') }}" method="POST" class="space-y-6">
-                @csrf
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required class="w-full border rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                    <input type="password" id="password" name="password" required class="w-full border rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500">
-                </div>
-                <button type="submit" class="w-full bg-blue-500 text-white py-3 text-lg rounded-md hover:bg-blue-600 transition duration-200">Iniciar Sesión</button>
-            </form>
-        </div>
-        <hr class="my-8">
-        <!-- BOTON CREAR CUENTA -->
-        <button id="crear-cuenta" type="button" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-lg transition-transform transform hover:scale-105">
-            Crear Cuenta
-        </button>
-            @endguest
+
+        <!-- Para usuarios invitados -->
+        @guest
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Iniciar Sesión</h2>
+                <form action="{{ route('login') }}" method="POST" class="space-y-6">
+                    @csrf
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required class="w-full border rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" id="password" name="password" required class="w-full border rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 text-white py-3 text-lg rounded-md hover:bg-blue-600 transition duration-200">
+                        Iniciar Sesión
+                    </button>
+                </form>
+                <hr class="my-8">
+                <!-- Botón CREAR CUENTA -->
+                <button id="crear-cuenta" type="button" class="w-full bg-green-500 text-white py-4 text-2xl font-bold rounded-lg hover:bg-green-600 shadow-md">
+                    Crear Cuenta
+                </button>
+            </div>
+        @endguest
     </div>
 </div>
 </body>

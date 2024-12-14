@@ -26,7 +26,7 @@ class Incidencia extends Model
         'categoria',
         'prioridad',
         'fecha_creacion',
-        'usuario_id'
+        'id_usuario', // Cambiado a id_usuario para coincidir con la BD
     ];
 
     /**

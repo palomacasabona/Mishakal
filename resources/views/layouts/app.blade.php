@@ -23,9 +23,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
-
 <body class="bg-gray-100">
-<!-- BARRA DE NAVEGACION SUPERIOR -->
+<!-- Barra de navegación superior -->
 <header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
         <div class="mr-4">
@@ -58,6 +57,19 @@
         <nav>
             <ul class="flex items-center space-x-6">
                 @if(Auth::check())
+                    <!-- Nombre del usuario autenticado -->
+                    <li class="text-white text-lg flex items-center space-x-2">
+                        <span>Bienvenido, {{ Auth::user()->nombre }}</span>
+                        <!-- Insignia de Admin -->
+                        @if(Auth::user()->rol === 'admin') <!-- Cambiado de 'role' a 'rol' -->
+                        <span class="inline-flex items-center bg-blue-500 text-white text-xs font-semibold rounded-full px-2 py-1 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 11.25l-3-3M12 2.25c2.27 0 4.474.79 6.145 2.355A11.961 11.961 0 0121.75 11.25a11.962 11.962 0 01-3.605 6.895A11.978 11.978 0 0112 20.25a11.978 11.978 0 01-6.145-2.355A11.962 11.962 0 012.25 11.25c0-2.27.79-4.474 2.355-6.145A11.962 11.962 0 0112 2.25z" />
+                        </svg>
+                        Admin
+                    </span>
+                        @endif
+                    </li>
                     <!-- Botón PERFIL -->
                     <li>
                         <a href="{{ route('perfil') }}" class="hover:text-gray-300 text-2xl" title="Perfil de usuario">

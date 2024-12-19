@@ -17,6 +17,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite(['resources/js/sidebar.js'])
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- Estilos globales -->
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -62,12 +63,13 @@
                         <span>Bienvenido, {{ Auth::user()->nombre }}</span>
                         <!-- Insignia de Admin -->
                         @if(Auth::user()->rol === 'admin') <!-- Cambiado de 'role' a 'rol' -->
-                        <span class="inline-flex items-center bg-blue-500 text-white text-xs font-semibold rounded-full px-2 py-1 ml-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 11.25l-3-3M12 2.25c2.27 0 4.474.79 6.145 2.355A11.961 11.961 0 0121.75 11.25a11.962 11.962 0 01-3.605 6.895A11.978 11.978 0 0112 20.25a11.978 11.978 0 01-6.145-2.355A11.962 11.962 0 012.25 11.25c0-2.27.79-4.474 2.355-6.145A11.962 11.962 0 0112 2.25z" />
+                        <span class="inline-flex items-center bg-blue-600 text-white text-sm font-medium rounded-md px-3 py-1 shadow-md ml-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2c2.761 0 5 1.79 5 4v5c0 4.418-3.134 8-7 8s-7-3.582-7-8V6c0-2.21 2.239-4 5-4z" />
+                            <path d="M12 11v2m0 4h.01" />
                         </svg>
                         Admin
-                    </span>
+                        </span>
                         @endif
                     </li>
                     <!-- Botón PERFIL -->

@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     public function showRegisterForm()
     {
-        return view('auth');
+        return view('register');
     }
 
     public function logout(Request $request)

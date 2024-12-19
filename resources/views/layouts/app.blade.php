@@ -23,8 +23,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+
 <body class="bg-gray-100">
-<!-- Barra de navegación superior -->
+<!-- BARRA DE NAVEGACION SUPERIOR -->
 <header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
         <div class="mr-4">
@@ -56,37 +57,40 @@
         <!-- BARRA CON LOS ICONOS NAVBAR -->
         <nav>
             <ul class="flex items-center space-x-6">
-                <!-- boton SALIR -->
-                <ul class="menu">
-                    @if(Auth::check())
-                        <!-- Botón de CERRAR SESION -->
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="hover:text-gray-300 text-2xl">
-                                    <i class="fas fa-sign-out-alt"></i> Salir
-                                </button>
-                            </form>
-                        </li>
-                    @else
-                        <!-- Botón INICIO DE SESIÓN con tooltip estilizado -->
-                        <li class="flex items-center justify-center">
-                            <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
-                                <i class="fas fa-user"></i>
-                            </a>
-                        </li>
-                    @endif
-                </ul>
-                <!-- boton NOTIFICACIONES -->
+                @if(Auth::check())
+                    <!-- Botón PERFIL -->
+                    <li>
+                        <a href="{{ route('perfil') }}" class="hover:text-gray-300 text-2xl" title="Perfil de usuario">
+                            <i class="fas fa-user-circle"></i>
+                        </a>
+                    </li>
+                    <!-- Botón CERRAR SESIÓN -->
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="hover:text-gray-300 text-2xl" title="Cerrar sesión">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <!-- Botón INICIO DE SESIÓN -->
+                    <li class="flex items-center justify-center">
+                        <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    </li>
+                @endif
+                <!-- Botón NOTIFICACIONES -->
                 <li>
-                    <a href="#" class="hover:text-gray-300 relative text-2xl">
+                    <a href="#" class="hover:text-gray-300 relative text-2xl" title="Notificaciones">
                         <i class="fas fa-bell"></i>
                         <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
                     </a>
-                    <!-- boton AJUSTES -->
                 </li>
+                <!-- Botón AJUSTES -->
                 <li>
-                    <a href="#" class="hover:text-gray-300 text-2xl">
+                    <a href="#" class="hover:text-gray-300 text-2xl" title="Ajustes">
                         <i class="fas fa-cog"></i>
                     </a>
                 </li>

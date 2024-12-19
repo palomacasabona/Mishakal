@@ -48,7 +48,4 @@ Route::resource('mensajes', MensajeController::class);
 //Route::get('/dashboard', [IncidenciaController::class, 'userDashboard'])->middleware('auth')->name('dashboard');
 
 //RUTA PARA VER EL PERFIL DE USUARIO
-Route::get('/perfil', function () {
-    return view('perfil');
-})->middleware('auth')->name('perfil');
-
+Route::get('/perfil', [IncidenciaController::class, 'dashboard'])->middleware('auth')->name('perfil');

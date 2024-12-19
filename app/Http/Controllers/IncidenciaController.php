@@ -134,15 +134,24 @@ class IncidenciaController extends Controller
         return redirect()->route('incidencias.index')->with('success', 'Incidencia eliminada exitosamente.');
     }
 
-    public function userDashboard()
+    public function dashboard()
     {
         $userId = auth()->id(); // ID del usuario autenticado
 
+        // Obtener estadísticas
+        $totalIncidencias = Incidencia::where('usuario_id', $userId)->count();
+        $incidenciasAbiertas = Incidencia::where('usuario_id', $userId)->where('estado', 'abierta')->count();
+        $incidenciasCerradas = Incidencia::where('usuario_id', $userId)->where('estado', 'cerrada')->count();
+
+        // Obtener listado de incidencias
+        $incidencias = Incidencia::where('usuario_id', $userId)->get();
+
+        // Retornar la vista con las variables
         return view('perfil', [
-            'totalIncidencias' => Incidencia::where('usuario_id', $userId)->count(),
-            'incidenciasAbiertas' => Incidencia::where('usuario_id', $userId)->where('estado', 'abierta')->count(),
-            'incidenciasCerradas' => Incidencia::where('usuario_id', $userId)->where('estado', 'cerrada')->count(),
-            'incidencias' => Incidencia::where('usuario_id', $userId)->get(),
+            'totalIncidencias' => $totalIncidencias,
+            'incidenciasAbiertas' => $incidenciasAbiertas,
+            'incidenciasCerradas' => $incidenciasCerradas,
+            'incidencias' => $incidencias
         ]);
     }
 }

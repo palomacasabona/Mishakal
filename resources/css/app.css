@@ -3,7 +3,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body {
-     margin: 0;
-     padding: 0;
- }
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+}
+
+/* Contenedor para los copos */
+.snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Cubre todo el ancho */
+    height: 100vh; /* Cubre todo el alto */
+    pointer-events: none; /* Evita interferencias con clics */
+    z-index: 9999; /* Encima del contenido pero no fuera del viewport */
+    overflow: hidden; /* Oculta los copos que salen del contenedor */
+}
+
+/* Estilo de los copos */
+.snowflake {
+    position: absolute;
+    top: -10px; /* Empieza justo fuera del área visible */
+    background-color: rgba(255, 255, 255, 0.8); /* Blanco translúcido */
+    border-radius: 50%; /* Hace que sean bolitas */
+    animation: fall linear infinite, drift ease-in-out infinite; /* Caída y deriva */
+    width: 10px;
+    height: 10px;
+    z-index: 9998; /* Asegúrate de que esté dentro del contenedor */
+}
+
+/* Animación de caída */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh); /* Cae hasta el fondo */
+    }
+}
+
+/* Animación de deriva lateral */
+@keyframes drift {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(50px); /* Deriva hacia los lados */
+    }
+}

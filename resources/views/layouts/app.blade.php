@@ -5,31 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Aplicación de Incidencias')</title>
 
-    <!-- Favicon -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon_io/favicon.ico') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon_io/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon_io/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
-    <!-- Scripts -->
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
+    <!-- VITE (CSS y JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- SIDEBAR JS -->
     @vite(['resources/js/sidebar.js'])
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <!-- Estilos globales -->
-
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fX8FLDl2ozbFp3bVlBUq62irDZnLgMi9GkB9BmU3lVRj7zx3g4k9Ob9pA2bG3D3km0zg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 <body class="bg-gray-100">
 <!-- Barra de navegación superior -->
 <header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
         <div class="mr-4">
-            <!-- Logo -->
+            <!-- LOGO  -->
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 sm:h-12 md:h-12 w-auto">
         </div>
         <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>

@@ -153,5 +153,60 @@
         @yield('content')
     </main>
 </div>
+<!-- MODAL PARA REGISTRAR LA INCIDENCIA -->
+<div id="modal-registrar-incidencia" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
+        <h2 class="text-lg font-bold mb-4">Registrar Incidencia</h2>
+        <form method="POST" action="{{ route('incidencias.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-4">
+                <label for="titulo" class="block text-gray-700 font-bold">Título</label>
+                <input type="text" id="titulo" name="titulo" required class="w-full border rounded px-4 py-2" placeholder="Título de la incidencia">
+            </div>
+            <div class="mb-4">
+                <label for="descripcion" class="block text-gray-700 font-bold">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required class="w-full border rounded px-4 py-2" placeholder="Describe el problema"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="prioridad" class="block text-gray-700 font-bold">Prioridad</label>
+                <select id="prioridad" name="prioridad" required class="w-full border rounded px-4 py-2">
+                    <option value="alta">Alta</option>
+                    <option value="media">Media</option>
+                    <option value="baja">Baja</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="categoria" class="block text-gray-700 font-bold">Categoría</label>
+                <select id="categoria" name="categoria" required class="w-full border rounded px-4 py-2">
+                    <option value="hardware">Hardware</option>
+                    <option value="software">Software</option>
+                    <option value="seguridad">Seguridad</option>
+                    <option value="accesos">Accesos</option>
+                    <option value="redes">Redes</option>
+                    <option value="correoElectronico">Correo Electrónico</option>
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="archivo" class="block text-gray-700 font-bold">Archivo adjunto</label>
+                <input type="file" id="archivo" name="archivo" class="w-full border rounded px-4 py-2">
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Registrar Incidencia
+            </button>
+        </form>
+    </div>
+</div>
+<!-- Flash Message -->
+@if (session('success'))
+    <div id="flash-message" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50">
+        {{ session('success') }}
+    </div>
+    <script>
+        setTimeout(() => {
+            document.getElementById('flash-message').remove();
+        }, 3000); // El mensaje desaparecerá después de 3 segundos
+    </script>
+@endif
 </body>
 </html>

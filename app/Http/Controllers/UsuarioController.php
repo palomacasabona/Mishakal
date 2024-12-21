@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Incidencia;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -112,5 +113,19 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
         $usuario->delete(); // Eliminar usuario
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
+    }
+
+    public function perfil()
+    {
+        // Obtenemos las incidencias del usuario autenticado
+        $incidencias = Incidencia::with('archivos')->where('usuario_id', auth()->id())->get();
+
+        // Contadores para el dashboard
+        $totalIncidencias = $incidencias->count();
+        $incidenciasAbiertas = $incidencias->where('estado', 'abierta')->count();
+        $incidenciasCerradas = $incidencias->where('estado', 'cerrada')->count();
+
+        // Pasamos las variables a la vista
+        return view('perfil', compact('incidencias', 'totalIncidencias', 'incidenciasAbiertas', 'incidenciasCerradas'));
     }
 }

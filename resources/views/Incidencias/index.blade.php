@@ -4,8 +4,6 @@
 
 @section('content')
     <div class="container mx-auto p-4">
-
-
         <table class="table-auto w-full border-collapse border border-gray-300">
             <thead class="bg-gray-100">
             <tr>
@@ -15,6 +13,7 @@
                 <th class="border px-4 py-2">Prioridad</th>
                 <th class="border px-4 py-2">Estado</th>
                 <th class="border px-4 py-2">Fecha de Creación</th>
+                <th class="border px-4 py-2">Registrado Por</th> <!-- Nueva columna -->
             </tr>
             </thead>
             <tbody>
@@ -26,6 +25,9 @@
                     <td class="border px-4 py-2">{{ $incidencia->prioridad }}</td>
                     <td class="border px-4 py-2">{{ $incidencia->estado }}</td>
                     <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($incidencia->fecha_creacion)->format('d/m/Y H:i') }}</td>
+                    <td class="border px-4 py-2">
+                        {{ $incidencia->usuario ? $incidencia->usuario->nombre : 'No asignado' }} <!-- Mostrar el nombre del usuario -->
+                    </td>
                 </tr>
             @endforeach
             </tbody>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Archivo;
 use App\Models\Incidencia;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -49,21 +50,30 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos enviados desde el formulario
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'estado' => 'required|string',
-            'categoria' => 'required|string',
-            'prioridad' => 'required|string',
-            'usuario_id' => 'required|exists:usuarios,id_usuario', // Validar que el usuario existe
+            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Crear la incidencia con los datos validados
-        Incidencia::create($validated);
+        $incidencia = new Incidencia();
+        $incidencia->titulo = $validatedData['titulo'];
+        $incidencia->descripcion = $validatedData['descripcion'];
+        $incidencia->usuario_id = auth()->id(); // Asocia la incidencia con el usuario autenticado
+        $incidencia->save();
 
-        // Redirigir al listado con un mensaje de éxito
-        return redirect()->route('incidencias.index')->with('success', 'Incidencia creada exitosamente.');
+        if ($request->hasFile('archivo')) {
+            $archivo = $request->file('archivo');
+            $ruta = $archivo->store('archivos', 'public');
+
+            Archivo::create([
+                'nombre' => $archivo->getClientOriginalName(),
+                'ruta_archivo' => $ruta,
+                'incidencia_id' => $incidencia->id,
+            ]);
+        }
+
+        return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
 
     /**
@@ -155,31 +165,7 @@ class IncidenciaController extends Controller
         ]);
     }
 
-    public function guardarArchivo (Request $request)
-    {
-        $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'archivo.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
-        ]);
 
-        $incidencia = Incidencia::create([
-            'titulo' => $validated['titulo'],
-            'descripcion' => $validated['descripcion'],
-        ]);
-
-        if ($request->hasFile('archivo')) {
-            foreach ($request->file('archivo') as $file) {
-                $path = $file->store('archivos', 'public');
-                Archivo::create([
-                    'ruta' => $path,
-                    'incidencia_id' => $incidencia->id,
-                ]);
-            }
-        }
-
-        return redirect()->route('incidencias.index')->with('success', 'Incidencia registrada correctamente.');
-    }
 }
 
 

@@ -12,7 +12,7 @@ class Incidencia extends Model
     // Nombre de la tabla en la base de datos
     protected $table = 'incidencias';
 
-    // Nombre de la clave primaria (ajustar si es necesario)
+    // Nombre de la clave primaria
     protected $primaryKey = 'id_incidencia';
 
     // Si no tienes columnas de timestamps (created_at y updated_at)
@@ -26,7 +26,7 @@ class Incidencia extends Model
         'categoria',
         'prioridad',
         'fecha_creacion',
-        'id_usuario', // Cambiado a id_usuario para coincidir con la BD
+        'usuario_id', // Ajustado para usar el campo correcto de la BD
     ];
 
     /**
@@ -43,5 +43,13 @@ class Incidencia extends Model
     public function comentarios()
     {
         return $this->hasMany(Comentario::class, 'incidencia_id', 'id_incidencia');
+    }
+
+    /**
+     * Relación: una incidencia puede tener múltiples archivos.
+     */
+    public function archivos()
+    {
+        return $this->hasMany(Archivo::class, 'incidencia_id', 'id_incidencia');
     }
 }

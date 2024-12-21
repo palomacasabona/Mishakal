@@ -49,3 +49,13 @@ Route::resource('mensajes', MensajeController::class);
 
 //RUTA PARA VER EL PERFIL DE USUARIO
 Route::get('/perfil', [IncidenciaController::class, 'dashboard'])->middleware('auth')->name('perfil');
+
+//RUTA REGISTRO DE INCIDENCIA:
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
+});
+
+///GUARDAR INCIDENCIA????
+
+Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');

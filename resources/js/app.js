@@ -41,12 +41,28 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// MODAL PARA REGISTRAR INCIDENCIA ⚠️
-document.getElementById('btn-registrar-incidencia').addEventListener('click', function () {
-    document.getElementById('modal-registrar-incidencia').classList.remove('hidden');
-});
+// Abrir el modal al hacer clic en el botón "CREAR AVISO" ⚠️
+document.addEventListener('DOMContentLoaded', function () {
+    const btnAbrirModal = document.getElementById('btn-registrar-incidencia');
+    const modal = document.getElementById('modal-registrar-incidencia');
+    const btnCerrarModal = document.getElementById('cerrar-modal');
 
-// Cerrar modal
-document.getElementById('cerrar-modal').addEventListener('click', function () {
-    document.getElementById('modal-registrar-incidencia').classList.add('hidden');
+    if (btnAbrirModal) {
+        btnAbrirModal.addEventListener('click', function () {
+            modal.classList.remove('hidden');
+        });
+    }
+
+    if (btnCerrarModal) {
+        btnCerrarModal.addEventListener('click', function () {
+            modal.classList.add('hidden');
+        });
+    }
+
+    // Cerrar el modal si se hace clic fuera de su contenido
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
 });

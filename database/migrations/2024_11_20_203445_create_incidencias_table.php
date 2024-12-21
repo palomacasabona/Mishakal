@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_incidencia'); // ID de la incidencia
             $table->string('titulo'); // Título de la incidencia
             $table->text('descripcion'); // Descripción de la incidencia
-            $table->string('estado'); // Estado de la incidencia (ej. abierta, cerrada)
+            $table->string('estado')->default('en proceso');
             $table->string('categoria'); // Categoría de la incidencia
             $table->string('prioridad'); // Prioridad de la incidencia
             $table->timestamp('fecha_creacion'); // Fecha de creación

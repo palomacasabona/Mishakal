@@ -176,8 +176,8 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label for="categoria" class="block text-gray-700 font-bold">Categoría</label>
-                <select id="categoria" name="categoria" required class="w-full border rounded px-4 py-2">
+                <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
+                <select name="categoria" id="categoria" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                     <option value="hardware">Hardware</option>
                     <option value="software">Software</option>
                     <option value="seguridad">Seguridad</option>

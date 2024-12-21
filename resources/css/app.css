@@ -52,3 +52,33 @@ html, body {
         transform: translate(100vw, 100vh); /* Final: el copo se desplaza hacia la esquina inferior derecha */
     }
 }
+
+/*ESTULO BOTON REGISTRAR INCIDENCIA*/
+
+/* Estilo base del botón */
+.btn-registrar {
+    background-color: #28a745; /* Verde claro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out; /* Transiciones suaves */
+}
+
+/* Efecto al pasar el ratón por encima */
+.btn-registrar:hover {
+    background-color: #218838; /* Verde más oscuro */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto emergente */
+}
+
+/*
+ESTILOS MODAL DE LA INCIDENCIA
+ */
+
+.hidden {
+    display: none;
+}

@@ -45,6 +45,7 @@
     </div>
     <div class="flex items-center space-x-4">
         <!--------------------------------- BOTONES ---------------------------------->
+
         <!-- Formulario de BUSCAR -->
         <form method="GET" action="{{ route('incidencias.index') }}" class="flex items-center space-x-2">
             <input
@@ -65,6 +66,7 @@
         </form>
         <!-- BARRA CON LOS ICONOS NAVBAR -->
         <nav>
+
             <ul class="flex items-center space-x-6">
                 @if(Auth::check())
                     <!-- Nombre del usuario autenticado -->
@@ -75,10 +77,16 @@
                         <span class="inline-flex items-center bg-blue-600 text-white text-sm font-medium rounded-md px-3 py-1 shadow-md ml-2">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
         <path fill-rule="evenodd" d="M11.998 2.25c.37 0 .733.099 1.047.284l6.833 3.977a1.463 1.463 0 01.72 1.026c.091.51.184 1.261.184 2.113 0 5.086-3.263 9.564-8.506 11.682a1.464 1.464 0 01-1.065 0c-5.243-2.118-8.506-6.596-8.506-11.682 0-.852.093-1.603.184-2.113a1.463 1.463 0 01.72-1.026l6.833-3.977a1.464 1.464 0 011.047-.284z" clip-rule="evenodd" />
-    </svg>
-    Admin
-</span>
+            </svg>
+            Admin
+            </span>
                         @endif
+                    </li>
+                    <!-- REGISTRAR INCIDENCIA -->
+                    <li>
+                        <button id="btn-registrar-incidencia" class="btn-registrar hover:shadow-md transition-transform transform hover:scale-105">
+                            CREAR AVISO ⚠️
+                        </button>
                     </li>
                     <!-- Botón PERFIL -->
                     <li>

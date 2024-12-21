@@ -154,4 +154,32 @@ class IncidenciaController extends Controller
             'incidencias' => $incidencias
         ]);
     }
+
+    public function guardarArchivo (Request $request)
+    {
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'archivo.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
+        ]);
+
+        $incidencia = Incidencia::create([
+            'titulo' => $validated['titulo'],
+            'descripcion' => $validated['descripcion'],
+        ]);
+
+        if ($request->hasFile('archivo')) {
+            foreach ($request->file('archivo') as $file) {
+                $path = $file->store('archivos', 'public');
+                Archivo::create([
+                    'ruta' => $path,
+                    'incidencia_id' => $incidencia->id,
+                ]);
+            }
+        }
+
+        return redirect()->route('incidencias.index')->with('success', 'Incidencia registrada correctamente.');
+    }
 }
+
+

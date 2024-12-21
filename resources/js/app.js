@@ -39,3 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Crear un copo de nieve cada 200ms
     setInterval(createSnowflake, 200);
 });
+
+
+// MODAL PARA REGISTRAR INCIDENCIA ⚠️
+document.getElementById('btn-registrar-incidencia').addEventListener('click', function () {
+    document.getElementById('modal-registrar-incidencia').classList.remove('hidden');
+});
+
+// Cerrar modal
+document.getElementById('cerrar-modal').addEventListener('click', function () {
+    document.getElementById('modal-registrar-incidencia').classList.add('hidden');
+});

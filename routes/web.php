@@ -59,3 +59,6 @@ Route::middleware(['auth'])->group(function () {
 ///GUARDAR INCIDENCIA????
 
 Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
+
+/// RUTA PERFIL PARA EDITAR PERFIL (FORM)
+Route::put('/usuario/{id}', [UsuarioController::class, 'update'])->name('usuario.update');

@@ -50,25 +50,19 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los campos del formulario, incluyendo "categoria"
         $validatedData = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'categoria' => 'required|string|in:hardware,software,seguridad,accesos,redes,correoElectronico,otros',
-            'prioridad' => 'required|string|in:alta,media,baja', // Validación de prioridad
             'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Crear una nueva incidencia
         $incidencia = new Incidencia();
         $incidencia->titulo = $validatedData['titulo'];
         $incidencia->descripcion = $validatedData['descripcion'];
         $incidencia->usuario_id = auth()->id(); // Asocia la incidencia con el usuario autenticado
-        $incidencia->prioridad = $validatedData['prioridad'];
-        $incidencia->categoria = $validatedData['categoria']; // Asignar la categoría validada
+        $incidencia->categoria = $validatedData['categoria'];
         $incidencia->save();
 
-        // Guardar el archivo si existe
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $ruta = $archivo->store('archivos', 'public');
@@ -80,7 +74,6 @@ class IncidenciaController extends Controller
             ]);
         }
 
-        // Redirigir al perfil con un mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
 

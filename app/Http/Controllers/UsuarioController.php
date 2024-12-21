@@ -88,21 +88,29 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        // Valida los datos del formulario
+        $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:usuarios,email,' . $id,
-            'contraseña' => 'nullable|string|min:8',
-            'telefono' => 'nullable|string|max:20',
-            'rol' => ['required', Rule::in(Usuario::getRoles())],
+            'apellido' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|max:2048', // Validar que la imagen sea válida
         ]);
 
-        if ($request->filled('contraseña')) {
-            $validated['contraseña'] = bcrypt($validated['contraseña']); // Encriptar nueva contraseña
+        // Encuentra al usuario por su ID
+        $usuario = Usuario::findOrFail($id);
+
+        // Actualiza los datos
+        $usuario->nombre = $validatedData['nombre'];
+        $usuario->apellido = $validatedData['apellido'] ?? $usuario->apellido;
+
+        // Si se subió una foto, guárdala
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('fotos_perfil', 'public');
+            $usuario->foto_perfil = $path;
         }
 
-        $usuario = Usuario::findOrFail($id);
-        $usuario->update($validated); // Actualizar usuario
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
+        $usuario->save();
+
+        return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
     }
 
     /**

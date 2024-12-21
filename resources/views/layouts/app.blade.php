@@ -212,13 +212,11 @@
                     <option value="baja">Baja</option>
                 </select>
             </div>
-
             <!-- Archivo adjunto -->
             <div class="mb-6">
                 <label for="archivo" class="block text-gray-700 font-bold">Archivo adjunto</label>
                 <input type="file" id="archivo" name="archivo" class="w-full border rounded px-4 py-3" />
             </div>
-
             <!-- Botón de enviar -->
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">

@@ -155,29 +155,44 @@
 </div>
 <!-- MODAL PARA REGISTRAR LA INCIDENCIA -->
 <div id="modal-registrar-incidencia" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
-        <h2 class="text-lg font-bold mb-4">Registrar Incidencia</h2>
-        <form method="POST" action="{{ route('incidencias.store') }}" enctype="multipart/form-data">
+    <div class="bg-white w-full max-w-2xl p-8 rounded-lg relative"> <!-- Ancho ajustado -->
+        <!-- Botón de cierre (la "X") -->
+        <button id="cerrar-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Título del modal -->
+        <h2 class="text-2xl font-semibold mb-6 text-blue-600">Registrar una Nueva Incidencia</h2>
+
+        <!-- Perfil del usuario -->
+        <div class="mb-6 flex items-center space-x-4">
+            <!-- Foto del usuario -->
+            <img src="{{ Auth::user()->foto_url ?? asset('images/default-avatar.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full">
+            <!-- Nombre del usuario -->
+            <span class="text-lg font-medium text-gray-700">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</span>
+        </div>
+
+        <!-- Formulario del modal -->
+        <form action="{{ route('incidencias.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="mb-4">
+            <!-- Título -->
+            <div class="mb-6">
                 <label for="titulo" class="block text-gray-700 font-bold">Título</label>
-                <input type="text" id="titulo" name="titulo" required class="w-full border rounded px-4 py-2" placeholder="Título de la incidencia">
+                <input type="text" id="titulo" name="titulo" required class="w-full border rounded px-4 py-3" />
             </div>
-            <div class="mb-4">
+
+            <!-- Descripción -->
+            <div class="mb-6">
                 <label for="descripcion" class="block text-gray-700 font-bold">Descripción</label>
-                <textarea id="descripcion" name="descripcion" required class="w-full border rounded px-4 py-2" placeholder="Describe el problema"></textarea>
+                <textarea id="descripcion" name="descripcion" required class="w-full border rounded px-4 py-3"></textarea>
             </div>
-            <div class="mb-4">
-                <label for="prioridad" class="block text-gray-700 font-bold">Prioridad</label>
-                <select id="prioridad" name="prioridad" required class="w-full border rounded px-4 py-2">
-                    <option value="alta">Alta</option>
-                    <option value="media">Media</option>
-                    <option value="baja">Baja</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
-                <select name="categoria" id="categoria" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+
+            <!-- Categoría -->
+            <div class="mb-6">
+                <label for="categoria" class="block text-gray-700 font-bold">Categoría</label>
+                <select id="categoria" name="categoria" required class="w-full border rounded px-4 py-3">
                     <option value="hardware">Hardware</option>
                     <option value="software">Software</option>
                     <option value="seguridad">Seguridad</option>
@@ -187,17 +202,33 @@
                     <option value="otros">Otros</option>
                 </select>
             </div>
-            <div class="mb-4">
-                <label for="archivo" class="block text-gray-700 font-bold">Archivo adjunto</label>
-                <input type="file" id="archivo" name="archivo" class="w-full border rounded px-4 py-2">
+
+            <!-- Prioridad -->
+            <div class="mb-6">
+                <label for="prioridad" class="block text-gray-700 font-bold">Prioridad</label>
+                <select id="prioridad" name="prioridad" required class="w-full border rounded px-4 py-3">
+                    <option value="alta">Alta</option>
+                    <option value="media">Media</option>
+                    <option value="baja">Baja</option>
+                </select>
             </div>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Registrar Incidencia
-            </button>
+
+            <!-- Archivo adjunto -->
+            <div class="mb-6">
+                <label for="archivo" class="block text-gray-700 font-bold">Archivo adjunto</label>
+                <input type="file" id="archivo" name="archivo" class="w-full border rounded px-4 py-3" />
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">
+                    Registrar
+                </button>
+            </div>
         </form>
     </div>
 </div>
-<!-- Flash Message -->
+<!-- MENSAJE FLASH  -->
 @if (session('success'))
     <div id="flash-message" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50">
         {{ session('success') }}

@@ -55,6 +55,7 @@ class IncidenciaController extends Controller
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'categoria' => 'required|string|in:hardware,software,seguridad,accesos,redes,correoElectronico,otros',
+            'prioridad' => 'required|string|in:alta,media,baja', // Validación de prioridad
             'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
@@ -63,6 +64,7 @@ class IncidenciaController extends Controller
         $incidencia->titulo = $validatedData['titulo'];
         $incidencia->descripcion = $validatedData['descripcion'];
         $incidencia->usuario_id = auth()->id(); // Asocia la incidencia con el usuario autenticado
+        $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria']; // Asignar la categoría validada
         $incidencia->save();
 

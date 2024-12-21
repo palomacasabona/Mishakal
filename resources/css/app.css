@@ -1,62 +1,54 @@
-@import '@fortawesome/fontawesome-free/css/all.css';
+@import '@fortawesome/fontawesome-free/css/all.css'; /* Importa los estilos de Font Awesome para usar iconos */
 
+/* Configuración base de Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Configuración básica del body */
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0; /* Elimina márgenes predeterminados */
+    padding: 0; /* Elimina rellenos predeterminados */
+    position: relative; /* Establece el posicionamiento relativo para futuros elementos */
+    z-index: 0; /* Define el nivel base del apilamiento de capas */
 }
 
+/* Configuración básica del html y el body juntos */
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Oculta cualquier desbordamiento */
+    margin: 0; /* Elimina márgenes predeterminados */
+    padding: 0; /* Elimina rellenos predeterminados */
+    width: 100%; /* Establece el ancho al 100% del viewport */
+    height: 100%; /* Establece el alto al 100% del viewport */
+    overflow: hidden; /* Evita que los elementos desbordados sean visibles */
 }
 
-/* Contenedor para los copos */
+/* Estilos para el contenedor de los copos */
 .snow-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw; /* Cubre todo el ancho */
-    height: 100vh; /* Cubre todo el alto */
-    pointer-events: none; /* Evita interferencias con clics */
-    z-index: 9999; /* Encima del contenido pero no fuera del viewport */
-    overflow: hidden; /* Oculta los copos que salen del contenedor */
+    position: fixed; /* Fija el contenedor en relación al viewport */
+    top: 0; /* Coloca el contenedor en la parte superior */
+    left: 0; /* Coloca el contenedor en la parte izquierda */
+    width: 100%; /* Ocupa todo el ancho del viewport */
+    height: 100%; /* Ocupa todo el alto del viewport */
+    pointer-events: none; /* Hace que este contenedor no interfiera con clics del usuario */
+    z-index: 9999; /* Asegura que el contenedor esté por encima de todos los demás elementos */
+    overflow: hidden; /* Oculta cualquier copo que se desplace fuera del contenedor */
 }
 
-/* Estilo de los copos */
+/* Estilos para los copos individuales */
 .snowflake {
-    position: absolute;
-    top: -10px; /* Empieza justo fuera del área visible */
-    background-color: rgba(255, 255, 255, 0.8); /* Blanco translúcido */
-    border-radius: 50%; /* Hace que sean bolitas */
-    animation: fall linear infinite, drift ease-in-out infinite; /* Caída y deriva */
-    width: 10px;
-    height: 10px;
-    z-index: 9998; /* Asegúrate de que esté dentro del contenedor */
+    position: absolute; /* Cada copo tiene una posición absoluta dentro del contenedor */
+    top: -10px; /* Comienza justo por encima del contenedor */
+    background-color: rgba(255, 255, 255, 0.8); /* Color blanco con opacidad */
+    border-radius: 50%; /* Hace que los copos tengan forma circular */
+    animation: fall 5s linear infinite; /* Aplica la animación de caída continua */
 }
 
-/* Animación de caída */
+/* Animación de caída diagonal */
 @keyframes fall {
     0% {
-        transform: translateY(0);
+        transform: translate(0, 0); /* Inicio: el copo está en la esquina superior izquierda */
     }
     100% {
-        transform: translateY(100vh); /* Cae hasta el fondo */
-    }
-}
-
-/* Animación de deriva lateral */
-@keyframes drift {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(50px); /* Deriva hacia los lados */
+        transform: translate(100vw, 100vh); /* Final: el copo se desplaza hacia la esquina inferior derecha */
     }
 }

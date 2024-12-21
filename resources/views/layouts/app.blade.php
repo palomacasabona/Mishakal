@@ -12,17 +12,29 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon_io/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('images/favicon_io/site.webmanifest') }}">
 
+
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+
 
     <!-- VITE (CSS y JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- SIDEBAR JS -->
     @vite(['resources/js/sidebar.js'])
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
 </head>
 <body class="bg-gray-100">
+<!--  ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬇️⬇️ -->
+
+<div class="snow-container"></div>
+
+<!--  ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬆⬆️⬆️-->
+
 <!-- Barra de navegación superior -->
+
 <header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
         <div class="mr-4">

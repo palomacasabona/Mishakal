@@ -1,45 +1,39 @@
-
-
 import './bootstrap';
-// Esperamos a que el DOM se haya cargado completamente
+
+// Evento para el botón "crear cuenta"
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('crear-cuenta');
     if (button) {
         button.addEventListener('click', function () {
-            window.location.href = '/register'; // O la ruta que corresponda
+            window.location.href = '/register'; // Redirige a la ruta de registro
         });
     }
 });
 
-// esto es el evento del click de boton de crear cuenta 🔼🔼🔼
-
-
-//ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬇️⬇️
-import './bootstrap';
-
+// ANIMACIÓN DE COPOS DE NIEVE CAYENDO
 document.addEventListener("DOMContentLoaded", function () {
-    // Crear el contenedor de nieve al final del body
+    // Crear el contenedor para los copos de nieve
     const snowContainer = document.createElement("div");
     snowContainer.classList.add("snow-container");
     document.body.appendChild(snowContainer);
 
-    // Función para generar copos de nieve
+    // Función para crear un copo de nieve
     function createSnowflake() {
         const snowflake = document.createElement("div");
         snowflake.classList.add("snowflake");
 
-        // Posición y propiedades aleatorias
+        // Propiedades aleatorias del copo
         snowflake.style.left = Math.random() * 100 + "vw"; // Posición horizontal aleatoria
-        snowflake.style.animationDuration = Math.random() * 3 + 2 + "s"; // Duración aleatoria entre 2 y 5 segundos
-        snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + "px"; // Tamaño aleatorio
-        snowflake.style.opacity = Math.random() * 0.5 + 0.3; // Opacidad aleatoria
+        snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + "px"; // Tamaño aleatorio entre 2px y 7px
+        snowflake.style.animationDuration = Math.random() * 3 + 2 + "s"; // Duración de la animación entre 2 y 5 segundos
 
+        // Añadir el copo al contenedor
         snowContainer.appendChild(snowflake);
 
-        // Elimina el copo después de la animación
+        // Eliminar el copo después de 5 segundos
         setTimeout(() => {
             snowflake.remove();
-        }, 5000); // Tiempo máximo de vida
+        }, 5000);
     }
 
     // Crear un copo de nieve cada 200ms

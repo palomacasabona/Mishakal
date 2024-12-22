@@ -70,8 +70,8 @@
 
     <!-- MODAL PARA MODIFICAR PERFIL -->
     <div id="modalEditarPerfil" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white w-full max-w-lg p-8 rounded-lg relative modal-shine">
-            <!-- Botón de cerrar -->
+        <div class="bg-white w-full max-w-lg p-8 rounded-lg relative modal-content">
+            <!-- BOTON DE CERRAR -->
             <button id="btnCerrarModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

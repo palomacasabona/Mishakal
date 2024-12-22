@@ -86,61 +86,59 @@ document.getElementById('modalEditarPerfil').addEventListener('click', function 
 
 // MODAL ANIMALCIÓN METALICA BRILLO
 
-let shineTimeouts = [];
-
-// Función para aplicar el brillo de forma orgánica
-function startOrganicShine(modalContent) {
-    const applyShine = () => {
-        modalContent.classList.add('modal-shine');
-        shineTimeouts.push(
-            setTimeout(() => {
-                modalContent.classList.remove('modal-shine');
-
-                // Cambiar dirección del brillo
-                const currentDirection = modalContent.style.animationDirection || 'normal';
-                modalContent.style.animationDirection = currentDirection === 'normal' ? 'reverse' : 'normal';
-
-                // Volver a aplicar el brillo tras una pausa aleatoria
-                shineTimeouts.push(setTimeout(applyShine, Math.random() * 2000 + 1000)); // Pausa de 1 a 3 segundos
-            }, 1000) // Duración del brillo
-        );
-    };
-
-    applyShine(); // Iniciar el brillo orgánico
-}
-
-// Abrir el modal y activar la animación
-document.getElementById('btnEditarPerfil').addEventListener('click', function () {
-    const modal = document.getElementById('modalEditarPerfil');
-    const modalContent = modal.querySelector('.modal-content'); // Contenedor que brillará
-
-    modal.classList.remove('hidden'); // Mostrar el modal
-    startOrganicShine(modalContent); // Iniciar el brillo orgánico
-});
-
-// Cerrar el modal
-document.getElementById('btnCerrarModal').addEventListener('click', function () {
+document.addEventListener('DOMContentLoaded', function () {
+    // Referencias a elementos
     const modal = document.getElementById('modalEditarPerfil');
     const modalContent = modal.querySelector('.modal-content');
+    const btnCerrarModal = document.getElementById('btnCerrarModal');
+    let shineTimeouts = [];
 
-    modal.classList.add('hidden'); // Ocultar el modal
+    // Función para iniciar el brillo orgánico
+    function startOrganicShine() {
+        const applyShine = () => {
+            modalContent.classList.add('modal-shine');
+            shineTimeouts.push(
+                setTimeout(() => {
+                    modalContent.classList.remove('modal-shine');
 
-    // Limpiar todas las animaciones en curso
-    shineTimeouts.forEach(clearTimeout);
-    shineTimeouts = [];
-    modalContent.classList.remove('modal-shine');
-});
+                    // Alternar dirección del brillo
+                    const currentDirection = modalContent.style.animationDirection || 'normal';
+                    modalContent.style.animationDirection = currentDirection === 'normal' ? 'reverse' : 'normal';
 
-// Cerrar el modal si el usuario hace clic fuera del contenido
-document.getElementById('modalEditarPerfil').addEventListener('click', function (e) {
-    if (e.target === this) {
-        const modalContent = this.querySelector('.modal-content');
+                    // Pausa aleatoria entre 1-3 segundos
+                    shineTimeouts.push(setTimeout(applyShine, Math.random() * 2000 + 1000));
+                }, 1000) // Duración del brillo
+            );
+        };
 
-        this.classList.add('hidden'); // Ocultar el modal
+        applyShine();
+    }
 
-        // Limpiar todas las animaciones en curso
+    // Abrir el modal
+    document.getElementById('btnEditarPerfil').addEventListener('click', function () {
+        modal.classList.remove('hidden'); // Mostrar el modal
+        startOrganicShine(); // Iniciar el brillo orgánico
+    });
+
+    // Cerrar el modal al hacer clic en la "X"
+    btnCerrarModal.addEventListener('click', function () {
+        modal.classList.add('hidden');
+
+        // Detener animaciones en curso
         shineTimeouts.forEach(clearTimeout);
         shineTimeouts = [];
         modalContent.classList.remove('modal-shine');
-    }
+    });
+
+    // Cerrar el modal si se hace clic fuera del contenido
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+
+            // Detener animaciones en curso
+            shineTimeouts.forEach(clearTimeout);
+            shineTimeouts = [];
+            modalContent.classList.remove('modal-shine');
+        }
+    });
 });

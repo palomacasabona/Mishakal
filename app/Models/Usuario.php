@@ -15,7 +15,7 @@ class Usuario extends Authenticatable
 
     public $timestamps = true;
 
-    protected $fillable = ['nombre', 'email', 'contraseña', 'telefono', 'foto_perfil', 'rol', 'fecha_registro'];
+    protected $fillable = ['nombre', 'apellido', 'email', 'contraseña', 'telefono', 'foto_perfil', 'rol', 'fecha_registro'];
 
     // Lista de roles permitidos
     const ROLES = [

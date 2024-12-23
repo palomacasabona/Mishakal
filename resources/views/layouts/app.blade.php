@@ -171,8 +171,9 @@
             <!-- Foto del usuario -->
             <img src="{{ Auth::user()->foto_url ?? asset('images/default-avatar.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full">
             <!-- Nombre del usuario -->
-            <span class="text-lg font-medium text-gray-700">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</span>
-        </div>
+            <span class="text-lg font-medium text-gray-700">
+            {{ Auth::check() ? Auth::user()->nombre : 'Usuario no autenticado' }}
+        </span>        </div>
 
         <!-- Formulario del modal -->
         <form action="{{ route('incidencias.store') }}" method="POST" enctype="multipart/form-data">

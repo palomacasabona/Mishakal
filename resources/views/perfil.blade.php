@@ -10,15 +10,21 @@
         <!-- Información del usuario -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
             <div class="flex items-center space-x-4">
-                <!-- Foto de perfil -->
-                <img src="{{ Auth::user()->foto_url ?? asset('images/default-avatar.png') }}" alt="Foto de perfil"
-                     class="w-16 h-16 rounded-full">
+                <!-- Foto de perfil o inicial -->
+                @if (Auth::user()->foto_perfil)
+                    <img src="{{ asset('storage/' . Auth::user()->foto_perfil) }}" alt="Foto de perfil"
+                         class="w-16 h-16 rounded-full">
+                @else
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-lg">
+                        {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
+                    </div>
+                @endif
                 <!-- Nombre y email -->
                 <div>
                     <p class="text-lg font-bold text-gray-800">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</p>
                     <p class="text-sm text-gray-600">{{ Auth::user()->email }}</p>
                 </div>
-                <!-- BOTON EDITAR PERFIL -->
+                <!-- Botón Editar Perfil -->
                 <button id="btnEditarPerfil" class="bg-blue-500 text-white px-4 py-2 rounded">Editar Perfil</button>
             </div>
         </div>
@@ -68,10 +74,10 @@
         </div>
     </div>
 
-    <!-- MODAL PARA MODIFICAR PERFIL -->
+    <!-- Modal para editar el perfil -->
     <div id="modalEditarPerfil" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white w-full max-w-lg p-8 rounded-lg relative modal-content">
-            <!-- BOTON DE CERRAR -->
+            <!-- Botón de cerrar -->
             <button id="btnCerrarModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -94,8 +100,8 @@
                     <input type="text" id="apellido" name="apellido" value="{{ Auth::user()->apellido }}" class="w-full border rounded px-4 py-3">
                 </div>
                 <div class="mb-6">
-                    <label for="apellido" class="block text-gray-700 font-bold">Teléfono</label>
-                    <input type="text" id="apellido" name="apellido" value="{{ Auth::user()->telefono }}" class="w-full border rounded px-4 py-3">
+                    <label for="telefono" class="block text-gray-700 font-bold">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" value="{{ Auth::user()->telefono }}" class="w-full border rounded px-4 py-3">
                 </div>
                 <div class="mb-6">
                     <label for="foto" class="block text-gray-700 font-bold">Foto de Perfil</label>
@@ -104,6 +110,5 @@
                 <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Guardar Cambios</button>
             </form>
         </div>
-    </div>
     </div>
 @endsection

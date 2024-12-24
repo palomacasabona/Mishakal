@@ -4,6 +4,14 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
+        <!-- Mensaje de éxito -->
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Éxito:</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
         <!-- Título -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
 

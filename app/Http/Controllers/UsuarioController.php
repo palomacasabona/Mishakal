@@ -104,12 +104,20 @@ class UsuarioController extends Controller
 
         // Si se subió una foto, guárdala
         if ($request->hasFile('foto')) {
+            // Si ya existe una foto, eliminarla del almacenamiento
+            if ($usuario->foto_perfil && \Storage::exists('public/' . $usuario->foto_perfil)) {
+                \Storage::delete('public/' . $usuario->foto_perfil);
+            }
+
+            // Guardar la nueva foto
             $path = $request->file('foto')->store('fotos_perfil', 'public');
             $usuario->foto_perfil = $path;
         }
 
+        // Guarda el usuario actualizado en la base de datos
         $usuario->save();
 
+        // Redirige al perfil con un mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
     }
 

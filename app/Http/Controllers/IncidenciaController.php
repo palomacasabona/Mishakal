@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Archivo;
 use App\Models\Incidencia;
-use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class IncidenciaController extends Controller
@@ -19,7 +18,7 @@ class IncidenciaController extends Controller
         $search = $request->input('search', ''); // Asignar un valor predeterminado a $search
 
         if (!empty($search)) {
-            $query->where('id', 'LIKE', "%{$search}%")
+            $query->where('id_incidencia', 'LIKE', "%{$search}%")
                 ->orWhere('titulo', 'LIKE', "%{$search}%");
         }
 
@@ -68,53 +67,43 @@ class IncidenciaController extends Controller
             Archivo::create([
                 'nombre' => $archivo->getClientOriginalName(),
                 'ruta_archivo' => $ruta,
-                'incidencia_id' => $incidencia->id,
+                'incidencia_id' => $incidencia->id_incidencia,
             ]);
         }
 
         // Redirigir con mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
+
     /**
      * Muestra los detalles de una incidencia específica.
      */
-    public function show($id)
+    public function show($id_incidencia)
     {
-        $incidencia = Incidencia::with('archivos')->findOrFail($id);
+        // Cargar la incidencia junto con sus archivos relacionados
+        $incidencia = Incidencia::with('archivos')->findOrFail($id_incidencia);
 
-        return view('incidencias.show', compact('incidencia'));
+        // Devolver la vista con los detalles de la incidencia
+        return view('incidencias.verIncidencia', compact('incidencia'));
     }
 
     /**
      * Actualiza una incidencia existente.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_incidencia)
     {
+        // Validar los datos enviados
         $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $id,
-            'telefono' => 'nullable|string|max:15',
-            'foto' => 'nullable|image|max:2048',
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'estado' => 'required|string',
+            'prioridad' => 'required|string',
         ]);
 
-        $usuario = Usuario::findOrFail($id);
-        $usuario->nombre = $validatedData['nombre'];
-        $usuario->apellido = $validatedData['apellido'] ?? $usuario->apellido;
-        $usuario->email = $validatedData['email'];
-        $usuario->telefono = $validatedData['telefono'];
+        // Buscar y actualizar la incidencia
+        $incidencia = Incidencia::findOrFail($id_incidencia);
+        $incidencia->update($validatedData);
 
-        if ($request->hasFile('foto')) {
-            if ($usuario->foto_perfil && \Storage::exists('public/' . $usuario->foto_perfil)) {
-                \Storage::delete('public/' . $usuario->foto_perfil);
-            }
-
-            $path = $request->file('foto')->store('fotos_perfil', 'public');
-            $usuario->foto_perfil = $path;
-        }
-
-        $usuario->save();
-
-        return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
+        return redirect()->route('incidencias.show', $id_incidencia)->with('success', 'Incidencia actualizada correctamente.');
     }
 }

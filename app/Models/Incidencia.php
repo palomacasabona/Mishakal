@@ -50,6 +50,6 @@ class Incidencia extends Model
      */
     public function archivos()
     {
-        return $this->hasMany(Archivo::class, 'incidencia_id', 'id_incidencia');
+        return $this->hasMany(Archivo::class, 'incidencia_id');
     }
 }

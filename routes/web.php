@@ -52,3 +52,10 @@ Route::middleware(['auth'])->group(function () {
 // ** Notas importantes **
 // - El middleware `auth` asegura que las rutas protegidas sean accesibles solo por usuarios autenticados.
 // - Usamos `Route::resource` para simplificar los CRUD (usuarios, incidencias, comentarios, archivos, mensajes).
+
+// ** Rutas para incidencias **
+Route::middleware(['auth'])->group(function () {
+    Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index'); // Listar incidencias
+    Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store'); // Crear una nueva incidencia
+    Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show'); // Mostrar detalles de una incidencia
+});

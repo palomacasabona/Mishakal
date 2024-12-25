@@ -18,8 +18,8 @@ html, body {
     margin: 0; /* Elimina márgenes predeterminados */
     padding: 0; /* Elimina rellenos predeterminados */
     width: 100%; /* Establece el ancho al 100% del viewport */
-    height: 100%; /* Establece el alto al 100% del viewport */
-    overflow: hidden; /* Evita que los elementos desbordados sean visibles */
+    min-height: 100%; /* Asegura que el contenido crezca dinámicamente */
+    overflow: auto; /* Permite el desplazamiento si el contenido excede el tamaño del viewport */
 }
 
 /* Estilos para el contenedor de los copos */
@@ -53,7 +53,7 @@ html, body {
     }
 }
 
-/*ESTULO BOTON REGISTRAR INCIDENCIA*/
+/*ESTILO BOTÓN REGISTRAR INCIDENCIA*/
 
 /* Estilo base del botón */
 .btn-registrar {

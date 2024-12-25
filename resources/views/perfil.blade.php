@@ -91,12 +91,18 @@
                         <td class="px-4 py-2">{{ \Illuminate\Support\Str::limit($incidencia->descripcion, 50) }}</td>
                         <!-- Miniatura -->
                         <td class="px-4 py-2 text-center">
-                            @if ($incidencia->archivos->isNotEmpty())
-                                @php $archivo = $incidencia->archivos->first(); @endphp
-                                @if (str_contains($archivo->ruta_archivo, ['jpg', 'jpeg', 'png']))
-                                    <img src="{{ asset('storage/' . $archivo->ruta_archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
+                            @if ($incidencia->archivo)
+                                @php
+                                    $extensionesImagen = ['jpg', 'jpeg', 'png'];
+                                    $extension = pathinfo($incidencia->archivo, PATHINFO_EXTENSION);
+                                @endphp
+
+                                @if (in_array($extension, $extensionesImagen))
+                                    <img src="{{ asset('storage/' . $incidencia->archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
                                 @else
-                                    <a href="{{ asset('storage/' . $archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">Ver Archivo</a>
+                                    <a href="{{ asset('storage/' . $incidencia->archivo) }}" target="_blank" class="text-blue-500 hover:underline">
+                                        Descargar Archivo
+                                    </a>
                                 @endif
                             @else
                                 <span class="text-gray-500">Sin Archivo</span>

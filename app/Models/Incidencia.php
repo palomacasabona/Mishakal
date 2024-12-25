@@ -22,11 +22,11 @@ class Incidencia extends Model
     protected $fillable = [
         'titulo',
         'descripcion',
-        'estado',
         'categoria',
         'prioridad',
-        'fecha_creacion',
-        'usuario_id', // Ajustado para usar el campo correcto de la BD
+        'estado',
+        'usuario_id',
+        'archivo',
     ];
 
     /**

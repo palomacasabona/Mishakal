@@ -49,27 +49,25 @@ class IncidenciaController extends Controller
             'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Crear la nueva incidencia
-        $incidencia = new Incidencia();
-        $incidencia->titulo = $validatedData['titulo'];
-        $incidencia->descripcion = $validatedData['descripcion'];
-        $incidencia->usuario_id = auth()->id();
-        $incidencia->prioridad = $validatedData['prioridad'];
-        $incidencia->categoria = $validatedData['categoria'];
-        $incidencia->estado = 'en proceso'; // Estado inicial definido como 'en proceso'
-        $incidencia->save();
+        // Inicializar ruta de archivo como null
+        $rutaArchivo = null;
 
-        // Subir archivo, si corresponde
+        // Subir archivo si corresponde
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
-            $ruta = $archivo->store('archivos', 'public');
-
-            Archivo::create([
-                'nombre' => $archivo->getClientOriginalName(),
-                'ruta_archivo' => $ruta,
-                'incidencia_id' => $incidencia->id_incidencia,
-            ]);
+            $rutaArchivo = $archivo->store('archivos', 'public'); // Guardar archivo en el sistema de almacenamiento
         }
+
+        // Crear la nueva incidencia con los datos validados y la ruta del archivo
+        $incidencia = Incidencia::create([
+            'titulo' => $validatedData['titulo'],
+            'descripcion' => $validatedData['descripcion'],
+            'categoria' => $validatedData['categoria'],
+            'prioridad' => $validatedData['prioridad'],
+            'estado' => 'en proceso', // Estado inicial definido como 'en proceso'
+            'usuario_id' => auth()->id(),
+            'archivo' => $rutaArchivo, // Guardar la ruta del archivo
+        ]);
 
         // Redirigir con mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
@@ -84,8 +82,7 @@ class IncidenciaController extends Controller
         $incidencia = Incidencia::with('archivos')->findOrFail($id_incidencia);
 
         // Devolver la vista con los detalles de la incidencia
-        return view('incidencias.verIncidencia', compact('incidencia'));
-    }
+        return view('verIncidencia', compact('incidencia'));    }
 
     /**
      * Actualiza una incidencia existente.

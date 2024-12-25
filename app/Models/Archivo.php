@@ -24,9 +24,12 @@ class Archivo extends Model
 
     /**
      * Relación: un archivo pertenece a una incidencia.
+     * Uso de `nullable` para manejar casos donde `incidencia_id` es nulo.
      */
     public function incidencia()
     {
-        return $this->belongsTo(Incidencia::class, 'incidencia_id', 'id_incidencia');
+        return $this->belongsTo(Incidencia::class, 'incidencia_id', 'id_incidencia')->withDefault([
+            'titulo' => 'Sin incidencia asignada',
+        ]);
     }
 }

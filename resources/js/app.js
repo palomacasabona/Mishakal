@@ -147,3 +147,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+<!-- MODAL PARA VISUALIZAR ARCHIVO ADJUNTO -->
+
+document.addEventListener('DOMContentLoaded', () => {
+    const archivoAdjunto = document.getElementById('archivoAdjunto');
+    const modalArchivo = document.getElementById('modalArchivo');
+    const cerrarModal = document.getElementById('cerrarModal');
+
+    archivoAdjunto?.addEventListener('click', () => {
+        modalArchivo.classList.remove('hidden');
+    });
+
+    cerrarModal?.addEventListener('click', () => {
+        modalArchivo.classList.add('hidden');
+    });
+
+    modalArchivo?.addEventListener('click', (e) => {
+        if (e.target === modalArchivo) {
+            modalArchivo.classList.add('hidden');
+        }
+    });
+});

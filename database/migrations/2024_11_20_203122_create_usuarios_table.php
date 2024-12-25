@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id('id_usuario'); // ID del usuario
             $table->string('nombre'); // Nombre del usuario
+            $table->string('apellido', 250)->nullable(); // Campo nuevo
             $table->string('email')->unique(); // Email único
             $table->string('contraseña'); // Contraseña del usuario
-            $table->string('telefono')->nullable(); // Teléfono (puede ser nulo)
+            $table->string('telefono', 15)->nullable(); // Teléfono (puede ser nulo)
             $table->string('foto_perfil')->nullable(); // Foto de perfil (ruta)
-            $table->string('rol')->default('user')->change();
+            $table->enum('rol', ['admin', 'superadmin', 'usuario'])->default('usuario'); // Campo nuevo
             $table->timestamp('fecha_registro'); // Fecha de registro
             $table->timestamps(); // created_at y updated_at
         });

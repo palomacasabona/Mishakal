@@ -16,60 +16,39 @@ Route::get('/cache-test', function () {
 })->name('cache.test');
 
 // ** Rutas de autenticación **
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Vista de autenticación adicional
-Route::get('/auth', function () {
-    return view('auth');
-})->name('auth.view');
-
-Route::post('/auth', [AuthController::class, 'login'])->name('auth.post');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); // Mostrar formulario de login
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');  // Procesar login
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register'); // Mostrar formulario de registro
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');   // Procesar registro
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');  // Cerrar sesión
 
 // ** Rutas relacionadas con el usuario **
 Route::middleware(['auth'])->group(function () {
-    // Ruta para el perfil del usuario
-    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
-
-    // Actualizar el perfil del usuario
-    Route::put('/usuario/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
-
-    // CRUD para usuarios
-    Route::resource('usuarios', UsuarioController::class);
+    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil'); // Mostrar perfil de usuario
+    Route::get('/perfil/editar', [UsuarioController::class, 'edit'])->name('perfil.editar'); // Mostrar formulario de edición
+    Route::put('/perfil/{id}', [UsuarioController::class, 'update'])->name('usuario.update');
+    Route::resource('usuarios', UsuarioController::class); // CRUD completo para usuarios
 });
 
 // ** Rutas para incidencias **
 Route::middleware(['auth'])->group(function () {
-    // Listar incidencias
-    Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
-
-    // Registrar una incidencia
-    Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
+    Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index'); // Listar incidencias
+    Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store'); // Crear una nueva incidencia
+    Route::get('/incidencias/{id}', [IncidenciaController::class, 'show'])->name('incidencias.show'); // Mostrar detalles de una incidencia
 });
 
 // ** Rutas para recursos adicionales **
 Route::middleware(['auth'])->group(function () {
-    // CRUD para comentarios
-    Route::resource('comentarios', ComentarioController::class);
-
-    // CRUD para archivos
-    Route::resource('archivos', ArchivoController::class);
-
-    // CRUD para mensajes
-    Route::resource('mensajes', MensajeController::class);
+    Route::resource('comentarios', ComentarioController::class); // CRUD para comentarios
+    Route::resource('archivos', ArchivoController::class); // CRUD para archivos
+    Route::resource('mensajes', MensajeController::class); // CRUD para mensajes
 });
 
-// ** Dashboard (si es necesario) **
+// ** Dashboard (opcional) **
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [IncidenciaController::class, 'userDashboard'])->name('dashboard');
+    Route::get('/dashboard', [IncidenciaController::class, 'dashboard'])->name('dashboard'); // Dashboard del usuario
 });
 
 // ** Notas importantes **
-// - El middleware `auth` protege las rutas privadas.
-// - Se usa `Route::resource` para simplificar los CRUD (usuarios, comentarios, archivos, mensajes).
-// - Se evita duplicar rutas como `usuario.update` al consolidarlas en un solo lugar.
+// - El middleware `auth` asegura que las rutas protegidas sean accesibles solo por usuarios autenticados.
+// - Usamos `Route::resource` para simplificar los CRUD (usuarios, incidencias, comentarios, archivos, mensajes).

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <!-- Mensaje de éxito -->
+        <!-- MENSAJE DE ÉXITO -->
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <strong class="font-bold">Éxito:</strong>
@@ -12,13 +12,13 @@
             </div>
         @endif
 
-        <!-- Título -->
+        <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
 
-        <!-- Información del usuario -->
+        <!-- INFORMACIÓN DEL USUARIO -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
             <div class="flex items-center space-x-4">
-                <!-- Foto de perfil o inicial -->
+                <!-- FOTO DE PERFIL O INICIAL -->
                 @if (Auth::user()->foto_perfil)
                     <img src="{{ asset('storage/' . Auth::user()->foto_perfil) }}" alt="Foto de perfil"
                          class="w-16 h-16 rounded-full">
@@ -27,17 +27,15 @@
                         {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
                     </div>
                 @endif
-                <!-- Nombre y email -->
+                <!-- NOMBRE Y EMAIL DEL USUARIO -->
                 <div>
                     <p class="text-lg font-bold text-gray-800">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</p>
                     <p class="text-sm text-gray-600">{{ Auth::user()->email }}</p>
                 </div>
-                <!-- Botón Editar Perfil -->
-                <button id="btnEditarPerfil" class="bg-blue-500 text-white px-4 py-2 rounded">Editar Perfil</button>
             </div>
         </div>
 
-        <!-- Dashboard de estadísticas -->
+        <!-- DASHBOARD DE ESTADÍSTICAS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div class="bg-white shadow-lg rounded-lg p-6">
                 <h2 class="text-xl font-semibold text-gray-700">Incidencias Totales</h2>
@@ -53,70 +51,57 @@
             </div>
         </div>
 
-        <!-- Listado de incidencias -->
+        <!-- LISTA DE INCIDENCIAS -->
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Tus Incidencias</h2>
-            <table class="min-w-full table-auto">
+            <h2 class="text-2xl font-bold text-gray-700 mb-6">Mis Incidencias</h2>
+            <table class="w-full border-collapse">
                 <thead>
-                <tr>
-                    <th class="px-4 py-2 text-left text-gray-600">ID</th>
-                    <th class="px-4 py-2 text-left text-gray-600">Título</th>
-                    <th class="px-4 py-2 text-left text-gray-600">Estado</th>
-                    <th class="px-4 py-2 text-left text-gray-600">Fecha</th>
-                    <th class="px-4 py-2 text-center text-gray-600">Acciones</th>
+                <tr class="bg-gray-200">
+                    <th class="border px-4 py-2">ID</th>
+                    <th class="border px-4 py-2">Título</th>
+                    <th class="border px-4 py-2">Descripción</th>
+                    <th class="border px-4 py-2">Miniatura</th>
+                    <th class="border px-4 py-2">Estado</th>
+                    <th class="border px-4 py-2">Prioridad</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($incidencias as $incidencia)
-                    <tr class="border-t">
-                        <td class="px-4 py-2">{{ $incidencia->id }}</td>
-                        <td class="px-4 py-2">{{ $incidencia->titulo }}</td>
-                        <td class="px-4 py-2">{{ ucfirst($incidencia->estado) }}</td>
-                        <td class="px-4 py-2">
-                            {{ $incidencia->created_at ? $incidencia->created_at->format('d/m/Y') : 'Fecha no disponible' }}
+                @forelse ($incidencias as $incidencia)
+                    <tr>
+                        <td class="border px-4 py-2 text-center">{{ $incidencia->id_incidencia }}</td>
+                        <td class="border px-4 py-2">{{ $incidencia->titulo }}</td>
+                        <td class="border px-4 py-2">{{ $incidencia->descripcion }}</td>
+                        <td class="border px-4 py-2">
+                            @if ($incidencia->archivo)
+                                <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo" class="w-12 h-12 object-cover">
+                            @else
+                                No hay archivo
+                            @endif
+                        </td>
+                        <td class="border px-4 py-2 text-center">
+                                <span class="px-2 py-1 rounded
+                                    @if ($incidencia->estado === 'en proceso') bg-yellow-200 text-yellow-800
+                                    @elseif ($incidencia->estado === 'cerrada') bg-green-200 text-green-800
+                                    @else bg-gray-200 text-gray-800 @endif">
+                                    {{ ucfirst($incidencia->estado) }}
+                                </span>
+                        </td>
+                        <td class="border px-4 py-2 text-center">
+                                <span class="px-2 py-1 rounded
+                                    @if ($incidencia->prioridad === 'alta') bg-red-500 text-white animate-pulse
+                                    @elseif ($incidencia->prioridad === 'media') bg-yellow-500 text-white
+                                    @else bg-green-500 text-white @endif">
+                                    {{ ucfirst($incidencia->prioridad) }}
+                                </span>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center text-gray-500 py-4">No se encontraron incidencias.</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Modal para editar el perfil -->
-    <div id="modalEditarPerfil" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white w-full max-w-lg p-8 rounded-lg relative modal-content">
-            <!-- Botón de cerrar -->
-            <button id="btnCerrarModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <!-- Título del modal -->
-            <h2 class="text-2xl font-semibold mb-6 text-blue-600">Editar Perfil</h2>
-
-            <!-- Formulario para editar perfil -->
-            <form action="{{ route('usuario.update', Auth::user()->id_usuario) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="mb-6">
-                    <label for="nombre" class="block text-gray-700 font-bold">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ Auth::user()->nombre }}" required class="w-full border rounded px-4 py-3">
-                </div>
-                <div class="mb-6">
-                    <label for="apellido" class="block text-gray-700 font-bold">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" value="{{ Auth::user()->apellido }}" class="w-full border rounded px-4 py-3">
-                </div>
-                <div class="mb-6">
-                    <label for="telefono" class="block text-gray-700 font-bold">Teléfono</label>
-                    <input type="text" id="telefono" name="telefono" value="{{ Auth::user()->telefono }}" class="w-full border rounded px-4 py-3">
-                </div>
-                <div class="mb-6">
-                    <label for="foto" class="block text-gray-700 font-bold">Foto de Perfil</label>
-                    <input type="file" id="foto" name="foto" class="w-full border rounded px-4 py-3">
-                </div>
-                <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Guardar Cambios</button>
-            </form>
         </div>
     </div>
 @endsection

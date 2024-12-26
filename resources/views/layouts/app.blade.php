@@ -175,25 +175,42 @@
             {{ Auth::check() ? Auth::user()->nombre : 'Usuario no autenticado' }}
         </span>        </div>
 
-        <!-- Formulario del modal -->
         <form action="{{ route('incidencias.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <!-- Título -->
             <div class="mb-6">
                 <label for="titulo" class="block text-gray-700 font-bold">Título</label>
-                <input type="text" id="titulo" name="titulo" required class="w-full border rounded px-4 py-3" />
+                <input
+                    type="text"
+                    id="titulo"
+                    name="titulo"
+                    required
+                    class="w-full border rounded px-4 py-3"
+                    placeholder="Ingrese un título descriptivo"
+                    maxlength="100" />
             </div>
 
             <!-- Descripción -->
             <div class="mb-6">
                 <label for="descripcion" class="block text-gray-700 font-bold">Descripción</label>
-                <textarea id="descripcion" name="descripcion" required class="w-full border rounded px-4 py-3"></textarea>
+                <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    required
+                    class="w-full border rounded px-4 py-3"
+                    placeholder="Describa detalladamente la incidencia"
+                    maxlength="500"></textarea>
             </div>
 
             <!-- Categoría -->
             <div class="mb-6">
                 <label for="categoria" class="block text-gray-700 font-bold">Categoría</label>
-                <select id="categoria" name="categoria" required class="w-full border rounded px-4 py-3">
+                <select
+                    id="categoria"
+                    name="categoria"
+                    required
+                    class="w-full border rounded px-4 py-3">
+                    <option value="" disabled selected>Seleccione una categoría</option>
                     <option value="hardware">Hardware</option>
                     <option value="software">Software</option>
                     <option value="seguridad">Seguridad</option>
@@ -207,20 +224,35 @@
             <!-- Prioridad -->
             <div class="mb-6">
                 <label for="prioridad" class="block text-gray-700 font-bold">Prioridad</label>
-                <select id="prioridad" name="prioridad" required class="w-full border rounded px-4 py-3">
+                <select
+                    id="prioridad"
+                    name="prioridad"
+                    required
+                    class="w-full border rounded px-4 py-3">
+                    <option value="" disabled selected>Seleccione una prioridad</option>
                     <option value="alta">Alta</option>
                     <option value="media">Media</option>
                     <option value="baja">Baja</option>
                 </select>
             </div>
+
             <!-- Archivo adjunto -->
             <div class="mb-6">
                 <label for="archivo" class="block text-gray-700 font-bold">Archivo adjunto</label>
-                <input type="file" id="archivo" name="archivo" class="w-full border rounded px-4 py-3" />
+                <input
+                    type="file"
+                    id="archivo"
+                    name="archivo"
+                    class="w-full border rounded px-4 py-3"
+                    accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" />
+                <small class="text-gray-500">Formatos permitidos: JPG, PNG, PDF, DOC, DOCX</small>
             </div>
+
             <!-- Botón de enviar -->
             <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">
+                <button
+                    type="submit"
+                    class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition-all duration-200">
                     Registrar
                 </button>
             </div>

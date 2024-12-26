@@ -13,6 +13,7 @@
         @endif
 
         <!-- TÍTULO PRINCIPAL -->
+
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
 
         <!-- INFORMACIÓN DEL USUARIO -->
@@ -35,7 +36,7 @@
                     <p class="text-sm text-gray-600">Teléfono: {{ Auth::user()->telefono }}</p>
                 </div>
                 <!-- BOTÓN EDITAR PERFIL -->
-                <button id="btnEditarPerfil" class="bg-blue-500 text-white px-4 py-2 rounded">
+                <button id="btnEditarPerfil" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-auto">
                     Editar Perfil
                 </button>
             </div>
@@ -125,7 +126,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- MODAL EDITAR PERFIL -->
         <div id="modalEditarPerfil" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white rounded-lg p-6 w-96 modal-content relative">

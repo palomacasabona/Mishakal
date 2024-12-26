@@ -45,21 +45,20 @@
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
                 @if ($incidencia->archivos->isNotEmpty())
-                    @php
-                        $archivo = $incidencia->archivos->first();
-                    @endphp
-                    @if (in_array(pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                        <img
-                            src="{{ asset('storage/' . $archivo->ruta_archivo) }}"
-                            alt="Archivo Adjunto"
-                            class="w-full h-auto rounded cursor-pointer"
-                            id="archivoAdjunto"
-                        >
-                    @else
-                        <a href="{{ asset('storage/' . $archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
-                            Descargar Archivo
-                        </a>
-                    @endif
+                    @foreach ($incidencia->archivos as $archivo)
+                        @php
+                            $extensionesImagen = ['jpg', 'jpeg', 'png'];
+                            $extension = pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION);
+                        @endphp
+
+                        @if (in_array($extension, $extensionesImagen))
+                            <img src="{{ asset('storage/' . $archivo->ruta_archivo) }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
+                        @else
+                            <a href="{{ asset('storage/' . $archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
+                                Descargar Archivo
+                            </a>
+                        @endif
+                    @endforeach
                 @else
                     <p class="text-gray-500">No hay archivo adjunto.</p>
                 @endif

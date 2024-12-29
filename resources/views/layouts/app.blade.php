@@ -85,7 +85,7 @@
                     <!-- REGISTRAR INCIDENCIA -->
                     <li>
                         <button id="btn-registrar-incidencia" class="btn-registrar hover:shadow-md transition-transform transform hover:scale-105">
-                            CREAR AVISO ⚠️
+                            CREAR TICKET ⚠️
                         </button>
                     </li>
                     <!-- Botón PERFIL -->
@@ -164,7 +164,7 @@
         </button>
 
         <!-- Título del modal -->
-        <h2 class="text-2xl font-semibold mb-6 text-blue-600">Registrar una Nueva Incidencia</h2>
+        <h2 class="text-2xl font-semibold mb-6 text-blue-600">Registrar Nueva Incidencia</h2>
 
         <!-- Perfil del usuario -->
         <div class="mb-6 flex items-center space-x-4">

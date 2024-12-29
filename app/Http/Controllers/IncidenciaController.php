@@ -46,7 +46,7 @@ class IncidenciaController extends Controller
             'descripcion' => 'required|string',
             'categoria' => 'required|string',
             'prioridad' => 'required|string',
-            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // Validación para el archivo
         ]);
 
         // Crear la nueva incidencia
@@ -62,16 +62,16 @@ class IncidenciaController extends Controller
         // Subir archivo, si corresponde
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
-            $ruta = $archivo->store('archivos', 'public');
+            $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+            $ruta = $archivo->storeAs('archivos', $nombreArchivo, 'public');
 
             Archivo::create([
                 'nombre' => $archivo->getClientOriginalName(),
                 'ruta_archivo' => $ruta,
-                'incidencia_id' => $incidencia->id_incidencia, // Relacionar con la incidencia creada
+                'incidencia_id' => $incidencia->id_incidencia,
             ]);
         }
 
-        // Redirigir con mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
     /**

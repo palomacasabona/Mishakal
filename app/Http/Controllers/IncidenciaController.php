@@ -65,10 +65,11 @@ class IncidenciaController extends Controller
             $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
             $ruta = $archivo->storeAs('archivos', $nombreArchivo, 'public');
 
+            // Crear el registro en la tabla 'archivos'
             Archivo::create([
-                'nombre' => $archivo->getClientOriginalName(),
-                'ruta_archivo' => $ruta,
-                'incidencia_id' => $incidencia->id_incidencia,
+                'nombre' => $nombreArchivo, // Ajustado para que coincida con el archivo subido
+                'ruta_archivo' => $ruta, // Ruta del archivo en el almacenamiento
+                'incidencia_id' => $incidencia->id_incidencia, // Relacionar con la incidencia recién creada
             ]);
         }
 

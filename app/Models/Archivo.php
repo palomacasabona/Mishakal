@@ -24,12 +24,18 @@ class Archivo extends Model
 
     /**
      * Relación: un archivo pertenece a una incidencia.
-     * Uso de `nullable` para manejar casos donde `incidencia_id` es nulo.
      */
     public function incidencia()
     {
-        return $this->belongsTo(Incidencia::class, 'incidencia_id', 'id_incidencia')->withDefault([
-            'titulo' => 'Sin incidencia asignada',
-        ]);
+        return $this->belongsTo(Incidencia::class, 'incidencia_id', 'id_incidencia');
+    }
+
+    /**
+     * Devuelve la URL pública del archivo.
+     * Se usa para generar el enlace o mostrar la miniatura.
+     */
+    public function getRutaPublicaAttribute()
+    {
+        return asset('storage/' . $this->ruta_archivo);
     }
 }

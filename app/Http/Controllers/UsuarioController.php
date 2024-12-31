@@ -11,13 +11,10 @@ class UsuarioController extends Controller
 {
     public function perfil()
     {
-        // Recuperar las incidencias del usuario autenticado
-        $incidencias = Incidencia::where('usuario_id', auth()->id())->get();
-
-        // Contar incidencias totales, abiertas y cerradas
+        // Recuperar las incidencias del usuario autenticado con la relación 'archivo'
+        $incidencias = Incidencia::with('archivo')->where('usuario_id', auth()->id())->get();        // Contar incidencias totales, abiertas y cerradas
         $totalIncidencias = $incidencias->count();
-        $incidenciasAbiertas = $incidencias->where('estado', 'abierta')->count() +
-            $incidencias->where('estado', 'en proceso')->count();
+        $incidenciasAbiertas = $incidencias->where('estado', 'en proceso')->count();
         $incidenciasCerradas = $incidencias->where('estado', 'cerrada')->count();
 
         // Calcular el porcentaje de incidencias abiertas
@@ -25,7 +22,7 @@ class UsuarioController extends Controller
             ? round(($incidenciasAbiertas / $totalIncidencias) * 100, 2)
             : 0;
 
-        // Retornar la vista con los datos
+        // Retornar la vista con todos los datos necesarios
         return view('perfil', compact(
             'incidencias',
             'totalIncidencias',
@@ -35,7 +32,6 @@ class UsuarioController extends Controller
         ));
     }
 
-    // Mantengo el resto de los métodos tal cual para que no pierdas funcionalidad.
     public function index()
     {
         $usuarios = Usuario::all();
@@ -73,12 +69,6 @@ class UsuarioController extends Controller
         return redirect()->route('incidencias.index')->with('success', 'Usuario registrado exitosamente.');
     }
 
-    public function show($id)
-    {
-        $usuario = Usuario::findOrFail($id);
-        return view('usuarios.show', compact('usuario'));
-    }
-
     public function edit()
     {
         $usuario = auth()->user(); // Obtén el usuario autenticado
@@ -106,8 +96,8 @@ class UsuarioController extends Controller
         // Verificar si se ha subido una foto
         if ($request->hasFile('foto')) {
             // Eliminar la foto anterior si existe
-            if ($usuario->foto_perfil && \Storage::exists('public/' . $usuario->foto_perfil)) {
-                \Storage::delete('public/' . $usuario->foto_perfil);
+            if ($usuario->foto_perfil && Storage::exists('public/' . $usuario->foto_perfil)) {
+                Storage::delete('public/' . $usuario->foto_perfil);
             }
 
             // Guardar la nueva foto en el almacenamiento público

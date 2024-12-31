@@ -26,7 +26,7 @@ class Incidencia extends Model
         'prioridad',
         'estado',
         'usuario_id',
-        'archivo',
+        'archivo', // Campo directo para un archivo si se usa en la tabla directamente
     ];
 
     /**
@@ -38,18 +38,18 @@ class Incidencia extends Model
     }
 
     /**
+     * Relación: una incidencia puede tener un único archivo.
+     */
+    public function archivo()
+    {
+        return $this->hasOne(Archivo::class, 'incidencia_id', 'id_incidencia');
+    }
+
+    /**
      * Relación: una incidencia puede tener múltiples comentarios.
      */
     public function comentarios()
     {
         return $this->hasMany(Comentario::class, 'incidencia_id', 'id_incidencia');
-    }
-
-    /**
-     * Relación: una incidencia puede tener múltiples archivos.
-     */
-    public function archivos()
-    {
-        return $this->hasMany(Archivo::class, 'incidencia_id');
     }
 }

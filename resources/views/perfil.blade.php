@@ -13,7 +13,6 @@
         @endif
 
         <!-- TÍTULO PRINCIPAL -->
-
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
 
         <!-- INFORMACIÓN DEL USUARIO -->
@@ -92,16 +91,16 @@
                         <td class="px-4 py-2">{{ \Illuminate\Support\Str::limit($incidencia->descripcion, 50) }}</td>
                         <!-- Miniatura -->
                         <td class="px-4 py-2 text-center">
-                            @if ($incidencia->archivo)
+                            @if (optional($incidencia->archivo)->ruta_archivo)
                                 @php
                                     $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                                    $extension = pathinfo($incidencia->archivo, PATHINFO_EXTENSION);
+                                    $extension = pathinfo(optional($incidencia->archivo)->ruta_archivo, PATHINFO_EXTENSION);
                                 @endphp
 
                                 @if (in_array($extension, $extensionesImagen))
-                                    <img src="{{ asset('storage/' . $incidencia->archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
+                                    <img src="{{ asset('storage/' . optional($incidencia->archivo)->ruta_archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
                                 @else
-                                    <a href="{{ asset('storage/' . $incidencia->archivo) }}" target="_blank" class="text-blue-500 hover:underline">
+                                    <a href="{{ asset('storage/' . optional($incidencia->archivo)->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
                                         Descargar Archivo
                                     </a>
                                 @endif
@@ -111,74 +110,20 @@
                         </td>
                         <!-- Estado -->
                         <td class="px-4 py-2">
-                    <span class="px-2 py-1 rounded {{ $incidencia->estado == 'en proceso' ? 'bg-yellow-200 text-yellow-800' : ($incidencia->estado == 'cerrada' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800') }}">
-                        {{ ucfirst($incidencia->estado) }}
-                    </span>
+            <span class="px-2 py-1 rounded {{ $incidencia->estado == 'en proceso' ? 'bg-yellow-200 text-yellow-800' : ($incidencia->estado == 'cerrada' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800') }}">
+                {{ ucfirst($incidencia->estado) }}
+            </span>
                         </td>
                         <!-- Prioridad -->
                         <td class="px-4 py-2 text-center">
-                    <span class="px-2 py-1 rounded {{ $incidencia->prioridad == 'alta' ? 'bg-red-500 text-white animate-pulse' : ($incidencia->prioridad == 'media' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white') }}">
-                        {{ ucfirst($incidencia->prioridad) }}
-                    </span>
+            <span class="px-2 py-1 rounded {{ $incidencia->prioridad == 'alta' ? 'bg-red-500 text-white animate-pulse' : ($incidencia->prioridad == 'media' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white') }}">
+                {{ ucfirst($incidencia->prioridad) }}
+            </span>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
-        <!-- MODAL EDITAR PERFIL -->
-        <div id="modalEditarPerfil" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-            <div class="bg-white rounded-lg p-6 w-96 modal-content relative">
-                <!-- Botón de cerrar -->
-                <button id="btnCerrarModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                    &times;
-                </button>
-                <h2 class="text-xl font-bold mb-4">Editar Perfil</h2>
-                <form action="{{ route('usuario.update', ['id' => Auth::user()->id_usuario]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-
-                    <!-- Campo Nombre -->
-                    <div class="mb-4">
-                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" value="{{ Auth::user()->nombre }}"
-                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-                    </div>
-
-                    <!-- Campo Apellido -->
-                    <div class="mb-4">
-                        <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
-                        <input type="text" name="apellido" id="apellido" value="{{ Auth::user()->apellido }}"
-                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-                    </div>
-
-                    <!-- Campo Email -->
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email" value="{{ Auth::user()->email }}"
-                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-                    </div>
-
-                    <!-- Campo Teléfono -->
-                    <div class="mb-4">
-                        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-                        <input type="text" name="telefono" id="telefono" value="{{ Auth::user()->telefono }}"
-                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-                    </div>
-
-                    <!-- Campo Foto -->
-                    <div class="mb-4">
-                        <label for="foto" class="block text-sm font-medium text-gray-700">Foto de Perfil</label>
-                        <input type="file" name="foto" id="foto" class="mt-1 block w-full">
-                    </div>
-
-                    <!-- Botones -->
-                    <div class="flex justify-end">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
-                        <button id="btnCerrarModal" type="button" class="ml-2 bg-gray-300 px-4 py-2 rounded">Cancelar</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 @endsection

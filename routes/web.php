@@ -59,3 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store'); // Crear una nueva incidencia
     Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show'); // Mostrar detalles de una incidencia
 });
+
+// ** Ruta para cargar incidencias con sus archivos en el perfil **
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
+});

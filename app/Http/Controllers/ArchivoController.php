@@ -42,12 +42,12 @@ class ArchivoController extends Controller
         ]);
 
         // Guarda el archivo en el almacenamiento local (carpeta 'archivos')
-        $rutaArchivo = $request->file('archivo')->store('archivos');
+        $rutaArchivo = $request->file('archivo')->store('archivos', 'public');
 
         // Crea el registro en la base de datos
         Archivo::create([
             'nombre' => $validated['nombre'],
-            'ruta' => $rutaArchivo,
+            'ruta_archivo' => $rutaArchivo, // Ajustado para coincidir con el campo en la base de datos
             'incidencia_id' => $validated['incidencia_id'],
         ]);
 
@@ -76,7 +76,7 @@ class ArchivoController extends Controller
         $archivo = Archivo::findOrFail($id);
 
         // Retorna el archivo para su descarga
-        return Storage::download($archivo->ruta, $archivo->nombre);
+        return Storage::download($archivo->ruta_archivo, $archivo->nombre);
     }
 
     /**
@@ -88,7 +88,7 @@ class ArchivoController extends Controller
         $archivo = Archivo::findOrFail($id);
 
         // Elimina el archivo del sistema de almacenamiento
-        Storage::delete($archivo->ruta);
+        Storage::delete($archivo->ruta_archivo);
 
         // Elimina el registro de la base de datos
         $archivo->delete();

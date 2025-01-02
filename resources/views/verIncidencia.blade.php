@@ -5,11 +5,8 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
         <!-- DEBUGGER PARA VERIFICAR LAS RUTAS GENERADAS -->
-        <pre>
-            {{ json_encode($incidencia->archivo, JSON_PRETTY_PRINT) }}
-        </pre>
 
-        <!-- TÍTULO PRINCIPAL -->
+            <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
 
         <!-- CONTENEDOR PRINCIPAL -->
@@ -50,17 +47,26 @@
                     @php
                         $archivo = $incidencia->archivo;
                         $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                        $extension = pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION);
+                        $rutaPublica = asset('storage/' . $archivo->ruta_archivo);
+                        $rutaFisica = storage_path('app/public/' . $archivo->ruta_archivo);
                     @endphp
 
-                    @if ($incidencia->archivo)
-                        <p>Ruta generada: {{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}</p>
-                        <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto">
+                    <p><strong>Ruta física:</strong> {{ $rutaFisica }}</p>
+                    <p><strong>Ruta pública:</strong> {{ $rutaPublica }}</p>
+
+                    @if (file_exists($rutaFisica))
+                        @if (in_array(pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION), $extensionesImagen))
+                            <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
+                        @else
+                            <a href="{{ $rutaPublica }}" target="_blank" class="text-blue-500 hover:underline">
+                                Descargar Archivo
+                            </a>
+                        @endif
                     @else
-                        <p>No hay archivo adjunto o la ruta no es válida.</p>
+                        <p class="text-red-500">El archivo no se encuentra en el servidor.</p>
                     @endif
                 @else
-                    <p class="text-gray-500">No hay archivo adjunto o la ruta no es válida.</p>
+                    <p class="text-gray-500">No hay archivo adjunto o la relación no está configurada correctamente.</p>
                 @endif
             </div>
 

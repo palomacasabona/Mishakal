@@ -57,34 +57,34 @@ class IncidenciaController extends Controller
         $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria'];
         $incidencia->estado = 'en proceso'; // Estado inicial definido como 'en proceso'
+        //no es obligatorio subir archivo
         $incidencia->save();
-
-        // Subir archivo, si corresponde
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
-            $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
-            $ruta = $archivo->storeAs('archivos', $nombreArchivo, 'public');
+            $nombre = time() . '_' . $archivo->getClientOriginalName();
+            $incidencia->archivo = $archivo->storeAs('archivos', $nombre, 'public');
+            $rutaArchivo = $archivo->storeAs('archivos', $nombre, 'public');
 
             // Crear el registro en la tabla 'archivos'
             Archivo::create([
-                'nombre' => 'nombre_del_archivo.png',
-                'ruta_archivo' => 'archivos/nombre_del_archivo.png',
-                'incidencia_id' => 605,
+                'nombre' => $nombre,
+                'ruta_archivo' => $rutaArchivo,
+                'incidencia_id' => $incidencia -> id_incidencia,
             ]);
         }
+        $incidencia->save();
+        //poniendo save aquí también se guarda hace como una especie de update.
+
 
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
     /**
      * Muestra los detalles de una incidencia específica.
      */
-    public function show($id_incidencia)
+    public function show($id)
     {
-        // Cargar la incidencia junto con su archivo relacionado
-        $incidencia = Incidencia::with('archivo')->findOrFail($id_incidencia);
-
-        // Devolver la vista con los detalles de la incidencia
-        return view('verIncidencia', compact('incidencia'));
+        $incidencia = Incidencia::with('archivo')->find($id); // Incluye la relación archivo
+        return view('verIncidencia', compact('incidencia')); // Envía la incidencia a la vista
     }
 
     /**

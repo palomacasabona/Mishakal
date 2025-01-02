@@ -3,7 +3,10 @@
 @section('title', 'Detalles de la Incidencia')
 
 @section('content')
+    <!-- debugger  -->
+
     <div class="max-w-7xl mx-auto px-6 py-10">
+       
         <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
 
@@ -44,35 +47,33 @@
             <!-- ARCHIVO ADJUNTO -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
-                @if ($incidencia->archivos->isNotEmpty())
-                    @foreach ($incidencia->archivos as $archivo)
-                        @php
-                            $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                            $extension = pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION);
-                        @endphp
+                @if ($incidencia->archivo)
+                    @php
+                        $extensionesImagen = ['jpg', 'jpeg', 'png'];
+                        $extension = pathinfo($incidencia->archivo->ruta_archivo, PATHINFO_EXTENSION);
+                    @endphp
 
-                        @if (in_array($extension, $extensionesImagen))
-                            <img src="{{ asset('storage/' . $archivo->ruta_archivo) }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
-                        @else
-                            <a href="{{ asset('storage/' . $archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
-                                Descargar Archivo
-                            </a>
-                        @endif
-                    @endforeach
+                    @if (in_array($extension, $extensionesImagen))
+                        <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
+                    @else
+                        <a href="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
+                            Descargar Archivo
+                        </a>
+                    @endif
                 @else
                     <p class="text-gray-500">No hay archivo adjunto.</p>
                 @endif
             </div>
 
             <!-- MODAL PARA VISUALIZAR ARCHIVO ADJUNTO -->
-            @if (isset($archivo) && in_array(pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
+            @if ($incidencia->archivo && in_array(pathinfo($incidencia->archivo->ruta_archivo, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
                 <div id="modalArchivo" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
                     <div class="bg-white p-4 rounded-lg max-w-4xl w-full">
                         <div class="flex justify-end">
                             <button id="cerrarModal" class="text-gray-500 hover:text-gray-800">&times;</button>
                         </div>
                         <div>
-                            <img src="{{ asset('storage/' . $archivo->ruta_archivo) }}" alt="Archivo Adjunto Ampliado" class="w-full h-auto rounded">
+                            <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto Ampliado" class="w-full h-auto rounded">
                         </div>
                     </div>
                 </div>
@@ -84,8 +85,6 @@
                     Volver al Perfil
                 </a>
             </div>
-
-
         </div>
     </div>
 @endsection

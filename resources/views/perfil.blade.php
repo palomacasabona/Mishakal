@@ -4,6 +4,9 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
+        <!-- depurar -->
+
+
         <!-- MENSAJE DE ÉXITO -->
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -91,18 +94,33 @@
                         <td class="px-4 py-2">{{ \Illuminate\Support\Str::limit($incidencia->descripcion, 50) }}</td>
                         <!-- Miniatura -->
                         <td class="px-4 py-2 text-center">
-                            @if (optional($incidencia->archivo)->ruta_archivo)
-                                @php
-                                    $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                                    $extension = pathinfo(optional($incidencia->archivo)->ruta_archivo, PATHINFO_EXTENSION);
-                                @endphp
+                            {{-- Depuración de datos --}}
+                            <p>Archivo: {{ json_encode($incidencia->archivo) }}</p>
+                            <p>Ruta Archivo: {{ $incidencia->archivo->ruta_archivo ?? 'Ruta no definida' }}</p>
+                            <p>Ruta Completa: {{ asset('storage/' . ($incidencia->archivo->ruta_archivo ?? '')) }}</p>
 
-                                @if (in_array($extension, $extensionesImagen))
-                                    <img src="{{ asset('storage/' . optional($incidencia->archivo)->ruta_archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
+                            @if ($incidencia->archivo && isset($incidencia->archivo->ruta_archivo))
+                                @if (file_exists(public_path('storage/' . $incidencia->archivo->ruta_archivo)))
+                                    {{-- Archivo existe físicamente --}}
+                                    <p class="text-green-500">El archivo existe físicamente.</p>
+
+                                    @php
+                                        $extensionesImagen = ['jpg', 'jpeg', 'png'];
+                                        $extension = pathinfo($incidencia->archivo->ruta_archivo, PATHINFO_EXTENSION);
+                                    @endphp
+
+                                    @if (in_array($extension, $extensionesImagen))
+                                        {{-- Mostrar miniatura si es imagen --}}
+                                        <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
+                                    @else
+                                        {{-- Enlace para descargar si no es imagen --}}
+                                        <a href="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" target="_blank" class="text-blue-500">
+                                            Descargar Archivo
+                                        </a>
+                                    @endif
                                 @else
-                                    <a href="{{ asset('storage/' . optional($incidencia->archivo)->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
-                                        Descargar Archivo
-                                    </a>
+                                    {{-- Archivo no encontrado físicamente --}}
+                                    <p class="text-red-500">El archivo no existe físicamente.</p>
                                 @endif
                             @else
                                 <span class="text-gray-500">Sin Archivo</span>

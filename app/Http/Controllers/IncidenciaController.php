@@ -80,11 +80,12 @@ class IncidenciaController extends Controller
      */
     public function show($id_incidencia)
     {
-        // Cargar la incidencia junto con sus archivos relacionados
-        $incidencia = Incidencia::with('archivos')->findOrFail($id_incidencia);
+        // Cargar la incidencia junto con su archivo relacionado
+        $incidencia = Incidencia::with('archivo')->findOrFail($id_incidencia);
 
         // Devolver la vista con los detalles de la incidencia
-        return view('verIncidencia', compact('incidencia'));    }
+        return view('verIncidencia', compact('incidencia'));
+    }
 
     /**
      * Actualiza una incidencia existente.

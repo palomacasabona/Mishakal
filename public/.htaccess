@@ -3,6 +3,13 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^storage/(.*)$ storage/$1 [L]
+</IfModule>
+
     RewriteEngine On
 
     # Handle Authorization Header

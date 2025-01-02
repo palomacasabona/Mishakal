@@ -34,24 +34,24 @@ class ArchivoController extends Controller
      */
     public function store(Request $request)
     {
-        // Valida los datos del formulario y el archivo
+        // Validar los datos del formulario
         $validated = $request->validate([
-            'nombre' => 'required|string|max:255', // Nombre del archivo es obligatorio
-            'archivo' => 'required|file|max:2048', // El archivo es obligatorio y no puede exceder 2 MB
-            'incidencia_id' => 'required|exists:incidencias,id_incidencia', // ID de la incidencia debe existir
+            'nombre' => 'required|string|max:255',
+            'archivo' => 'required|file|max:2048',
+            'incidencia_id' => 'required|exists:incidencias,id_incidencia',
         ]);
 
-        // Guarda el archivo en el almacenamiento local (carpeta 'archivos')
+        // Guardar el archivo en la carpeta 'archivos' dentro de 'storage/app/public'
         $rutaArchivo = $request->file('archivo')->store('archivos', 'public');
 
-        // Crea el registro en la base de datos
+        // Crear el registro en la base de datos
         Archivo::create([
             'nombre' => $validated['nombre'],
-            'ruta_archivo' => $rutaArchivo, // Ajustado para coincidir con el campo en la base de datos
+            'ruta_archivo' => $rutaArchivo,
             'incidencia_id' => $validated['incidencia_id'],
         ]);
 
-        // Redirige a la lista de archivos con un mensaje de éxito
+        // Redirigir con mensaje de éxito
         return redirect()->route('archivos.index')->with('success', 'Archivo subido exitosamente.');
     }
 

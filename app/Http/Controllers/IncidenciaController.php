@@ -67,9 +67,9 @@ class IncidenciaController extends Controller
 
             // Crear el registro en la tabla 'archivos'
             Archivo::create([
-                'nombre' => $nombreArchivo, // Ajustado para que coincida con el archivo subido
-                'ruta_archivo' => $ruta, // Ruta del archivo en el almacenamiento
-                'incidencia_id' => $incidencia->id_incidencia, // Relacionar con la incidencia recién creada
+                'nombre' => 'nombre_del_archivo.png',
+                'ruta_archivo' => 'archivos/nombre_del_archivo.png',
+                'incidencia_id' => 605,
             ]);
         }
 

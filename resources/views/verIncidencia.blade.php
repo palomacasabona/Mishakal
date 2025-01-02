@@ -3,10 +3,12 @@
 @section('title', 'Detalles de la Incidencia')
 
 @section('content')
-    <!-- debugger  -->
-
     <div class="max-w-7xl mx-auto px-6 py-10">
-       
+        <!-- DEBUGGER PARA VERIFICAR LAS RUTAS GENERADAS -->
+        <pre>
+            {{ json_encode($incidencia->archivo, JSON_PRETTY_PRINT) }}
+        </pre>
+
         <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
 
@@ -27,15 +29,12 @@
 
             <!-- ESTADO Y PRIORIDAD -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <!-- Estado -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700">Estado</h3>
                     <span class="px-4 py-2 inline-block rounded {{ $incidencia->estado == 'en proceso' ? 'bg-yellow-200 text-yellow-800' : ($incidencia->estado == 'cerrada' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800') }}">
                         {{ ucfirst($incidencia->estado) }}
                     </span>
                 </div>
-
-                <!-- Prioridad -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700">Prioridad</h3>
                     <span class="px-4 py-2 inline-block rounded {{ $incidencia->prioridad == 'alta' ? 'bg-red-500 text-white animate-pulse' : ($incidencia->prioridad == 'media' ? 'bg-yellow-500 text-white' : 'bg-green-500 text-white') }}">
@@ -49,35 +48,21 @@
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
                 @if ($incidencia->archivo)
                     @php
+                        $archivo = $incidencia->archivo;
                         $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                        $extension = pathinfo($incidencia->archivo->ruta_archivo, PATHINFO_EXTENSION);
+                        $extension = pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION);
                     @endphp
 
-                    @if (in_array($extension, $extensionesImagen))
-                        <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
+                    @if ($incidencia->archivo)
+                        <p>Ruta generada: {{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}</p>
+                        <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto">
                     @else
-                        <a href="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" target="_blank" class="text-blue-500 hover:underline">
-                            Descargar Archivo
-                        </a>
+                        <p>No hay archivo adjunto o la ruta no es válida.</p>
                     @endif
                 @else
-                    <p class="text-gray-500">No hay archivo adjunto.</p>
+                    <p class="text-gray-500">No hay archivo adjunto o la ruta no es válida.</p>
                 @endif
             </div>
-
-            <!-- MODAL PARA VISUALIZAR ARCHIVO ADJUNTO -->
-            @if ($incidencia->archivo && in_array(pathinfo($incidencia->archivo->ruta_archivo, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']))
-                <div id="modalArchivo" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-                    <div class="bg-white p-4 rounded-lg max-w-4xl w-full">
-                        <div class="flex justify-end">
-                            <button id="cerrarModal" class="text-gray-500 hover:text-gray-800">&times;</button>
-                        </div>
-                        <div>
-                            <img src="{{ asset('storage/' . $incidencia->archivo->ruta_archivo) }}" alt="Archivo Adjunto Ampliado" class="w-full h-auto rounded">
-                        </div>
-                    </div>
-                </div>
-            @endif
 
             <!-- BOTÓN DE VOLVER -->
             <div class="mt-6 flex justify-end">

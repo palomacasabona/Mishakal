@@ -57,25 +57,21 @@ class IncidenciaController extends Controller
         $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria'];
         $incidencia->estado = 'en proceso'; // Estado inicial definido como 'en proceso'
-        //no es obligatorio subir archivo
         $incidencia->save();
+
+        // Si se sube un archivo, guardarlo
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = time() . '_' . $archivo->getClientOriginalName();
-            $incidencia->archivo = $archivo->storeAs('archivos', $nombre, 'public');
-            $rutaArchivo = $archivo->storeAs('archivos', $nombre, 'public');
+            $ruta_archivo = $archivo->storeAs('archivos', $nombre, 'public');
 
             // Crear el registro en la tabla 'archivos'
             Archivo::create([
                 'nombre' => $nombre,
-                'ruta_archivo' => $rutaArchivo,
-                'incidencia_id' => $incidencia -> id_incidencia,
+                'ruta_archivo' => $ruta_archivo,
+                'incidencia_id' => $incidencia->id_incidencia, // Relación
             ]);
         }
-        $incidencia->save();
-        //poniendo save aquí también se guarda hace como una especie de update.
-
-
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
     /**
@@ -83,8 +79,12 @@ class IncidenciaController extends Controller
      */
     public function show($id)
     {
-        $incidencia = Incidencia::with('archivo')->find($id); // Incluye la relación archivo
-        return view('verIncidencia', compact('incidencia')); // Envía la incidencia a la vista
+        $incidencia = Incidencia::with('archivo')->find($id);
+
+        // Agrega un log para depurar
+        logger()->info('Archivo relacionado:', ['archivo' => $incidencia->archivo]);
+
+        return view('verIncidencia', compact('incidencia'));
     }
 
     /**

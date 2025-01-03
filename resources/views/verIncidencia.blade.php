@@ -5,10 +5,8 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
         <!-- DEBUGGER PARA VERIFICAR LAS RUTAS GENERADAS -->
-
             <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
-
         <!-- CONTENEDOR PRINCIPAL -->
         <div class="bg-white shadow-lg rounded-lg p-6">
             <!-- ENCABEZADO -->
@@ -17,13 +15,11 @@
                 <p class="text-sm text-gray-500">ID: {{ $incidencia->id_incidencia }}</p>
                 <p class="text-sm text-gray-500">Fecha de Creación: {{ $incidencia->fecha_creacion }}</p>
             </div>
-
             <!-- DESCRIPCIÓN -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Descripción</h3>
                 <p class="text-gray-600">{{ $incidencia->descripcion }}</p>
             </div>
-
             <!-- ESTADO Y PRIORIDAD -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
@@ -39,34 +35,18 @@
                     </span>
                 </div>
             </div>
-
             <!-- ARCHIVO ADJUNTO -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
                 @if ($incidencia->archivo)
                     @php
                         $archivo = $incidencia->archivo;
-                        $extensionesImagen = ['jpg', 'jpeg', 'png'];
                         $rutaPublica = asset('storage/' . $archivo->ruta_archivo);
-                        $rutaFisica = storage_path('app/public/' . $archivo->ruta_archivo);
                     @endphp
 
-                    <p><strong>Ruta física:</strong> {{ $rutaFisica }}</p>
-                    <p><strong>Ruta pública:</strong> {{ $rutaPublica }}</p>
-
-                    @if (file_exists($rutaFisica))
-                        @if (in_array(pathinfo($archivo->ruta_archivo, PATHINFO_EXTENSION), $extensionesImagen))
-                            <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
-                        @else
-                            <a href="{{ $rutaPublica }}" target="_blank" class="text-blue-500 hover:underline">
-                                Descargar Archivo
-                            </a>
-                        @endif
-                    @else
-                        <p class="text-red-500">El archivo no se encuentra en el servidor.</p>
-                    @endif
+                    <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
                 @else
-                    <p class="text-gray-500">No hay archivo adjunto o la relación no está configurada correctamente.</p>
+                    <p class="text-gray-500">No hay archivo adjunto disponible.</p>
                 @endif
             </div>
 

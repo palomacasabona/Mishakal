@@ -94,15 +94,10 @@
                         <td class="px-4 py-2">{{ \Illuminate\Support\Str::limit($incidencia->descripcion, 50) }}</td>
                         <!--Miniatura -->
                         <td class="px-4 py-2 text-center">
-                            {{-- Depuración de datos --}}
-                            <!--<p>Archivo: {{--{{ json_encode($incidencia->archivo) }}</p> -->
-                            <!-- <p>Ruta Archivo: {{ $incidencia->archivo?? 'Ruta no definida' }}</p> -->
-                            <!-- <p>Ruta Completa: {{--{{ asset('storage/' . ($incidencia->archivo)) }}</p>--}} -->
                             <!-- NO SE MUESTRA -->
                             @if ($incidencia->archivo))
                                 @if (file_exists(public_path('storage/' . $incidencia->archivo)))
                                     {{-- Archivo existe físicamente --}}
-                                    <p class="text-green-500">El archivo existe físicamente.</p>
                                     @php
                                         $extensionesImagen = ['jpg', 'jpeg', 'png'];
                                         $extension = pathinfo($incidencia->archivo, PATHINFO_EXTENSION);
@@ -117,9 +112,6 @@
                                             Descargar Archivo
                                         </a>
                                     @endif
-                                @else
-                                    {{-- Archivo no encontrado físicamente --}}
-                                    <p class="text-red-500">El archivo no existe físicamente.</p>
                                 @endif
                                 <!-- NO SE MUESTRA ⬆️⬆️ -->
                             @else

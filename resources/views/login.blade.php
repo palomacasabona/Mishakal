@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Inicia Sesión o Registrate</title>
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
 <div class="flex items-center justify-center h-screen">
     <div class="bg-white p-6 rounded shadow-md w-full max-w-sm">
-        <h1 class="text-xl font-bold mb-4">Iniciar Sesión</h1>
+        <h1 class="text-xl font-bold mb-4">Inicia Sesión</h1>
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-4">

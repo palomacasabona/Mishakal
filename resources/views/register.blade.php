@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('title', 'Registro')
 <!DOCTYPE html>
 <html lang="en">
 <head>

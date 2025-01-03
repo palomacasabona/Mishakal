@@ -106,7 +106,7 @@
                 @else
                     <!-- Botón INICIO DE SESIÓN -->
                     <li class="flex items-center justify-center">
-                        <a href="{{ route('auth') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
+                        <a href="{{ route('login') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
                             <i class="fas fa-user"></i>
                         </a>
                     </li>

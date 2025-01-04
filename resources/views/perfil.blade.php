@@ -87,6 +87,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{--@dd($incidencias);--}}
                 @foreach ($incidencias as $incidencia)
                     <tr class="border-t">
                         <!-- ID con enlace -->
@@ -103,27 +104,29 @@
                         <!--Miniatura -->
                         <td class="px-4 py-2 text-center">
 
-                            <!-- NO SE MUESTRA -->
+                            <!-- NO SE MUESTRA!!!!!!!⚠️⚠️ -->
                             @if ($incidencia->archivo))
-                            @dd($incidencia->archivo)
-                        @dd("hola")
-                                @if (file_exists(public_path('storage/' . $incidencia->archivo)))
-                                    {{-- Archivo existe físicamente --}}
-                                    @php
-                                        $extensionesImagen = ['jpg', 'jpeg', 'png'];
-                                        $extension = pathinfo($incidencia->archivo, PATHINFO_EXTENSION);
-                                    @endphp
-                                    {{-- Depuración previa al if --}}
-                                    @if (in_array($extension, $extensionesImagen))
-                                        {{-- Mostrar miniatura si es imagen --}}
-                                        <img src="{{ asset('storage/' . $incidencia->archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
-                                    @else
-                                        {{-- Enlace para descargar si no es imagen --}}
-                                        <a href="{{ asset('storage/' . $incidencia->archivo) }}" target="_blank" class="text-blue-500">
-                                            Descargar Archivo
-                                        </a>
-                                    @endif
+
+                            @if (!empty($incidencia->archivo) && file_exists(public_path('storage/' . $incidencia->archivo)))
+                                {{-- Archivo existe físicamente --}}
+                                @php
+                                    $extensionesImagen = ['jpg', 'jpeg', 'png'];
+                                    $extension = pathinfo($incidencia->archivo, PATHINFO_EXTENSION);
+                                @endphp
+                                {{-- Depuración previa al if --}}
+                                @if (in_array($extension, $extensionesImagen))
+                                    {{-- Mostrar miniatura si es imagen --}}
+                                    <img src="{{ asset('storage/' . $incidencia->archivo) }}" alt="Miniatura" class="w-16 h-16 object-cover rounded">
+                                @else
+                                    {{-- Enlace para descargar si no es imagen --}}
+                                    <a href="{{ asset('storage/' . $incidencia->archivo) }}" target="_blank" class="text-blue-500">
+                                        Descargar Archivo
+                                    </a>
                                 @endif
+                            @else
+                                {{-- Mostrar mensaje cuando no hay archivo --}}
+                                <span class="text-gray-500">Sin Archivo</span>
+                            @endif
                                 <!-- NO SE MUESTRA ⬆️⬆️ -->
                             @else
                                 <span class="text-gray-500">Sin Archivo</span>

@@ -57,13 +57,15 @@ class IncidenciaController extends Controller
         $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria'];
         $incidencia->estado = 'en proceso'; // Estado inicial definido como 'en proceso'
-        $incidencia->save();
 
         // Si se sube un archivo, guardarlo
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = time() . '_' . $archivo->getClientOriginalName();
             $ruta_archivo = $archivo->storeAs('archivos', $nombre, 'public');
+
+            // Asignar la ruta del archivo al modelo de incidencia
+            $incidencia->archivo = $ruta_archivo;
 
             // Crear el registro en la tabla 'archivos'
             Archivo::create([
@@ -72,6 +74,10 @@ class IncidenciaController extends Controller
                 'incidencia_id' => $incidencia->id_incidencia, // Relación
             ]);
         }
+
+        // Guardar la incidencia en la base de datos
+        $incidencia->save();
+
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
     /**

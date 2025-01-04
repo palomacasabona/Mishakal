@@ -233,8 +233,13 @@
     <!-- -------------------------------------------------- -->
     <!-- -------------------------------------------------- -->
     <!-- MODAL DE NOTIFICACIÓN -->
-    <div id="modalNotificacion" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+    <div id="modalNotificacion" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="relative bg-white rounded-lg shadow-lg w-full max-w-sm p-6 animate-bounce-in">
+            <!-- Bocadillo de pensar -->
+            <div class="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-white border-2 border-gray-300"></div>
+            <div class="absolute -top-10 -right-4 w-8 h-8 rounded-full bg-white border-2 border-gray-300"></div>
+            <div class="absolute -top-12 -right-16 w-4 h-4 rounded-full bg-white border-2 border-gray-300"></div>
+
             <!-- Contenido del modal -->
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Aviso Importante</h2>
             <p class="text-gray-600 mb-6">

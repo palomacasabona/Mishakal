@@ -133,3 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// ** MODAL PARA MENSAJE ANTES DE METER INCIDENCIAS **
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    // Mostrar el modal automáticamente al cargar la página
+    const modal = document.getElementById("modalNotificacion");
+    modal.classList.remove("hidden");
+
+    // Cerrar el modal al hacer clic en el botón
+    const cerrarModal = document.getElementById("cerrarModalNotificacion");
+    cerrarModal.addEventListener("click", function () {
+    modal.classList.add("hidden");
+    });
+});
+

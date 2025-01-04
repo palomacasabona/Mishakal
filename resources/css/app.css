@@ -114,3 +114,38 @@ ESTILOS DEL MODAL DE EDICIÓN PERFIL
     background-size: 200%;
     animation: shine 2s linear infinite; /* Animación infinita */
 }
+/* *************************************************************** */
+
+/* Animación de entrada */
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-bounce-in {
+    animation: bounce-in 0.5s ease-out;
+}
+
+/* Bocadillo de pensamiento */
+#modalNotificacion .absolute {
+    animation: float 1.5s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}

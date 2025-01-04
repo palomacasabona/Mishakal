@@ -17,6 +17,7 @@
 
         <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
+        <!-- -------------------------------------------------- -->
 
         <!-- INFORMACIÓN DEL USUARIO -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
@@ -43,6 +44,7 @@
                 </button>
             </div>
         </div>
+        <!-- -------------------------------------------------- -->
 
         <!-- DASHBOARD DE ESTADÍSTICAS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -63,8 +65,14 @@
                 </p>
             </div>
         </div>
-
+        <!-- Depuración para verificar valores -->
+        {{--@foreach ($incidencias as $incidencia)
+            @dd($incidencia->archivo);
+        @endforeach}}
+        <!-- Depuración para verificar incidencias -->
+        @dd($incidencias)--}}
         <!-- LISTADO DE INCIDENCIAS -->
+
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-6">Tus Incidencias</h2>
             <table class="min-w-full table-auto">
@@ -94,8 +102,11 @@
                         <td class="px-4 py-2">{{ \Illuminate\Support\Str::limit($incidencia->descripcion, 50) }}</td>
                         <!--Miniatura -->
                         <td class="px-4 py-2 text-center">
+
                             <!-- NO SE MUESTRA -->
                             @if ($incidencia->archivo))
+                            @dd($incidencia->archivo)
+                        @dd("hola")
                                 @if (file_exists(public_path('storage/' . $incidencia->archivo)))
                                     {{-- Archivo existe físicamente --}}
                                     @php
@@ -137,19 +148,20 @@
         </div>
     </div>
     <!-- -------------------------------------------------- -->
+    <!-- -------------------------------------------------- -->
     <!-- MODAL PARA EDITAR EL PERFIL -->
     <div id="modalEditarPerfil" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg modal-content">
             <!-- Header del modal -->
             <div class="flex justify-between items-center border-b px-6 py-4">
                 <h2 class="text-lg font-semibold text-gray-800">Editar Perfil</h2>
-                <button id="cerrarModalEditarPerfil" class="text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="btnCerrarModal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
 
-            <!-- Contenido del modal -->
+            <!-- MODAL PARA EDITAR USUARIO -->
             <div class="p-6">
-                <form id="formEditarPerfil" method="POST" action="{{ route('usuario.update', ['id' => $usuario->id_usuario]) }}" enctype="multipart/form-data">
-                    @csrf
+
+                <form id="formEditarPerfil" method="POST" action="{{ route('usuario.update', ['id' => auth()->user()->id_usuario]) }}" enctype="multipart/form-data">                    @csrf
                     @method('PUT')
 
                     <!-- Nombre -->
@@ -182,7 +194,6 @@
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico:</label>
@@ -196,7 +207,7 @@
                     <!-- Foto de perfil -->
                     <div class="mb-4">
                         <label for="foto_perfil" class="block text-sm font-medium text-gray-700">Foto de Perfil:</label>
-                        <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*"
+                        <input type="file" id="foto" name="foto" accept="image/*"
                                class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
                         @error('foto_perfil')
                         <p class="text-red-500 text-sm">{{ $message }}</p>

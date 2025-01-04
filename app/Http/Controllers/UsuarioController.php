@@ -11,9 +11,8 @@ class UsuarioController extends Controller
 {
     public function perfil()
     {
-        $usuario = auth()->user(); // Obtenemos al usuario autenticado
-
-        $incidencias = Incidencia::with('archivo')->where('usuario_id', $usuario->id_usuario)->get();
+        $usuario = auth()->user(); // Obtén el usuario autenticado
+        $incidencias = Incidencia::with('archivo')->where('usuario_id', auth()->id())->get();
 
         // Contar incidencias totales, abiertas y cerradas
         $totalIncidencias = $incidencias->count();
@@ -26,9 +25,9 @@ class UsuarioController extends Controller
             ? round(($incidenciasAbiertas / $totalIncidencias) * 100, 2)
             : 0;
 
-        // Retornar la vista con todas las variables necesarias
+        // Retornar la vista
         return view('perfil', compact(
-            'usuario',
+            'usuario', // Añade esta variable
             'incidencias',
             'totalIncidencias',
             'incidenciasAbiertas',
@@ -98,6 +97,9 @@ class UsuarioController extends Controller
         $usuario->apellido = $validatedData['apellido'] ?? $usuario->apellido;
         $usuario->telefono = $validatedData['telefono'] ?? $usuario->telefono;
 
+        // Depurar antes de verificar si la foto existe
+
+
         // Verificar si se ha subido una foto
         if ($request->hasFile('foto')) {
             // Eliminar la foto anterior si existe
@@ -106,7 +108,7 @@ class UsuarioController extends Controller
             }
 
             // Guardar la nueva foto en el almacenamiento público
-            $path = $request->file('foto')->store('fotos_perfil', 'public');
+            $path = $request->file('foto')->store('fotos', 'public');
             $usuario->foto_perfil = $path;
         }
 

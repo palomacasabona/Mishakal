@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// ** Animación de copos de nieve cayendo **
+// ** ANIMACIÓN NIEVE CAYENDO  **
 document.addEventListener("DOMContentLoaded", function () {
     const snowContainer = document.createElement("div");
     snowContainer.classList.add("snow-container");
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(createSnowflake, 200);
 });
 
-// ** Abrir modal "Crear Aviso" **
+// ** Abrir modal "CREAR TICKET" **
 document.addEventListener('DOMContentLoaded', function () {
     const btnAbrirModal = document.getElementById('btn-registrar-incidencia');
     const modal = document.getElementById('modal-registrar-incidencia');

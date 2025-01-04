@@ -136,4 +136,84 @@
             </table>
         </div>
     </div>
+    <!-- -------------------------------------------------- -->
+    <!-- MODAL PARA EDITAR EL PERFIL -->
+    <div id="modalEditarPerfil" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg">
+            <!-- Header del modal -->
+            <div class="flex justify-between items-center border-b px-6 py-4">
+                <h2 class="text-lg font-semibold text-gray-800">Editar Perfil</h2>
+                <button id="cerrarModalEditarPerfil" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+
+            <!-- Contenido del modal -->
+            <div class="p-6">
+                <form id="formEditarPerfil" method="POST" action="{{ route('usuario.update', ['id' => $usuario->id_usuario]) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Nombre -->
+                    <div class="mb-4">
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" value="{{ auth()->user()->nombre }}" required
+                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        @error('nombre')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Apellido -->
+                    <div class="mb-4">
+                        <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" value="{{ auth()->user()->apellido }}" required
+                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        @error('apellido')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="mb-4">
+                        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono:</label>
+                        <input type="text" id="telefono" name="telefono" value="{{ auth()->user()->telefono }}" required
+                               pattern="[0-9]{9}" title="Debe contener 9 dígitos"
+                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        @error('telefono')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" value="{{ auth()->user()->email }}" required
+                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        @error('email')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Foto de perfil -->
+                    <div class="mb-4">
+                        <label for="foto_perfil" class="block text-sm font-medium text-gray-700">Foto de Perfil:</label>
+                        <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*"
+                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        @error('foto_perfil')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="flex justify-end mt-6">
+                        <button type="button" id="cancelarEditarPerfil" class="mr-4 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

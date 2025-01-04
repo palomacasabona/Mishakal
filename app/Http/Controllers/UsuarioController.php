@@ -11,7 +11,9 @@ class UsuarioController extends Controller
 {
     public function perfil()
     {
-        $incidencias = Incidencia::with('archivo')->where('usuario_id', auth()->id())->get();
+        $usuario = auth()->user(); // Obtenemos al usuario autenticado
+
+        $incidencias = Incidencia::with('archivo')->where('usuario_id', $usuario->id_usuario)->get();
 
         // Contar incidencias totales, abiertas y cerradas
         $totalIncidencias = $incidencias->count();
@@ -24,12 +26,9 @@ class UsuarioController extends Controller
             ? round(($incidenciasAbiertas / $totalIncidencias) * 100, 2)
             : 0;
 
-        // Depuración: inspeccionar los datos
-        //dd($incidencias->toArray());
-
-        //dd($incidencias->toArray());
-        // Retornar la vista
+        // Retornar la vista con todas las variables necesarias
         return view('perfil', compact(
+            'usuario',
             'incidencias',
             'totalIncidencias',
             'incidenciasAbiertas',

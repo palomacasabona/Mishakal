@@ -26,7 +26,7 @@
                 <img src="{{ asset('images/logo.png') }}" class="h-28 w-auto" alt="Logo">
             </a>
             <!-- Título alineado a la derecha del logo -->
-            <h1 class="text-lg sm:text-xl font-bold text-blue-500">MISHAKAL</h1>
+            <h1 class="text-2xl sm:text-xl font-bold text-blue-500">MISHAKAL</h1>
         </div>
         <p class="text-3xl text-gray-600 max-w-2xl leading-relaxed">
              Te ayuda a gestionar y organizar tus incidencias de manera eficiente.
@@ -56,7 +56,7 @@
         <!-- Para usuarios invitados -->
         @guest
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Iniciar Sesión</h2>
+                <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Inicia Sesión en Mishakal</h2>
                 <form action="{{ route('login') }}" method="POST" class="space-y-6">
                     @csrf
                     <div>

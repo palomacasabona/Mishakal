@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// ** Brillo metálico del modal **
+// ** Brillo metálico del modal editar usuario **
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('modalEditarPerfil');
     const modalContent = modal?.querySelector('.modal-content');

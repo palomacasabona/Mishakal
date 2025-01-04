@@ -230,4 +230,22 @@
             </div>
         </div>
     </div>
+    <!-- -------------------------------------------------- -->
+    <!-- -------------------------------------------------- -->
+    <!-- MODAL DE NOTIFICACIÓN -->
+    <div id="modalNotificacion" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+            <!-- Contenido del modal -->
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Aviso Importante</h2>
+            <p class="text-gray-600 mb-6">
+                Las incidencias enviadas no pueden ser modificadas posteriormente. Por favor, revisa toda la información antes de enviarla.
+            </p>
+            <!-- Botón para cerrar el modal -->
+            <div class="text-right">
+                <button id="cerrarModalNotificacion" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
 @endsection

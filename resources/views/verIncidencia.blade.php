@@ -40,10 +40,8 @@
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
                 @if ($incidencia->archivo)
                     @php
-                        $archivo = $incidencia->archivo;
-                        $rutaPublica = asset('storage/' . $archivo->ruta_archivo);
+                        $rutaPublica = asset('storage/' . $incidencia->archivo);
                     @endphp
-
                     <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
                 @else
                     <p class="text-gray-500">No hay archivo adjunto disponible.</p>

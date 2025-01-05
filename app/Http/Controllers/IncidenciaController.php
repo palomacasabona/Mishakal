@@ -46,7 +46,7 @@ class IncidenciaController extends Controller
             'descripcion' => 'required|string',
             'categoria' => 'required|string',
             'prioridad' => 'required|string',
-            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // Validación para el archivo
+            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         // Crear la nueva incidencia
@@ -56,10 +56,10 @@ class IncidenciaController extends Controller
         $incidencia->usuario_id = auth()->id();
         $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria'];
-        $incidencia->estado = 'en proceso'; // Estado inicial definido como 'en proceso'
+        $incidencia->estado = 'en proceso';
 
-        // Guardar la incidencia primero
-        $incidencia->save();
+        // Guarda la incidencia en la base de datos
+        $incidencia->save(); // Ahora ya tiene un ID
 
         // Si se sube un archivo, guardarlo
         if ($request->hasFile('archivo')) {
@@ -67,18 +67,12 @@ class IncidenciaController extends Controller
             $nombre = time() . '_' . $archivo->getClientOriginalName();
             $ruta_archivo = $archivo->storeAs('archivos', $nombre, 'public');
 
-            // Crear el registro en la tabla 'archivos'
-            Archivo::create([
-                'nombre' => $nombre,
-                'ruta_archivo' => $ruta_archivo,
-                'incidencia_id' => $incidencia->id, // Ahora la incidencia tiene un ID
-            ]);
-
-            // Asignar la ruta del archivo al modelo de incidencia
+            // Actualiza la incidencia con la ruta del archivo
             $incidencia->archivo = $ruta_archivo;
-            $incidencia->save(); // Actualizar incidencia con la ruta del archivo
+            $incidencia->save(); // Actualiza la incidencia para guardar la ruta
         }
 
+        // Redirige con mensaje de éxito
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
     }
     /**

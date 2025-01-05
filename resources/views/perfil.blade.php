@@ -232,7 +232,8 @@
     <!-- -------------------------------------------------- -->
     <!-- -------------------------------------------------- -->
     <!-- MODAL DE NOTIFICACIÓN -->
-    <div id="modalNotificacion" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div id="modalNotificacion" class="fixed inset-0 flex items-center justify-center z-50 hidden"
+         data-ocultar-modal="{{ session('ocultar_modal') ? 'true' : '' }}">
         <div class="relative bg-white rounded-lg shadow-lg w-full max-w-sm p-6 animate-bounce-in">
             <!-- Bocadillo de pensar -->
             <div class="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-white border-2 border-gray-300"></div>
@@ -244,11 +245,21 @@
             <p class="text-gray-600 mb-6">
                 Las incidencias enviadas no pueden ser modificadas posteriormente. Por favor, revisa toda la información antes de enviarla.
             </p>
-            <!-- Botón para cerrar el modal -->
-            <div class="text-right">
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <!-- Botón para cerrar el modal -->
                 <button id="cerrarModalNotificacion" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                     Entendido
                 </button>
+
+                <!-- Botón para no mostrar más -->
+                <form action="{{ route('noMostrarModal') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                        No mostrar más
+                    </button>
+                </form>
             </div>
         </div>
     </div>

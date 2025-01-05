@@ -64,3 +64,11 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [UsuarioController::class, 'perfil'])->name('perfil');
 });
+
+// ** RUTA MODAL DE AVISO AL GRABAR INCIDENCIA **
+
+
+Route::post('/no-mostrar-modal', function () {
+    session(['ocultar_modal' => true]); // Guarda en la sesión la preferencia
+    return redirect()->back(); // Redirige de vuelta a la página anterior
+})->name('noMostrarModal');

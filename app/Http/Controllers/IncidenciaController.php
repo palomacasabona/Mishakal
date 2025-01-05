@@ -112,4 +112,6 @@ class IncidenciaController extends Controller
 
         return redirect()->route('incidencias.show', $id_incidencia)->with('success', 'Incidencia actualizada correctamente.');
     }
+
+
 }

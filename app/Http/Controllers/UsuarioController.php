@@ -11,31 +11,50 @@ class UsuarioController extends Controller
 {
     public function perfil()
     {
-        $usuario = auth()->user(); // Obtén el usuario autenticado
+        $usuario = auth()->user(); // Usuario autenticado
         $incidencias = Incidencia::with('archivo')->where('usuario_id', auth()->id())->get();
 
-        // Contar incidencias totales, abiertas y cerradas
+        // Contar incidencias totales y clasificarlas por estado
         $totalIncidencias = $incidencias->count();
-        $incidenciasAbiertas = $incidencias->where('estado', 'abierta')->count() +
-            $incidencias->where('estado', 'en proceso')->count();
+        $incidenciasAbiertas = $incidencias->where('estado', 'abierta')->count();
+        $incidenciasEnProceso = $incidencias->where('estado', 'en proceso')->count();
         $incidenciasCerradas = $incidencias->where('estado', 'cerrada')->count();
 
-        // Calcular el porcentaje de incidencias abiertas
+        // Calcular porcentajes de estados
         $porcentajeAbiertas = $totalIncidencias > 0
             ? round(($incidenciasAbiertas / $totalIncidencias) * 100, 2)
             : 0;
+        $porcentajeEnProceso = $totalIncidencias > 0
+            ? round(($incidenciasEnProceso / $totalIncidencias) * 100, 2)
+            : 0;
+        $porcentajeCerradas = $totalIncidencias > 0
+            ? round(($incidenciasCerradas / $totalIncidencias) * 100, 2)
+            : 0;
 
-        // Retornar la vista
+        // Agrupar incidencias por categoría y calcular porcentajes
+        $incidenciasPorCategoria = $incidencias->groupBy('categoria')->map(function ($group) use ($totalIncidencias) {
+            $count = $group->count();
+            $percentage = $totalIncidencias > 0 ? round(($count / $totalIncidencias) * 100, 2) : 0;
+            return [
+                'count' => $count,
+                'percentage' => $percentage,
+            ];
+        });
+
+        // Retornar la vista con los datos necesarios
         return view('perfil', compact(
-            'usuario', // Añade esta variable
+            'usuario',
             'incidencias',
             'totalIncidencias',
             'incidenciasAbiertas',
+            'incidenciasEnProceso',
             'incidenciasCerradas',
-            'porcentajeAbiertas'
+            'porcentajeAbiertas',
+            'porcentajeEnProceso',
+            'porcentajeCerradas',
+            'incidenciasPorCategoria'
         ));
     }
-
     public function index()
     {
         $usuarios = Usuario::all();

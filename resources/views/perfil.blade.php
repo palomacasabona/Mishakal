@@ -47,23 +47,23 @@
         <!-- -------------------------------------------------- -->
 
         <!-- DASHBOARD DE ESTADÍSTICAS -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-700">Incidencias Totales</h2>
-                <p class="text-4xl font-bold text-blue-600 mt-2">{{ $totalIncidencias }}</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-700">Abiertas</h2>
-                <p class="text-4xl font-bold text-green-600 mt-2">{{ $incidenciasAbiertas }}</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-700">Porcentaje Abiertas</h2>
-                <p class="text-4xl font-bold
-    @if ($totalIncidencias > 0 && $incidenciasAbiertas / $totalIncidencias === 1) text-green-600
-    @else text-yellow-600 @endif mt-2">
-                    {{ $totalIncidencias > 0 ? round(($incidenciasAbiertas / $totalIncidencias) * 100, 2) : 0 }}%
-                </p>
-            </div>
+        <!-- DESGLOSE POR CATEGORÍAS -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Incidencias por Categoría</h2>
+            <ul>
+                @foreach ($incidenciasPorCategoria as $categoria => $datos)
+                    <li class="mb-4">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-800 font-medium">{{ ucfirst($categoria) }}</span>
+                            <span class="text-gray-600">{{ $datos['count'] }} ({{ $datos['percentage'] }}%)</span>
+                        </div>
+                        <!-- Barra de progreso -->
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $datos['percentage'] }}%;"></div>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
         </div>
         <!-- Depuración para verificar valores -->
         {{--@foreach ($incidencias as $incidencia)

@@ -40,7 +40,8 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos enviados
+        \Log::info('Datos recibidos en la solicitud:', $request->all());
+
         $validatedData = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -49,7 +50,8 @@ class IncidenciaController extends Controller
             'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Crear la nueva incidencia
+        \Log::info('Datos validados:', $validatedData);
+
         $incidencia = new Incidencia();
         $incidencia->titulo = $validatedData['titulo'];
         $incidencia->descripcion = $validatedData['descripcion'];
@@ -57,24 +59,33 @@ class IncidenciaController extends Controller
         $incidencia->prioridad = $validatedData['prioridad'];
         $incidencia->categoria = $validatedData['categoria'];
         $incidencia->estado = 'en proceso';
+        $incidencia->save();
 
-        // Guarda la incidencia en la base de datos
-        $incidencia->save(); // Ahora ya tiene un ID
 
-        // Si se sube un archivo, guardarlo
-        if ($request->hasFile('archivo')) {
+        \Log::info('Incidencia guardada:', $incidencia->toArray());
+
+
+        // Manejar el archivo adjunto si existe
+        if ($request->file('archivo')) {
             $archivo = $request->file('archivo');
             $nombre = time() . '_' . $archivo->getClientOriginalName();
             $ruta_archivo = $archivo->storeAs('archivos', $nombre, 'public');
 
-            // Actualiza la incidencia con la ruta del archivo
+            // Actualizar la incidencia con la ruta del archivo
             $incidencia->archivo = $ruta_archivo;
-            $incidencia->save(); // Actualiza la incidencia para guardar la ruta
+            $incidencia->save();
+
+            \Log::info('Archivo subido y asociado a la incidencia:', ['ruta' => $ruta_archivo]);
+
         }
 
-        // Redirige con mensaje de éxito
+
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
+        dd("hola");
+
     }
+
+
     /**
      * Muestra los detalles de una incidencia específica.
      */

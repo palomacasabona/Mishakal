@@ -44,8 +44,7 @@
                 </button>
             </div>
         </div>
-        <!-- -------------------------------------------------- -->
-
+        <!-- ---------------------------------------------------->
         <!-- DASHBOARD DE ESTADÍSTICAS -->
         <!-- DESGLOSE POR CATEGORÍAS -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">

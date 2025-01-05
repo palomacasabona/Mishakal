@@ -19,7 +19,12 @@
             <tbody>
             @foreach ($incidencias as $incidencia)
                 <tr class="hover:bg-gray-50">
-                    <td class="border px-4 py-2">{{ $incidencia->id_incidencia }}</td>
+                    <!-- Enlace en la ID -->
+                    <td class="border px-4 py-2">
+                        <a href="{{ route('incidencias.show', $incidencia->id_incidencia) }}" class="text-blue-500 hover:underline">
+                            {{ $incidencia->id_incidencia }}
+                        </a>
+                    </td>
                     <td class="border px-4 py-2">{{ $incidencia->titulo }}</td>
                     <td class="border px-4 py-2">{{ $incidencia->categoria }}</td>
                     <td class="border px-4 py-2">{{ $incidencia->prioridad }}</td>

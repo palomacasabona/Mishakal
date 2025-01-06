@@ -77,3 +77,14 @@ Route::post('/no-mostrar-modal', function () {
 
 Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
 Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+
+
+// ** Rutas para incidencias **
+Route::middleware(['auth'])->group(function () {
+    Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index'); // Listar incidencias
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show');
+});
+// ** Rutas públicas para incidencias **
+Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index'); // Listar incidencias

@@ -21,9 +21,13 @@
                 <tr class="hover:bg-gray-50">
                     <!-- Enlace en la ID -->
                     <td class="border px-4 py-2">
-                        <a href="{{ route('incidencias.show', $incidencia->id_incidencia) }}" class="text-blue-500 hover:underline">
+                        @if(Auth::check())
+                            <a href="{{ route('incidencias.show', $incidencia->id_incidencia) }}" class="text-blue-500 hover:underline">
+                                {{ $incidencia->id_incidencia }}
+                            </a>
+                        @else
                             {{ $incidencia->id_incidencia }}
-                        </a>
+                        @endif
                     </td>
                     <td class="border px-4 py-2">{{ $incidencia->titulo }}</td>
                     <td class="border px-4 py-2">{{ $incidencia->categoria }}</td>
@@ -31,7 +35,11 @@
                     <td class="border px-4 py-2">{{ $incidencia->estado }}</td>
                     <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($incidencia->fecha_creacion)->format('d/m/Y H:i') }}</td>
                     <td class="border px-4 py-2">
-                        {{ $incidencia->usuario ? $incidencia->usuario->nombre : 'No asignado' }} <!-- Mostrar el nombre del usuario -->
+                        @if(Auth::check())
+                            {{ $incidencia->usuario ? $incidencia->usuario->nombre : 'No asignado' }}
+                        @else
+                            No disponible
+                        @endif
                     </td>
                 </tr>
             @endforeach

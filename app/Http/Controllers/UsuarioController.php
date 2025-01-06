@@ -65,7 +65,7 @@ class UsuarioController extends Controller
     public function index()
     {
         $usuarios = Usuario::all(); // Obtiene todos los usuarios.
-        return view('usuarios.index', compact('usuarios')); // Muestra una vista con la lista de usuarios.
+        return view('usuarios', compact('usuarios')); // Muestra una vista con la lista de usuarios.
     }
 
     /**

@@ -69,20 +69,20 @@
 
             <ul class="flex items-center space-x-6">
                 @if(Auth::check())
-                    <!-- Nombre del usuario autenticado -->
+                    <!-- Usuario autenticado -->
                     <li class="text-white text-lg flex items-center space-x-2">
                         <span>Bienvenido, {{ Auth::user()->nombre }}</span>
                         <!-- Insignia de Admin -->
-                        @if(Auth::user()->rol === 'admin') <!-- Cambiado de 'role' a 'rol' -->
-                        <span class="inline-flex items-center bg-blue-600 text-white text-sm font-medium rounded-md px-3 py-1 shadow-md ml-2">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-        <path fill-rule="evenodd" d="M11.998 2.25c.37 0 .733.099 1.047.284l6.833 3.977a1.463 1.463 0 01.72 1.026c.091.51.184 1.261.184 2.113 0 5.086-3.263 9.564-8.506 11.682a1.464 1.464 0 01-1.065 0c-5.243-2.118-8.506-6.596-8.506-11.682 0-.852.093-1.603.184-2.113a1.463 1.463 0 01.72-1.026l6.833-3.977a1.464 1.464 0 011.047-.284z" clip-rule="evenodd" />
-            </svg>
-            Admin
-            </span>
+                        @if(Auth::user()->rol === 'admin')
+                            <span class="inline-flex items-center bg-blue-600 text-white text-sm font-medium rounded-md px-3 py-1 shadow-md ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.998 2.25c.37 0 .733.099 1.047.284l6.833 3.977a1.463 1.463 0 01.72 1.026c.091.51.184 1.261.184 2.113 0 5.086-3.263 9.564-8.506 11.682a1.464 1.464 0 01-1.065 0c-5.243-2.118-8.506-6.596-8.506-11.682 0-.852.093-1.603.184-2.113a1.463 1.463 0 01.72-1.026l6.833-3.977a1.464 1.464 0 011.047-.284z" clip-rule="evenodd" />
+                    </svg>
+                    Admin
+                </span>
                         @endif
                     </li>
-                    <!-- REGISTRAR INCIDENCIA -->
+                    <!-- Botón CREAR TICKET -->
                     <li>
                         <button id="btn-registrar-incidencia" class="btn-registrar hover:shadow-md transition-transform transform hover:scale-105">
                             CREAR TICKET ⚠️
@@ -96,7 +96,7 @@
                     </li>
                     <!-- Botón CERRAR SESIÓN -->
                     <li>
-                        <form action="{{ route('logout') }}" method="POST">
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="hover:text-gray-300 text-2xl" title="Cerrar sesión">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -104,7 +104,7 @@
                         </form>
                     </li>
                 @else
-                    <!-- Botón INICIO DE SESIÓN -->
+                    <!-- Usuario no autenticado -->
                     <li class="flex items-center justify-center">
                         <a href="{{ route('login') }}" class="hover:text-gray-300 text-2xl" title="Iniciar sesión">
                             <i class="fas fa-user"></i>

@@ -72,3 +72,8 @@ Route::post('/no-mostrar-modal', function () {
     session(['ocultar_modal' => true]); // Guarda en la sesión la preferencia
     return redirect()->back(); // Redirige de vuelta a la página anterior
 })->name('noMostrarModal');
+
+// ** RUTA PARA VER USUARIOS **
+
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');

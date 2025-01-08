@@ -46,11 +46,26 @@
         </div>
         <!-- ---------------------------------------------------->
         <!-- DASHBOARD DE ESTADÍSTICAS -->
+        <!-- SEMICIRCULO O SEMITOROIDE INCICA % DE INCIDENCIAS -->
+
+        <div class="flex justify-center items-center space-x-4 mt-4 mb-4">
+            <!-- Semicírculo -->
+            <div class="w-1/2 flex justify-center">
+                <canvas id="semicircleChart" style="max-width: 300px; height: 300px;"></canvas>
+            </div>
+            <!-- Explicación -->
+            <div class="w-1/2 text-gray-700">
+                <h3 class="text-lg font-semibold mb-2">Info ℹ️</h3>
+                <p>Este gráfico muestra el porcentaje de incidencias abiertas, cerradas y en proceso. Puedes interpretar cada sección del semicírculo según su color y el porcentaje correspondiente.</p>
+            </div>
+        </div>
+        
+        <!-- ---------------------------------------------------->
         <!-- DESGLOSE POR CATEGORÍAS -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
             <h2 class="text-xl font-semibold text-gray-700 mb-4">Incidencias por Categoría</h2>
             <ul>
-                @foreach ($incidenciasPorCategoria as $categoria => $datos)
+            @foreach ($incidenciasPorCategoria as $categoria => $datos)
                     <li class="mb-4">
                         <div class="flex justify-between mb-1">
                             <span class="text-gray-800 font-medium">{{ ucfirst($categoria) }}</span>
@@ -63,9 +78,6 @@
                     </li>
                 @endforeach
             </ul>
-        </div>
-        <div class="flex justify-center items-center my-4">
-            <canvas id="semicircleChart" style="width: 100%; max-width: 600px; height: 300px;"></canvas>
         </div>
 
         <!-- Depuración para verificar valores -->

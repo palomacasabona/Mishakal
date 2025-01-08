@@ -149,3 +149,19 @@ ESTILOS DEL MODAL DE EDICIÓN PERFIL
         transform: translateY(-10px);
     }
 }
+
+/* AJUSTES DE ESTILOS DE SEMICIRCULO CON LA ESTADISTICA DE LAS INCIDENCIAS ABIERTAS*/
+
+/* Reduce los márgenes entre secciones */
+.section {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Ajusta el espacio entre el gráfico y las barras */
+#semicircleChart {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+

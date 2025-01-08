@@ -64,6 +64,10 @@
                 @endforeach
             </ul>
         </div>
+        <div class="flex justify-center items-center my-4">
+            <canvas id="semicircleChart" style="width: 100%; max-width: 600px; height: 300px;"></canvas>
+        </div>
+
         <!-- Depuración para verificar valores -->
         {{--@foreach ($incidencias as $incidencia)
             @dd($incidencia->archivo);

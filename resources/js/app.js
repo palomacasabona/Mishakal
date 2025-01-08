@@ -151,3 +151,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//**ANIMACIÓN DE SEMICIRCULO**//
+
+document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById('semicircleChart');
+
+    // Verificar que el canvas existe
+    if (!ctx) {
+        console.error("Canvas no encontrado");
+        return;
+    }
+
+    // Configuración básica del gráfico
+    const data = {
+        labels: ['Abiertas', 'Cerradas', 'En Proceso'],
+        datasets: [{
+            label: 'Porcentaje de Incidencias',
+            data: [50, 30, 20], // Datos de ejemplo para probar
+            backgroundColor: ['#007bff', '#28a745', '#ffc107'],
+        }]
+    };
+
+    const options = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            rotation: -90, // Mitad superior
+            circumference: 180,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                },
+            },
+        },
+    };
+
+    // Inicializar el gráfico
+    try {
+        new Chart(ctx, options);
+    } catch (error) {
+        console.error("Error al crear el gráfico:", error);
+    }
+});

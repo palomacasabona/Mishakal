@@ -20,7 +20,7 @@
         <!-- -------------------------------------------------- -->
 
         <!-- INFORMACIÓN DEL USUARIO -->
-        <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-4">
             <div class="flex items-center space-x-4">
                 <!-- FOTO DE PERFIL O INICIAL -->
                 @if (Auth::user()->foto_perfil)
@@ -48,18 +48,26 @@
         <!-- DASHBOARD DE ESTADÍSTICAS -->
         <!-- SEMICIRCULO O SEMITOROIDE INCICA % DE INCIDENCIAS -->
 
-        <div class="flex justify-center items-center space-x-4 mt-4 mb-4">
+        <div class="flex justify-center items-center space-x-4 mt-4 mb-2">
             <!-- Semicírculo -->
-            <div class="w-1/2 flex justify-center">
-                <canvas id="semicircleChart" style="max-width: 300px; height: 300px;"></canvas>
+            <div class="w-1/2 flex justify-left">
+                <canvas id="semicircleChart" style="width: 400px; height:250px;"></canvas>
             </div>
             <!-- Explicación -->
-            <div class="w-1/2 text-gray-700">
-                <h3 class="text-lg font-semibold mb-2">Info ℹ️</h3>
-                <p>Este gráfico muestra el porcentaje de incidencias abiertas, cerradas y en proceso. Puedes interpretar cada sección del semicírculo según su color y el porcentaje correspondiente.</p>
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-6 flex items-start space-x-2">
+                <!-- Ícono de información -->
+                <i class="fas fa-info-circle text-blue-500 text-2xl mt-1"></i>
+                <!-- Contenido del mensaje -->
+                <div>
+                    <p class="text-base">
+                        Este gráfico muestra el porcentaje y número de incidencias abiertas, cerradas y en proceso.
+                        Para obtener datos actualizados en tiempo real, por favor asegúrese de actualizar la aplicación periódicamente.
+                        Al pasar el cursor sobre cada sección del gráfico, se mostrará información detallada.
+                    </p>
+                </div>
             </div>
         </div>
-        
+
         <!-- ---------------------------------------------------->
         <!-- DESGLOSE POR CATEGORÍAS -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">

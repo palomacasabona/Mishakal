@@ -154,20 +154,19 @@ document.addEventListener("DOMContentLoaded", function () {
 //**ANIMACIÓN DE SEMICIRCULO**//
 
 document.addEventListener("DOMContentLoaded", function () {
-    const ctx = document.getElementById('semicircleChart');
-
-    // Verificar que el canvas existe
-    if (!ctx) {
+    const canvas = document.getElementById('semicircleChart');
+    if (!canvas) {
         console.error("Canvas no encontrado");
         return;
     }
 
-    // Configuración básica del gráfico
+    const ctx = canvas.getContext('2d');
+
     const data = {
         labels: ['Abiertas', 'Cerradas', 'En Proceso'],
         datasets: [{
-            label: 'Porcentaje de Incidencias',
-            data: [50, 30, 20], // Datos de ejemplo para probar
+            label: 'Incidencias',
+            data: [50, 30, 20], // Datos de ejemplo
             backgroundColor: ['#007bff', '#28a745', '#ffc107'],
         }]
     };
@@ -183,11 +182,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     display: true,
                     position: 'bottom',
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            const dataset = tooltipItem.dataset;
+                            const dataIndex = tooltipItem.dataIndex;
+                            const value = dataset.data[dataIndex];
+                            const total = dataset.data.reduce((acc, current) => acc + current, 0);
+                            const percentage = ((value / total) * 100).toFixed(2);
+                            return `${tooltipItem.label}: ${value} incidencias (${percentage}%)`;
+                        }
+                    }
+                }
             },
+            layout: {
+                padding: 0,
+            },
+            responsive: false,
+            maintainAspectRatio: false,
         },
     };
 
-    // Inicializar el gráfico
     try {
         new Chart(ctx, options);
     } catch (error) {

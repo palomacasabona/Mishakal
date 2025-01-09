@@ -43,6 +43,8 @@ class UsuarioController extends Controller
                 'percentage' => $percentage,
             ];
         });
+
+        //dd($incidenciasPorCategoria->toArray());
         // Retornar la vista con todos los datos necesarios
         return view('perfil', compact(
             'usuario',

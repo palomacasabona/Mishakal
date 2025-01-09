@@ -162,8 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ctx = canvas.getContext('2d');
 
-    const labels = @json(array_keys($incidenciasPorCategoria->toArray()));
-    const dataValues = @json(array_column($incidenciasPorCategoria->toArray(), 'count'));
+    // Convertir los datos enviados desde el backend a JSON
+    const labels = {!! $labels !!};
+    const dataValues = {!! $dataValues !!};
+
+    console.log("Labels:", labels);
+    console.log("Data Values:", dataValues);
 
     const data = {
         labels: labels,
@@ -185,10 +189,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     display: true,
                     position: 'bottom',
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            const dataset = tooltipItem.dataset;
+                            const dataIndex = tooltipItem.dataIndex;
+                            const value = dataset.data[dataIndex];
+                            const total = dataset.data.reduce((acc, current) => acc + current, 0);
+                            const percentage = ((value / total) * 100).toFixed(2);
+                            return `${tooltipItem.label}: ${value} incidencias (${percentage}%)`;
+                        }
+                    }
+                }
             },
         },
     };
 
+    // Inicializar el gráfico
     try {
         new Chart(ctx, options);
     } catch (error) {

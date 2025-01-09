@@ -47,12 +47,21 @@
         <!-- ---------------------------------------------------->
         <!-- DASHBOARD DE ESTADÍSTICAS -->
         <!-- SEMICIRCULO O SEMITOROIDE INCICA % DE INCIDENCIAS -->
+        @php
+            $labels = json_encode(array_keys($incidenciasPorCategoria->toArray()));
+            $dataValues = json_encode(array_column($incidenciasPorCategoria->toArray(), 'count'));
+        @endphp
 
+        <pre>
+    Labels: {{ $labels }}
+    Data Values: {{ $dataValues }}
+</pre>
         <div class="flex justify-center items-center space-x-4 mt-4 mb-2">
             <!-- Semicírculo -->
             <div class="w-1/2 flex justify-left">
                 <canvas id="semicircleChart" style="width: 400px; height:250px;"></canvas>
             </div>
+
             <!-- Explicación -->
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-6 flex items-start space-x-2">
                 <!-- Ícono de información -->
@@ -67,13 +76,6 @@
                 </div>
             </div>
         </div>
-
-        @php
-            // Pasar datos al JavaScript como JSON
-            $labels = json_encode(array_keys($incidenciasPorCategoria->toArray()));
-            $dataValues = json_encode(array_column($incidenciasPorCategoria->toArray(), 'count'));
-            $colors = json_encode(['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6c757d', '#e83e8c', '#fd7e14']);
-        @endphp
 
         <!-- ---------------------------------------------------->
         <!-- DESGLOSE POR CATEGORÍAS -->

@@ -162,9 +162,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ctx = canvas.getContext('2d');
 
-    // Convertir los datos enviados desde el backend a JSON
-    const labels = {!! $labels !!};
-    const dataValues = {!! $dataValues !!};
+    // Obtener los datos desde el objeto global
+    const labels = window.chartData.labels || [];
+    const dataValues = window.chartData.dataValues || [];
 
     console.log("Labels:", labels);
     console.log("Data Values:", dataValues);
@@ -205,7 +205,6 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     };
 
-    // Inicializar el gráfico
     try {
         new Chart(ctx, options);
     } catch (error) {

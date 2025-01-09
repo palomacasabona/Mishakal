@@ -162,12 +162,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const ctx = canvas.getContext('2d');
 
+    const labels = @json(array_keys($incidenciasPorCategoria->toArray()));
+    const dataValues = @json(array_column($incidenciasPorCategoria->toArray(), 'count'));
+
     const data = {
-        labels: ['Abiertas', 'Cerradas', 'En Proceso'],
+        labels: labels,
         datasets: [{
-            label: 'Incidencias',
-            data: [50, 30, 20], // Datos de ejemplo
-            backgroundColor: ['#007bff', '#28a745', '#ffc107'],
+            label: 'Incidencias por Categoría',
+            data: dataValues,
+            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6f42c1', '#e83e8c', '#fd7e14'],
         }]
     };
 
@@ -175,31 +178,14 @@ document.addEventListener("DOMContentLoaded", function () {
         type: 'doughnut',
         data: data,
         options: {
-            rotation: -90, // Mitad superior
+            rotation: -90,
             circumference: 180,
             plugins: {
                 legend: {
                     display: true,
                     position: 'bottom',
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            const dataset = tooltipItem.dataset;
-                            const dataIndex = tooltipItem.dataIndex;
-                            const value = dataset.data[dataIndex];
-                            const total = dataset.data.reduce((acc, current) => acc + current, 0);
-                            const percentage = ((value / total) * 100).toFixed(2);
-                            return `${tooltipItem.label}: ${value} incidencias (${percentage}%)`;
-                        }
-                    }
-                }
             },
-            layout: {
-                padding: 0,
-            },
-            responsive: false,
-            maintainAspectRatio: false,
         },
     };
 

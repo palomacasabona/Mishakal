@@ -60,7 +60,7 @@
                 <!-- Contenido del mensaje -->
                 <div>
                     <p class="text-base">
-                        Este gráfico muestra el porcentaje y número de incidencias abiertas, cerradas y en proceso.
+                        Este gráfico muestra el porcentaje y número de incidencias agrupadas por categorías.
                         Para obtener datos actualizados en tiempo real, por favor asegúrese de actualizar la aplicación periódicamente.
                         Al pasar el cursor sobre cada sección del gráfico, se mostrará información detallada.
                     </p>
@@ -68,12 +68,31 @@
             </div>
         </div>
 
+        @php
+            // Pasar datos al JavaScript como JSON
+            $labels = json_encode(array_keys($incidenciasPorCategoria->toArray()));
+            $dataValues = json_encode(array_column($incidenciasPorCategoria->toArray(), 'count'));
+            $colors = json_encode(['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6c757d', '#e83e8c', '#fd7e14']);
+        @endphp
+
         <!-- ---------------------------------------------------->
         <!-- DESGLOSE POR CATEGORÍAS -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-10">
             <h2 class="text-xl font-semibold text-gray-700 mb-4">Incidencias por Categoría</h2>
+            @php
+                $colores = [
+                    '#007bff', // Azul principal
+                    '#28a745', // Verde principal
+                    '#ffc107', // Amarillo principal
+                    '#17a2b8', // Azul claro
+                    '#6c757d', // Gris
+                    '#e83e8c', // Rosa vibrante
+                    '#fd7e14', // Naranja cálido
+                ];
+                $colorIndex = 0;
+            @endphp
             <ul>
-            @foreach ($incidenciasPorCategoria as $categoria => $datos)
+                @foreach ($incidenciasPorCategoria as $categoria => $datos)
                     <li class="mb-4">
                         <div class="flex justify-between mb-1">
                             <span class="text-gray-800 font-medium">{{ ucfirst($categoria) }}</span>
@@ -81,7 +100,9 @@
                         </div>
                         <!-- Barra de progreso -->
                         <div class="w-full bg-gray-200 rounded-full h-4">
-                            <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $datos['percentage'] }}%;"></div>
+                            <div class="h-4 rounded-full"
+                                 style="width: {{ $datos['percentage'] }}%; background-color: {{ $colores[$colorIndex++] }} !important;">
+                            </div>
                         </div>
                     </li>
                 @endforeach

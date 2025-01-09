@@ -43,7 +43,6 @@ class UsuarioController extends Controller
                 'percentage' => $percentage,
             ];
         });
-
         // Retornar la vista con todos los datos necesarios
         return view('perfil', compact(
             'usuario',

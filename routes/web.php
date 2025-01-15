@@ -67,3 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
     Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
 });
+
+//RUTA PARA ****MODAL**** DE SI INFO PARA GRABAR INCIDENCIA NO SE PUEDE MODIFICAR
+
+Route::post('/noMostrarModal', [UsuarioController::class, 'noMostrarModal'])->name('noMostrarModal')->withoutMiddleware('auth');

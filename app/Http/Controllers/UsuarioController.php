@@ -171,4 +171,17 @@ class UsuarioController extends Controller
         $usuario->delete(); // Elimina al usuario.
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
+    //METODO PARA EL MODAL DE "NO SE PUEDE MODIFICAR INCIDENCIA"
+    public function noMostrarModal(Request $request)
+    {
+        dd("hola");
+        session(['ocultar_modal' => true]);
+
+        return response()->json([
+            'message' => 'El modal no se mostrará más durante esta sesión.'
+
+        ], 200);
+
+    }
 }
+

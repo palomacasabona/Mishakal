@@ -154,12 +154,54 @@ ESTILOS DEL MODAL DE EDICIÓN PERFIL
 
 /* Reduce los márgenes entre secciones */
 #semicircleChart {
-    margin: 0;
-    padding: 0;
+    width: 300px;
+    height: 300px;
 }
 
 .section-explanation {
     margin-left: 20px;
 }
+
+/* MODAL AVISO de información para incidencia  en el caso de que se abra no se puede modificar */
+
+/* Estilo general para el modal */
+#modalNotificacion {
+    display: flex; /* Asegúrate de que esto cambia cuando se oculta */
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 50; /* Mantén el modal por encima */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+}
+
+/* Estilo interno del contenedor del modal */
+#modalNotificacion .relative {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    animation: bounce-in 0.3s ease-in-out;
+}
+
+/* Animación de entrada */
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+ .hidden {
+     visibility: hidden;
+}
+
+
 
 

@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(createSnowflake, 200);
 });
 
+
+
 // ** Abrir modal "CREAR TICKET" **
 document.addEventListener('DOMContentLoaded', function () {
     const btnAbrirModal = document.getElementById('btn-registrar-incidencia');
@@ -50,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
+
 
 // ** Botón "Editar Perfil" en el perfil de usuario **
 document.addEventListener('DOMContentLoaded', function () {
@@ -134,22 +139,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ** MODAL PARA MENSAJE ANTES DE METER INCIDENCIAS **
+// ** MODAL PARA MENSAJE ANTES DE METER INCIDENCIAS (ENTENDIDO Y NO MOSTRAR MAS) **
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Revisar si el modal debe mostrarse
     const modal = document.getElementById("modalNotificacion");
-    if (!modal.dataset.ocultarModal) {
-        // Mostrar el modal automáticamente al cargar la página
-        modal.classList.remove("hidden");
+    const btnCrearTicket = document.getElementById("btn-registrar-incidencia");
+    const btnCerrarModal = document.getElementById("cerrarModalNotificacion");
+    const formNoMostrarMas = document.getElementById("formNoMostrarMas");
+    const noMostrarUrl = formNoMostrarMas ? formNoMostrarMas.dataset.url : null; // no se esta usando
 
-        // Cerrar el modal al hacer clic en el botón "Entendido"
-        const cerrarModal = document.getElementById("cerrarModalNotificacion");
-        cerrarModal.addEventListener("click", function () {
-            modal.classList.add("hidden");
-        });
-    }
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+    // Mostrar el modal solo cuando se hace clic en el botón "Registrar nuevo ticket"
+    btnCrearTicket.addEventListener("click", function () {
+        console.log("Modal mostrado al hacer clic en 'Registrar nuevo ticket'.");
+        console.log(localStorage.getItem("formNoMostrarMas"));
+        if(localStorage.getItem("formNoMostrarMas") === null) {
+            modal.classList.remove("hidden" );
+            console.log("hola")
+        }
+    });
+
+    // Botón "Entendido" para cerrar el modal
+    btnCerrarModal.addEventListener("click", function () {
+        modal.classList.add("hidden");
+        console.log("Modal cerrado con el botón 'Entendido'.");
+        console.log(modal);
+
+    });
+
+    // Botón "No mostrar más" para cerrar y enviar la solicitud al servidor
+    document.querySelector("#formNoMostrarMas").addEventListener("submit", function (e) {
+        e.preventDefault();
+        console.log("Formulario enviado");
+        const url = this.dataset.url;
+        localStorage.setItem("formNoMostrarMas", "true");
+        setTimeout(function(){
+            localStorage.removeItem("formNoMostrarMas")
+
+        }, 7200000);
+        modal.classList.add("hidden");
+    });
 });
+
 
 //**ANIMACIÓN DE SEMICIRCULO**//
 
@@ -182,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
         type: 'doughnut',
         data: data,
         options: {
-            rotation: -90,
-            circumference: 180,
+            rotation: -90, // Inicia desde -90 grados
+            circumference: 180, // Muestra solo la mitad del círculo (180 grados)
             plugins: {
                 legend: {
                     display: true,
@@ -207,6 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
         new Chart(ctx, options);
+        console.log("Gráfico creado exitosamente");
     } catch (error) {
         console.error("Error al crear el gráfico:", error);
     }

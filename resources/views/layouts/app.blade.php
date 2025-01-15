@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Aplicación de Incidencias')</title>
 
     <!-- FAVICON -->
@@ -21,10 +22,12 @@
 
     <!-- VITE (CSS y JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/sidebar.js'])
+
 
     <!-- SIDEBAR JS -->
-    @vite(['resources/js/sidebar.js'])
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script><!-- ESTA LINEA NO SIRVE-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
@@ -272,5 +275,32 @@
         }, 3000); // El mensaje desaparecerá después de 3 segundos
     </script>
 @endif
-</body>
+<!-- -------------------------------------------------- -->
+<!-- -------------------------------------------------- -->
+<!-- MODAL DE NOTIFICACIÓN -->
+@php
+    \Log::info('Valor de la sesión ocultar_modal: ' . session('ocultar_modal'));
+@endphp
+<div id="modalNotificacion" class="fixed inset-0 flex items-center justify-center z-50 hidden"
+     data-ocultar-modal="{{ session('ocultar_modal') ? 'true' : 'false' }}">
+    <div class="relative bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Aviso Importante</h2>
+        <p class="text-gray-600 mb-6">
+            Las incidencias enviadas no pueden ser modificadas posteriormente. Por favor, revisa toda la información antes de enviarla.
+        </p>
+        <div class="flex justify-end space-x-4">
+            <button id="cerrarModalNotificacion" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Entendido
+            </button>
+            <form id="formNoMostrarMas" data-url="{{ route('noMostrarModal') }}">
+                @csrf
+                <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                    No mostrar más
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>+
 </html>

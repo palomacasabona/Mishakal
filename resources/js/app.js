@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// **************************************************** \\
 // ** MODAL PARA MENSAJE ANTES DE METER INCIDENCIAS (ENTENDIDO Y NO MOSTRAR MAS) **
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -146,17 +148,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnCrearTicket = document.getElementById("btn-registrar-incidencia");
     const btnCerrarModal = document.getElementById("cerrarModalNotificacion");
     const formNoMostrarMas = document.getElementById("formNoMostrarMas");
-    const noMostrarUrl = formNoMostrarMas ? formNoMostrarMas.dataset.url : null; // no se esta usando
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+    console.log("Modal:", modal);
+    console.log("Botón 'Crear Ticket':", btnCrearTicket);
+
+    if (!modal || !btnCrearTicket || !btnCerrarModal || !formNoMostrarMas) {
+        console.error("Error: Elementos esenciales no encontrados en el DOM.");
+        return;
+    }
 
     // Mostrar el modal solo cuando se hace clic en el botón "Registrar nuevo ticket"
     btnCrearTicket.addEventListener("click", function () {
         console.log("Modal mostrado al hacer clic en 'Registrar nuevo ticket'.");
-        console.log(localStorage.getItem("formNoMostrarMas"));
-        if(localStorage.getItem("formNoMostrarMas") === null) {
-            modal.classList.remove("hidden" );
-            console.log("hola")
+        console.log("Estado de localStorage (formNoMostrarMas):", localStorage.getItem("formNoMostrarMas"));
+        if (localStorage.getItem("formNoMostrarMas") === null) {
+            modal.classList.remove("hidden");
+            console.log("Clase 'hidden' removida del modal.");
+        } else {
+            console.log("El modal no se muestra porque 'No mostrar más' está activo.");
         }
     });
 
@@ -164,21 +173,20 @@ document.addEventListener("DOMContentLoaded", function () {
     btnCerrarModal.addEventListener("click", function () {
         modal.classList.add("hidden");
         console.log("Modal cerrado con el botón 'Entendido'.");
-        console.log(modal);
-
     });
 
     // Botón "No mostrar más" para cerrar y enviar la solicitud al servidor
-    document.querySelector("#formNoMostrarMas").addEventListener("submit", function (e) {
+    formNoMostrarMas.addEventListener("submit", function (e) {
         e.preventDefault();
-        console.log("Formulario enviado");
-        const url = this.dataset.url;
+        console.log("Formulario 'No mostrar más' enviado.");
         localStorage.setItem("formNoMostrarMas", "true");
-        setTimeout(function(){
-            localStorage.removeItem("formNoMostrarMas")
-
-        }, 7200000);
+        console.log("Estado de localStorage actualizado: 'formNoMostrarMas' = true");
+        setTimeout(function () {
+            localStorage.removeItem("formNoMostrarMas");
+            console.log("'formNoMostrarMas' eliminado del localStorage después del tiempo establecido.");
+        }, 10000); // Ajusta este tiempo según tus necesidades
         modal.classList.add("hidden");
+        console.log("Modal ocultado tras enviar el formulario.");
     });
 });
 

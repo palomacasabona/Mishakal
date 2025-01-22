@@ -22,7 +22,10 @@ class IncidenciaController extends Controller
                 ->orWhere('titulo', 'LIKE', "%{$search}%");
         }
 
-        $incidencias = $query->orderBy('created_at', 'desc')->paginate(14);
+        // Agregamos orderBy para asegurar el orden correcto
+        $incidencias = $query->orderBy('created_at', 'desc')->paginate(14)->appends(['search' => $search]);
+
+        //dd($incidencias);
 
         return view('incidencias.index', compact('incidencias', 'search'));
     }
@@ -119,5 +122,10 @@ class IncidenciaController extends Controller
         return redirect()->route('incidencias.show', $id_incidencia)->with('success', 'Incidencia actualizada correctamente.');
     }
 
+  // FUNCION PARA VER LOS MENSAJES
+    public function mensajes()
+    {
+        return $this->hasMany(Mensaje::class, 'incidencia_id', 'id_incidencia');
+    }
 
 }

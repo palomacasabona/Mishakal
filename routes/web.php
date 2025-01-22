@@ -71,3 +71,10 @@ Route::middleware(['auth'])->group(function () {
 //RUTA PARA ****MODAL**** DE SI INFO PARA GRABAR INCIDENCIA NO SE PUEDE MODIFICAR
 
 Route::post('/noMostrarModal', [UsuarioController::class, 'noMostrarModal'])->name('noMostrarModal')->withoutMiddleware('auth');
+
+// RUTA PARA QUE EL ADMIN VEA EL PERFIL DEL USUARIO
+
+Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
+
+//Ruta para manejar el almacenamiento de mensajes:
+Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.store');

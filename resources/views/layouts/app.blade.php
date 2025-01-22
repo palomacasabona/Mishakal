@@ -49,6 +49,7 @@
         <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>
     </div>
     <div class="flex items-center space-x-4">
+        <!----------------------------------------------------------------------------->
         <!--------------------------------- BOTONES ---------------------------------->
 
         <!-- Formulario de BUSCAR -->
@@ -302,5 +303,5 @@
     </div>
 </div>
 
-</body>+
+</body>
 </html>

@@ -4,23 +4,19 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <!-- DEBUGGER PARA VERIFICAR LAS RUTAS GENERADAS -->
-            <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
-        <!-- CONTENEDOR PRINCIPAL -->
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <!-- ENCABEZADO -->
             <div class="mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">{{ $incidencia->titulo }}</h2>
                 <p class="text-sm text-gray-500">ID: {{ $incidencia->id_incidencia }}</p>
                 <p class="text-sm text-gray-500">Fecha de Creación: {{ $incidencia->fecha_creacion }}</p>
             </div>
-            <!-- DESCRIPCIÓN -->
+
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Descripción</h3>
                 <p class="text-gray-600">{{ $incidencia->descripcion }}</p>
             </div>
-            <!-- ESTADO Y PRIORIDAD -->
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-700">Estado</h3>
@@ -35,7 +31,7 @@
                     </span>
                 </div>
             </div>
-            <!-- ARCHIVO ADJUNTO -->
+
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Archivo Adjunto</h3>
                 @if ($incidencia->archivo)
@@ -48,12 +44,44 @@
                 @endif
             </div>
 
-            <!-- BOTÓN DE VOLVER -->
             <div class="mt-6 flex justify-end">
                 <a href="{{ route('perfil') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Volver al Perfil
                 </a>
             </div>
-        </div>
+
+            <!-- HILO DE MENSAJES -->
+            <div class="mt-10">
+                <h3 class="text-xl font-bold text-gray-700 mb-4">Mensajes</h3>
+                @foreach($incidencia->mensajes as $mensaje)
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <p class="text-sm text-gray-500">De: {{ $mensaje->remitente->nombre }} {{ $mensaje->remitente->apellidos }}</p>
+                        <p class="text-gray-700">{{ $mensaje->contenido }}</p>
+                        <p class="text-sm text-gray-500 mt-2">{{ $mensaje->created_at->format('d/m/Y H:i') }}</p>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- FORMULARIO PARA ENVIAR MENSAJE -->
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold text-gray-700">Enviar Mensaje</h3>
+                <form action="{{ route('mensajes.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="incidencia_id" value="{{ $incidencia->id_incidencia }}">
+                    <textarea name="contenido" class="w-full p-4 border rounded-lg mb-4" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
+                </form>
+            </div>
+            <!-- Paginador -->
+            <div class="mt-4">
+                <!-- Componente de Paginación -->
+                @if($incidencias->hasPages())
+                    <nav class="flex justify-between">
+                        {{ $incidencias->links('pagination::tailwind') }}
+                    </nav>
+                @else
+                    <p class="text-center text-gray-500">No hay más resultados para mostrar.</p>
+                @endif
+            </div>
     </div>
 @endsection

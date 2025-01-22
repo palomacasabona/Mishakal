@@ -31,18 +31,18 @@ class MensajeController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario.
         $validated = $request->validate([
-            'contenido' => 'required|string|max:1000', // El mensaje no debe exceder 1000 caracteres.
-            'remitente_id' => 'required|exists:usuarios,id_usuario', // ID válido del remitente.
-            'destinatario_id' => 'required|exists:usuarios,id_usuario', // ID válido del destinatario.
-            'incidencia_id' => 'required|exists:incidencias,id_incidencia', // ID válido de la incidencia.
+            'contenido' => 'required|string|max:1000',
+            'incidencia_id' => 'required|exists:incidencias,id_incidencia',
         ]);
 
-        // Crear un nuevo mensaje con los datos validados.
-        Mensaje::create($validated);
+        Mensaje::create([
+            'contenido' => $validated['contenido'],
+            'incidencia_id' => $validated['incidencia_id'],
+            'remitente_id' => auth()->id(),
+        ]);
 
-        return redirect()->route('mensajes.index')->with('success', 'Mensaje creado exitosamente.');
+        return redirect()->route('incidencias.show', $validated['incidencia_id'])->with('success', 'Mensaje enviado correctamente.');
     }
 
     /**
@@ -99,5 +99,10 @@ class MensajeController extends Controller
         $mensaje->delete();
 
         return redirect()->route('mensajes.index')->with('success', 'Mensaje eliminado exitosamente.');
+    }
+
+    public function remitente()
+    {
+        return $this->belongsTo(User::class, 'remitente_id');
     }
 }

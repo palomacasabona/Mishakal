@@ -198,10 +198,35 @@ ESTILOS DEL MODAL DE EDICIÓN PERFIL
     }
 }
 
- .hidden {
-     visibility: hidden;
+/* PAGINADOR INCIDENCIAS*/
+
+nav[role="navigation"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+ /*.hidden {
+     visibility: hidden; ////ESTO NO SE PUEDE APLICAR PORQUE VA A APLICAR A TODOS LOS MODALES INCLUSO AL PAGINADOR
+}*/
+
+/* INSTEAD UND STATTDESSEN & snarere*/
+
+#modalNotificacion.hidden {
+    display: none;
 }
 
 
+ /* PAGINADOR INCIDENCIAS*/
+
+nav[role="navigation"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    justify-content: center;
+    margin-top: 1rem;
+}
 
 

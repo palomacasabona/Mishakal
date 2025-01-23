@@ -37,6 +37,24 @@ class IncidenciaController extends Controller
     {
         return view('incidencias.create');
     }
+    /**
+     * ASIGNAR INCIDENCIA METODO.
+     */
+    public function autoasignar($id)
+    {
+        $incidencia = Incidencia::findOrFail($id);
+
+        // Verificar si ya está asignada
+        if ($incidencia->asignado_a) {
+            return redirect()->back()->with('error', 'La incidencia ya está asignada.');
+        }
+
+        // Autoasignar la incidencia
+        $incidencia->asignado_a = auth()->user()->apellido; // O el campo correspondiente del usuario
+        $incidencia->save();
+
+        return redirect()->back()->with('success', 'La incidencia ha sido asignada correctamente.');
+    }
 
     /**
      * Almacena una nueva incidencia en la base de datos.

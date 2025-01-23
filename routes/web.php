@@ -78,3 +78,7 @@ Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios
 
 //Ruta para manejar el almacenamiento de mensajes:
 Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.store');
+
+
+//ROUTA PARA INCIDENCIAS PARA VER ASIGNACIÓN
+Route::post('/incidencias/{id}/autoasignar', [IncidenciaController::class, 'autoasignar'])->name('incidencias.autoasignar');

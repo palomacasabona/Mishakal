@@ -26,9 +26,9 @@ class Incidencia extends Model
         'prioridad',
         'estado',
         'usuario_id',
-        'archivo', // Campo directo para un archivo si se usa en la tabla directamente
+        'archivo',
+        'asignado_a', // Agregar este campo al array de $fillable
     ];
-
     /**
      * Relación: una incidencia pertenece a un usuario.
      */

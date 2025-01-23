@@ -4,6 +4,19 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
+        <!-- Mensajes Flash -->
+        @if (session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-500 text-white p-4 rounded mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Detalles de la Incidencia</h1>
         <div class="bg-white shadow-lg rounded-lg p-6">
             <div class="mb-6">
@@ -30,6 +43,27 @@
                         {{ ucfirst($incidencia->prioridad) }}
                     </span>
                 </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-700">Asignado A</h3>
+                @if ($incidencia->asignado_a)
+                    <p class="text-gray-600">{{ $incidencia->asignado_a }}</p>
+                @else
+                    <p class="text-gray-500">No asignado</p>
+                @endif
+
+                <!-- Botón de autoasignar si es admin -->
+                @if (auth()->user()->is_admin && !$incidencia->asignado_a)
+                    <div class="mt-4">
+                        <form action="{{ route('incidencias.autoasignar', $incidencia->id_incidencia) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Autoasignar
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
 
             <div class="mb-6">
@@ -72,9 +106,9 @@
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
                 </form>
             </div>
-            <!-- PAGINADOR (AL FINAL SE VE GENIAL ERA EL hidden -->
+
+            <!-- PAGINADOR -->
             <div class="mt-4">
-                <!-- Componente de Paginación -->
                 @if($incidencias->hasPages())
                     <nav class="flex justify-between">
                         {{ $incidencias->links('pagination::tailwind') }}
@@ -83,5 +117,6 @@
                     <p class="text-center text-gray-500">No hay más resultados para mostrar.</p>
                 @endif
             </div>
+        </div>
     </div>
 @endsection

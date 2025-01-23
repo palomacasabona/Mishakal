@@ -72,7 +72,7 @@
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
                 </form>
             </div>
-            <!-- Paginador -->
+            <!-- PAGINADOR (AL FINAL SE VE GENIAL ERA EL hidden -->
             <div class="mt-4">
                 <!-- Componente de Paginación -->
                 @if($incidencias->hasPages())

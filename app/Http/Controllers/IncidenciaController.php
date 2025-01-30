@@ -114,12 +114,18 @@ class IncidenciaController extends Controller
     {
         $incidencia = Incidencia::with('archivo')->find($id);
 
-        // Agrega un log para depurar
-        logger()->info('Archivo relacionado:', ['archivo' => $incidencia->archivo]);
+        if (!$incidencia) {
+            logger()->error('Incidencia no encontrada', ['id' => $id]);
+            abort(404, 'Incidencia no encontrada');
+        }
 
-        return view('verIncidencia', compact('incidencia'));
+        // Obtener todas las incidencias paginadas
+        $incidencias = Incidencia::orderBy('created_at', 'desc')->paginate(14);
+
+        logger()->info('Incidencia encontrada:', $incidencia->toArray());
+
+        return view('verIncidencia', compact('incidencia', 'incidencias'));
     }
-
     /**
      * Actualiza una incidencia existente.
      */

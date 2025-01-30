@@ -52,4 +52,9 @@ class Incidencia extends Model
     {
         return $this->hasMany(Comentario::class, 'incidencia_id', 'id_incidencia');
     }
+
+    public function mensajes()
+    {
+        return $this->hasMany(Mensaje::class, 'incidencia_id', 'id_incidencia');
+    }
 }

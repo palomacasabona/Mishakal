@@ -44,7 +44,7 @@
                     </span>
                 </div>
             </div>
-
+        <!-- DIV PARA CLICAR Y VER INCIDENCIAS -->
             <div class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-700">Asignado A</h3>
                 @if ($incidencia->asignado_a)
@@ -107,6 +107,7 @@
                 </form>
             </div>
 
+            <!-- PAGINADOR -->
             <!-- PAGINADOR -->
             <div class="mt-4">
                 @if($incidencias->hasPages())

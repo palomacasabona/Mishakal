@@ -30,12 +30,12 @@ class Mensaje extends Model
     // Relación con el remitente (usuario)
     public function remitente()
     {
-        return $this->belongsTo(User::class, 'remitente_id', 'id');
+        return $this->belongsTo(Usuario::class, 'remitente_id', 'id');
     }
 
     // Relación con el destinatario (usuario)
     public function destinatario()
     {
-        return $this->belongsTo(User::class, 'destinatario_id', 'id');
+        return $this->belongsTo(Usuario::class, 'destinatario_id', 'id');
     }
 }

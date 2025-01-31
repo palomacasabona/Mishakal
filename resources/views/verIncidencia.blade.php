@@ -102,6 +102,8 @@
                 <form action="{{ route('mensajes.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="incidencia_id" value="{{ $incidencia->id_incidencia }}">
+                    <!-- Campo oculto para destinatario_id, asumiendo que $incidencia->usuario_id es el destinatario -->
+                    <input type="hidden" name="destinatario_id" value="{{ $incidencia->usuario_id }}">
                     <textarea name="contenido" class="w-full p-4 border rounded-lg mb-4" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
                 </form>

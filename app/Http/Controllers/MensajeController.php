@@ -40,6 +40,7 @@ class MensajeController extends Controller
             'contenido' => $validated['contenido'],
             'incidencia_id' => $validated['incidencia_id'],
             'remitente_id' => auth()->id(),
+            'destinatario_id' => $request->input('destinatario_id', 1), // Asegúrate de que este campo tenga un valor.
         ]);
 
         return redirect()->route('incidencias.show', $validated['incidencia_id'])->with('success', 'Mensaje enviado correctamente.');

@@ -10,7 +10,7 @@
 <div class="flex items-center justify-center h-screen">
     <div class="bg-white p-6 rounded shadow-md w-full max-w-sm">
         <h1 class="text-xl font-bold mb-4">Inicia Sesión en Mishakal</h1>
-        <form action="{{ route('login') }}" method="POST">
+        <form action="{{ route('login.post') }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>

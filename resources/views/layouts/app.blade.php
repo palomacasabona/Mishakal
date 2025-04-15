@@ -19,16 +19,16 @@
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-
     <!-- VITE (CSS y JS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite(['resources/js/sidebar.js'])
 
 
-    <!-- SIDEBAR JS -->
+    <!-- SIDEBAR JS /SCRIPT  -->
     <script src="{{ asset('js/app.js') }}" defer></script><!-- ESTA LINEA NO SIRVE-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
 </head>
 <body class="bg-gray-100">

@@ -30,7 +30,7 @@ class Mensaje extends Model
     // Relación con el remitente (usuario)
     public function remitente()
     {
-        return $this->belongsTo(Usuario::class, 'remitente_id', 'id');
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); // Ajustar clave foránea
     }
 
     // Relación con el destinatario (usuario)

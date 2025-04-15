@@ -5,8 +5,6 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-10">
         <!-- depurar -->
-
-
         <!-- MENSAJE DE ÉXITO -->
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -14,31 +12,32 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
-
         <!-- TÍTULO PRINCIPAL -->
         <h1 class="text-3xl font-bold text-blue-600 mb-8">Perfil de Usuario</h1>
         <!-- -------------------------------------------------- -->
-
         <!-- INFORMACIÓN DEL USUARIO -->
         <div class="bg-white shadow-lg rounded-lg p-6 mb-4">
             <div class="flex items-center space-x-4">
-                <!-- FOTO DE PERFIL O INICIAL -->
+                {{-- FOTO DE PERFIL O INICIAL --}}
                 @if (Auth::user()->foto_perfil)
-                    <img src="{{ asset('storage/' . Auth::user()->foto_perfil) }}" alt="Foto de perfil"
-                         class="w-16 h-16 rounded-full">
+                    {{-- Si el usuario tiene foto de perfil guardada en la base de datos --}}
+                    <img src="{{ asset('storage/' . Auth::user()->foto_perfil) }}" alt="Foto de perfil" class="w-16 h-16 rounded-full">
                 @else
+                    {{-- Si NO tiene foto de perfil → se muestra un círculo con la inicial del nombre --}}
                     <div class="w-16 h-16 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-lg">
                         {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
                     </div>
                 @endif
-                <!-- INFORMACIÓN COMPLETA DEL USUARIO -->
+
+                {{-- INFORMACIÓN COMPLETA DEL USUARIO --}}
                 <div>
                     <p class="text-lg font-bold text-gray-800">ID: {{ Auth::user()->id_usuario }}</p>
                     <p class="text-lg font-bold text-gray-800">Nombre: {{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</p>
                     <p class="text-sm text-gray-600">Email: {{ Auth::user()->email }}</p>
                     <p class="text-sm text-gray-600">Teléfono: {{ Auth::user()->telefono }}</p>
                 </div>
-                <!-- BOTÓN EDITAR PERFIL -->
+
+                {{-- BOTÓN EDITAR PERFIL --}}
                 <button id="btnEditarPerfil" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-auto">
                     Editar Perfil
                 </button>
@@ -118,7 +117,6 @@
         <!-- Depuración para verificar incidencias -->
         @dd($incidencias)--}}
         <!-- LISTADO DE INCIDENCIAS -->
-
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-6">Tus Incidencias</h2>
             <table class="min-w-full table-auto">
@@ -206,13 +204,10 @@
                 <h2 class="text-lg font-semibold text-gray-800">Editar Perfil</h2>
                 <button id="btnCerrarModal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
-
             <!-- MODAL PARA EDITAR USUARIO -->
             <div class="p-6">
-
                 <form id="formEditarPerfil" method="POST" action="{{ route('usuario.update', ['id' => auth()->user()->id_usuario]) }}" enctype="multipart/form-data">                    @csrf
                     @method('PUT')
-
                     <!-- Nombre -->
                     <div class="mb-4">
                         <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
@@ -222,7 +217,6 @@
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <!-- Apellido -->
                     <div class="mb-4">
                         <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido:</label>
@@ -232,7 +226,6 @@
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <!-- Teléfono -->
                     <div class="mb-4">
                         <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono:</label>
@@ -252,17 +245,13 @@
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <!-- Foto de perfil -->
                     <div class="mb-4">
                         <label for="foto_perfil" class="block text-sm font-medium text-gray-700">Foto de Perfil:</label>
-                        <input type="file" id="foto" name="foto" accept="image/*"
-                               class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
-                        @error('foto_perfil')
+                        <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">                        @error('foto_perfil')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <!-- Botones -->
                     <div class="flex justify-end mt-6">
                         <button type="button" id="cancelarEditarPerfil" class="mr-4 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">

@@ -22,6 +22,72 @@ html, body {
     overflow: auto; /* Permite el desplazamiento si el contenido excede el tamaño del viewport */
 }
 
+/*** FLORES CAYENDO DEL CIELO ***/
+
+
+:root {
+    /*  Define los emojis y cuántos hay.  ¡ACTUALIZA AMBOS! */
+    --emojis: "🌸", "🌼", "🌺", "🌷", "🌹", "🌻", "💐"; /* Añade o quita emojis aquí */
+    --num-emojis: 7;  /*  ¡IMPORTANTE! Pon el NÚMERO TOTAL de emojis */
+}
+
+body { /* o el contenedor que uses */
+    overflow: hidden;
+}
+
+.emoji {
+    position: absolute;
+    font-size: 24px;  /* Ajusta el tamaño */
+    animation: fallEmoji linear infinite;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0; /* Empiezan invisibles */
+}
+
+@keyframes fallEmoji {
+    0%   { transform: translateY(-10vh) rotate(0deg);   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/*  Genera las reglas para cada emoji */
+/*  Usa un bucle (si usas preprocesador como Sass/SCSS) o manualmente */
+
+/* ---  VERSIÓN MANUAL (si no usas preprocesador CSS) --- */
+
+/*
+   Copia y pega este bloque para cada emoji.
+   Cambia el número en :nth-child(N) y el content: "EMOJI";
+   Ajusta left, animation-duration y animation-delay para cada uno.
+*/
+
+.emoji:nth-child(1) { left: 5%;   animation-duration: 8s;  animation-delay: 0s; }
+.emoji:nth-child(1)::before { content: "🌸"; }
+
+.emoji:nth-child(2) { left: 15%;  animation-duration: 10s; animation-delay: 2s; }
+.emoji:nth-child(2)::before { content: "🌼"; }
+
+.emoji:nth-child(3) { left: 25%;  animation-duration: 6s;  animation-delay: 1s; }
+.emoji:nth-child(3)::before { content: "🌺"; }
+
+.emoji:nth-child(4) { left: 35%; animation-duration: 12s; animation-delay: 3s; }
+.emoji:nth-child(4)::before { content: "🌷"; }
+
+.emoji:nth-child(5) { left: 45%;  animation-duration: 7s;  animation-delay: 1s; }
+.emoji:nth-child(5)::before { content: "🌹"; }
+
+.emoji:nth-child(6) { left: 55%; animation-duration: 9s; animation-delay: 0s; }
+.emoji:nth-child(6)::before { content: "🌻"; }
+
+.emoji:nth-child(7) { left: 65%; animation-duration: 5s; animation-delay: 2s; }
+.emoji:nth-child(7)::before { content: "💐"; }
+/* --- FIN DE LA VERSIÓN MANUAL --- */
+/* --- Si añades más emojis arriba, añade más bloques como estos --- */
+
+
+/******* SNOWFLAKES *****/
+
 /* Estilos para el contenedor de los copos */
 .snow-container {
     position: fixed; /* Fija el contenedor en relación al viewport */

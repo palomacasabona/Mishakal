@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class UsuarioController extends Controller
 {
     /**
-     * Muestra el perfil del usuario autenticado.
+     * MUESTRA el perfil del usuario autenticado.
      */
     public function perfil()
     {
@@ -61,7 +61,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Lista todos los usuarios registrados.
+     * LISTA todos los usuarios registrados.
      */
     public function index()
     {
@@ -70,7 +70,7 @@ class UsuarioController extends Controller
     }
 
     /**
-     * Muestra el formulario para crear un nuevo usuario.
+     * Muestra el FORM para CREAR un nuevo usuario.
      */
     public function create()
     {
@@ -125,7 +125,6 @@ class UsuarioController extends Controller
         $usuario = auth()->user(); // Obtiene el usuario autenticado.
         return view('perfil.editar', compact('usuario')); // Retorna la vista para editar el perfil.
     }
-
     /**
      * Actualiza los datos del usuario en la base de datos.
      */
@@ -135,7 +134,7 @@ class UsuarioController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido' => 'nullable|string|max:255',
             'telefono' => 'nullable|string|max:15',
-            'foto' => 'nullable|image|max:2048', // Valida que sea una imagen válida.
+            'foto_perfil' => 'nullable|image|max:2048', // Valida que sea una imagen válida.
         ]);
 
         $usuario = Usuario::findOrFail($id); // Busca al usuario por su ID.
@@ -144,20 +143,20 @@ class UsuarioController extends Controller
         $usuario->nombre = $validatedData['nombre'];
         $usuario->apellido = $validatedData['apellido'] ?? $usuario->apellido;
         $usuario->telefono = $validatedData['telefono'] ?? $usuario->telefono;
+        //$usuario->foto_perfil = $validatedData['foto_perfil'] ?? $usuario->foto_perfil;
 
-        // Verifica si se subió una foto.
-        if ($request->hasFile('foto')) {
-            // Elimina la foto anterior si existe.
+        // Verifica si se subió una nueva foto
+        if ($request->hasFile('foto_perfil')) {
+
             if ($usuario->foto_perfil && Storage::exists('public/' . $usuario->foto_perfil)) {
                 Storage::delete('public/' . $usuario->foto_perfil);
             }
 
-            // Guarda la nueva foto.
-            $path = $request->file('foto')->store('fotos', 'public');
+            $path = $request->file('foto_perfil')->store('fotos', 'public');
             $usuario->foto_perfil = $path;
         }
 
-        $usuario->save(); // Guarda los cambios en la base de datos.
+        $usuario->save();
 
         return redirect()->route('perfil')->with('success', 'Perfil actualizado correctamente.');
     }

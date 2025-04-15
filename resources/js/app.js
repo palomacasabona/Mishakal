@@ -12,23 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ** ANIMACIÓN NIEVE CAYENDO  **
-document.addEventListener("DOMContentLoaded", function () {
-    const snowContainer = document.createElement("div");
-    snowContainer.classList.add("snow-container");
-    document.body.appendChild(snowContainer);
-
-    function createSnowflake() {
-        const snowflake = document.createElement("div");
-        snowflake.classList.add("snowflake");
-        snowflake.style.left = Math.random() * 100 + "vw";
-        snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + "px";
-        snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
-        snowContainer.appendChild(snowflake);
-        setTimeout(() => snowflake.remove(), 5000);
-    }
-
-    setInterval(createSnowflake, 200);
-});
 
 
 
@@ -52,8 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
-
 
 
 // ** Botón "Editar Perfil" en el perfil de usuario **

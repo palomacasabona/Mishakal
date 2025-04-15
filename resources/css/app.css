@@ -284,7 +284,7 @@ nav[role="navigation"] {
     display: none;
 }
 
-/************************************\
+/************************************/
  /* PAGINADOR INCIDENCIAS*/
 
 nav[role="navigation"] {
@@ -293,6 +293,24 @@ nav[role="navigation"] {
     opacity: 1 !important;
     justify-content: center;
     margin-top: 1rem;
+}
+
+/************************************\
+ /* PETALOS*/
+
+.petal {
+    position: fixed;
+    top: -10px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0.5;
+    }
 }
 
 

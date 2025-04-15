@@ -233,3 +233,50 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error al crear el gráfico:", error);
     }
 });
+
+// ANIMACIÓN DE FLORES CAYENDO
+// Animación de pétalos cayendo ( emoji)
+document.addEventListener('DOMContentLoaded', () => {
+    const cantidad = 20; // Número de pétalos
+    const emojis = ['🌸', '🌺', '🌼', '💮']; // Puedes poner los que quieras
+
+    for (let i = 0; i < cantidad; i++) {
+        const petal = document.createElement('div');
+        petal.classList.add('petal');
+        petal.style.left = `${Math.random() * 100}vw`;
+        petal.style.animationDuration = `${Math.random() * 5 + 5}s`; // Entre 5 y 10s
+        petal.style.fontSize = `${Math.random() * 10 + 15}px`;
+        petal.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        document.body.appendChild(petal);
+    }
+});
+
+// BOTÓN POP-UP PARA CERRAR PTALOS
+// Animación de pétalos cayendo ( emoji)
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Capturamos los elementos del DOM que vamos a usar
+    const petalModal = document.getElementById('petalModal');             // El modal de confirmación
+    const openModal = document.getElementById('openPetalModal');          // El botón flotante (icono flor)
+    const closeModal = document.getElementById('closePetalModal');        // Botón para cerrar el modal sin hacer nada
+    const stopPetals = document.getElementById('stopPetals');             // Botón para parar las flores
+
+    const petals = [...document.querySelectorAll('.petal')];              // Todas las flores (divs con clase .petal)
+
+    // Cuando pulso el botón flotante, muestro el modal
+    openModal?.addEventListener('click', () => {
+        petalModal?.classList.remove('hidden');
+    });
+
+    // Si el usuario cancela, vuelvo a ocultar el modal
+    closeModal?.addEventListener('click', () => {
+        petalModal?.classList.add('hidden');
+    });
+
+    // Si el usuario confirma que quiere parar las flores
+    stopPetals?.addEventListener('click', () => {
+        petals.forEach(petal => petal.style.display = 'none');            // Oculto todas las flores
+        petalModal?.classList.add('hidden');                              // Cierro el modal
+    });
+
+});

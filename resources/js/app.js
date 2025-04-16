@@ -250,33 +250,30 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(petal);
     }
 });
+///BOTON EMERGENTE PARA QUITAR PETALOS
 
-// BOTÓN POP-UP PARA CERRAR PTALOS
-// Animación de pétalos cayendo ( emoji)
-document.addEventListener('DOMContentLoaded', () => {
+/// Espera a que se cargue tol D O M
+// Modal para parar las flores 🌸
+document.addEventListener('DOMContentLoaded', function () {
+    const openBtn = document.getElementById('openPetalModal');
+    const modal = document.getElementById('petalModal');
+    const closeBtn = document.getElementById('closePetalModal');
+    const stopBtn = document.getElementById('stopPetals');
 
-    // Capturamos los elementos del DOM que vamos a usar
-    const petalModal = document.getElementById('petalModal');             // El modal de confirmación
-    const openModal = document.getElementById('openPetalModal');          // El botón flotante (icono flor)
-    const closeModal = document.getElementById('closePetalModal');        // Botón para cerrar el modal sin hacer nada
-    const stopPetals = document.getElementById('stopPetals');             // Botón para parar las flores
+    if (openBtn && modal && closeBtn && stopBtn) {
+        openBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
 
-    const petals = [...document.querySelectorAll('.petal')];              // Todas las flores (divs con clase .petal)
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
 
-    // Cuando pulso el botón flotante, muestro el modal
-    openModal?.addEventListener('click', () => {
-        petalModal?.classList.remove('hidden');
-    });
-
-    // Si el usuario cancela, vuelvo a ocultar el modal
-    closeModal?.addEventListener('click', () => {
-        petalModal?.classList.add('hidden');
-    });
-
-    // Si el usuario confirma que quiere parar las flores
-    stopPetals?.addEventListener('click', () => {
-        petals.forEach(petal => petal.style.display = 'none');            // Oculto todas las flores
-        petalModal?.classList.add('hidden');                              // Cierro el modal
-    });
-
+        stopBtn.addEventListener('click', () => {
+            const petals = document.querySelectorAll('.petal');
+            petals.forEach(p => p.remove());
+            clearInterval(window.petalInterval);
+            modal.classList.add('hidden');
+        });
+    }
 });

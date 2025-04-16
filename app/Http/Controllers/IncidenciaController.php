@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Archivo;
 use App\Models\Incidencia;
+use App\Models\Mensaje;
 use Illuminate\Http\Request;
 
 class IncidenciaController extends Controller

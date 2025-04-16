@@ -180,6 +180,7 @@
             <span class="text-lg font-medium text-gray-700">
             {{ Auth::check() ? Auth::user()->nombre : 'Usuario no autenticado' }}
         </span>        </div>
+        <!-- FORMULARIO REGISTRAR INCIDENCIA -->
 
         <form action="{{ route('incidencias.store') }}" method="POST" enctype="multipart/form-data">
             @csrf

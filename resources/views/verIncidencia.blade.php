@@ -3,17 +3,18 @@
 @section('title', 'Detalles de la Incidencia')
 
 @section('content')
-    <button id="togglePetals"
-            class="fixed bottom-4 right-4 bg-pink-500 text-white px-4 py-2 rounded shadow-lg hover:bg-pink-600 z-50">
-        Parar Primavera
+    <!-- Botón flotante para parar las flores -->
+    <button id="openPetalModal" class="fixed bottom-5 right-5 bg-pink-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-pink-600 z-50 animate-bounce">
+        🌸 Parar flores
     </button>
-    <div id="petalModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center animate-bounce-in">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">¿Detener la primavera?</h2>
-            <p class="text-gray-600 mb-6">Puedes volver a activarla cuando quieras.</p>
-            <div class="flex justify-center space-x-4">
-                <button id="stopPetals" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sí, parar</button>
-                <button id="closePetalModal" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancelar</button>
+
+    <!-- Modal de confirmación -->
+    <div id="petalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <h2 class="text-xl font-bold mb-4">¿Parar las flores?</h2>
+            <div class="flex justify-center gap-4">
+                <button id="stopPetals" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sí</button>
+                <button id="closePetalModal" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">No</button>
             </div>
         </div>
     </div>

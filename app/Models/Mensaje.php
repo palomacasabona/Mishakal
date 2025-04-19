@@ -27,15 +27,13 @@ class Mensaje extends Model
         return $this->belongsTo(Incidencia::class, 'incidencia_id', 'id_incidencia');
     }
 
-    // Relación con el remitente (usuario)
+    // Relación con el remitente (usuario que envía el mensaje)
     public function remitente()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); // Ajustar clave foránea
-    }
-
-    // Relación con el destinatario (usuario)
+        return $this->belongsTo(Usuario::class, 'remitente_id', 'id_usuario');    }
+    // Relación con el destinatario (usuario que recibe el mensaje)
     public function destinatario()
     {
-        return $this->belongsTo(Usuario::class, 'destinatario_id', 'id');
+        return $this->belongsTo(Usuario::class, 'destinatario_id', 'id_usuario');
     }
 }

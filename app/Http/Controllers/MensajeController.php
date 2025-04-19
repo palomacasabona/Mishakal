@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
 
+
 class MensajeController extends Controller
 {
     /**
@@ -12,8 +13,8 @@ class MensajeController extends Controller
      */
     public function index()
     {
-        // Obtener todos los mensajes y pasarlos a la vista.
-        $mensajes = Mensaje::all();
+        // Carga los mensajes con sus relaciones de usuario
+        $mensajes = Mensaje::with('remitente', 'destinatario')->get();
         return view('mensajes.index', compact('mensajes'));
     }
 
@@ -34,16 +35,28 @@ class MensajeController extends Controller
         $validated = $request->validate([
             'contenido' => 'required|string|max:1000',
             'incidencia_id' => 'required|exists:incidencias,id_incidencia',
+            'destinatario_id' => 'required|exists:usuarios,id_usuario',
         ]);
+
+        $usuario = auth()->user();
+
+        //dd($usuario); // 
+
+        if (!$usuario) {
+            return redirect()->back()->with('error', 'Debes estar logueado para enviar un mensaje.');
+        }
 
         Mensaje::create([
             'contenido' => $validated['contenido'],
             'incidencia_id' => $validated['incidencia_id'],
-            'remitente_id' => auth()->id(),
-            'destinatario_id' => $request->input('destinatario_id', 1), // Asegúrate de que este campo tenga un valor.
+            'remitente_id' => $usuario->id_usuario,
+            'destinatario_id' => $validated['destinatario_id'],
+            'fecha_envio' => now(),
         ]);
 
-        return redirect()->route('incidencias.show', $validated['incidencia_id'])->with('success', 'Mensaje enviado correctamente.');
+        return redirect()
+            ->route('incidencias.show', $validated['incidencia_id'])
+            ->with('success', 'Mensaje enviado correctamente.');
     }
 
     /**

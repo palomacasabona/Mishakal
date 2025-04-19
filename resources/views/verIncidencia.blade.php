@@ -81,7 +81,7 @@
                 @endif
 
                 {{-- BOTÓN AUTOASIGNAR SOLO SI ES ADMIN --}}
-                @if (auth()->user()->is_admin && !$incidencia->asignado_a)
+                @if (auth()->check() && auth()->user()->is_admin && !$incidencia->asignado_a)
                     <div class="mt-4">
                         <form action="{{ route('incidencias.autoasignar', $incidencia->id_incidencia) }}" method="POST">
                             @csrf
@@ -118,9 +118,11 @@
                 <h3 class="text-xl font-bold text-gray-700 mb-4">Mensajes</h3>
                 @foreach($incidencia->mensajes as $mensaje)
                     <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        {{-- CONTROLAMOS QUE NO CASQUE SI EL REMITENTE ES NULL --}}
+                        {{-- Si no encuentra al remitente, muestra "Usuario eliminado" --}}
                         <p class="text-sm text-gray-500">
-                            De: {{ $mensaje->remitente->nombre ?? 'Usuario eliminado' }} {{ $mensaje->remitente->apellidos ?? '' }}
+                            De:
+                            {{ optional($mensaje->remitente)->nombre ?? 'Usuario eliminado' }}
+                            {{ optional($mensaje->remitente)->apellido ?? '' }}
                         </p>
                         <p class="text-gray-700">{{ $mensaje->contenido }}</p>
                         <p class="text-sm text-gray-500 mt-2">{{ $mensaje->created_at->format('d/m/Y H:i') }}</p>
@@ -134,7 +136,12 @@
                 <form action="{{ route('mensajes.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="incidencia_id" value="{{ $incidencia->id_incidencia }}">
-                    <input type="hidden" name="destinatario_id" value="{{ $incidencia->usuario_id }}">
+                    <input type="hidden" name="remitente_id" value="{{ auth()->id() }}">
+                    @if(auth()->id() == $incidencia->usuario_id)
+                        <input type="hidden" name="destinatario_id" value="{{ $incidencia->asignado_a }}">
+                    @else
+                        <input type="hidden" name="destinatario_id" value="{{ $incidencia->usuario_id }}">
+                    @endif
                     <textarea name="contenido" class="w-full p-4 border rounded-lg mb-4" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
                 </form>

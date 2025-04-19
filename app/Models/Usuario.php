@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property-read bool $is_admin
+ */
 class Usuario extends Authenticatable
 {
     use HasFactory;
@@ -45,6 +48,12 @@ class Usuario extends Authenticatable
     public function getAuthPassword()
     {
         return $this->contraseña; // Reemplaza 'contraseña' por el nombre exacto del campo en la base de datos
+    }
+
+    // Accesor para comprobar si el usuario es admin
+    public function getIsAdminAttribute()
+    {
+        return $this->rol === 'admin';
     }
 
 }

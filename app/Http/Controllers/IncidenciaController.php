@@ -113,7 +113,7 @@ class IncidenciaController extends Controller
      */
     public function show($id)
     {
-        $incidencia = Incidencia::with('archivo')->find($id);
+        $incidencia = Incidencia::with(['archivo', 'mensajes.remitente'])->find($id);
 
         if (!$incidencia) {
             logger()->error('Incidencia no encontrada', ['id' => $id]);

@@ -81,8 +81,7 @@
                 @endif
 
                 {{-- BOTÓN AUTOASIGNAR SOLO SI ES ADMIN --}}
-                @if (auth()->check() && auth()->user()->is_admin && !$incidencia->asignado_a)
-                    <div class="mt-4">
+                @if (auth()->check() && auth()->user()->rol === 'admin' && !$incidencia->asignado_a)                    <div class="mt-4">
                         <form action="{{ route('incidencias.autoasignar', $incidencia->id_incidencia) }}" method="POST">
                             @csrf
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">

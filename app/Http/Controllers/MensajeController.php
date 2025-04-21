@@ -40,7 +40,7 @@ class MensajeController extends Controller
 
         $usuario = auth()->user();
 
-        //dd($usuario); // 
+        //dd($usuario); //
 
         if (!$usuario) {
             return redirect()->back()->with('error', 'Debes estar logueado para enviar un mensaje.');

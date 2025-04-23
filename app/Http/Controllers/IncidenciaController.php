@@ -62,8 +62,7 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
-        \Log::info('Datos recibidos en la solicitud:', $request->all());
-
+        \Log::info('Usuario autenticado:', ['id' => auth()->id(), 'user' => auth()->user()]);
         $validatedData = $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -103,7 +102,7 @@ class IncidenciaController extends Controller
 
 
         return redirect()->route('perfil')->with('success', 'Incidencia registrada correctamente.');
-        dd("hola");
+        //dd("hola");
 
     }
 

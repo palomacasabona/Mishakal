@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     public function perfil()
     {
         $usuario = auth()->user(); // Obtiene el usuario actualmente autenticado.
-        $incidencias = Incidencia::with('archivo')->where('usuario_id', auth()->id())->get(); // Obtiene todas las incidencias creadas por el usuario.
+        $incidencias = Incidencia::with(['archivo', 'mensajes.remitente'])->where('usuario_id', auth()->id())->get(); // Obtiene todas las incidencias creadas por el usuario.
 
         // Contar incidencias totales y clasificarlas por estado
         $totalIncidencias = $incidencias->count();

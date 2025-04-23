@@ -115,8 +115,8 @@ class MensajeController extends Controller
         return redirect()->route('mensajes.index')->with('success', 'Mensaje eliminado exitosamente.');
     }
 
-    public function remitente()
+    /*public function remitente()
     {
         return $this->belongsTo(User::class, 'remitente_id');
-    }
+    }*/
 }

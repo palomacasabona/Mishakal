@@ -99,8 +99,7 @@
                     @php
                         $rutaPublica = asset('storage/' . $incidencia->archivo);
                     @endphp
-                    <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="w-full h-auto rounded">
-                @else
+                    <img src="{{ $rutaPublica }}" alt="Archivo Adjunto" class="max-w-md w-full h-auto rounded shadow-lg mx-auto">                @else
                     <p class="text-gray-500">No hay archivo adjunto disponible.</p>
                 @endif
             </div>

@@ -38,7 +38,8 @@ Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incide
 Route::middleware(['auth'])->group(function () {
     Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
     Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show');
-});
+});//MIRAR ESTA RUTA
+
 
 //////////////////////////
 // PERFIL Y USUARIOS

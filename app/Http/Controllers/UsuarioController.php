@@ -203,7 +203,14 @@ class UsuarioController extends Controller
             ->groupBy('categoria')
             ->pluck('total', 'categoria');
 
-        return view('dashboard', compact('totalUsuarios', 'totalIncidencias', 'porEstado', 'porCategoria'));
+        return view('dashboard', compact(
+            'totalIncidencias',
+            'totalUsuarios',
+            'porEstado',
+            'porCategoria',
+            'enProceso',
+            'cerradas'
+        ));
     }
 }
 

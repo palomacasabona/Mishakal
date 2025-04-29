@@ -59,8 +59,12 @@ class IncidenciaController extends Controller
             return redirect()->back()->with('error', 'La incidencia ya está asignada.');
         }
 
+        /** @var \App\Models\Usuario $usuario */
+        $usuario = auth()->user();
+        $incidencia->asignado_a = $usuario->id_usuario;
         // Autoasignar la incidencia
-        $incidencia->asignado_a = auth()->user()->apellido; // O el campo correspondiente del usuario
+        $usuario = auth()->user();
+        $incidencia->asignado_a = $usuario->id_usuario;
         $incidencia->save();
 
         return redirect()->back()->with('success', 'La incidencia ha sido asignada correctamente.');

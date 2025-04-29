@@ -83,7 +83,7 @@ class UsuarioController extends Controller
     public function show($id)
     {
         $usuario = Usuario::findOrFail($id); // Busca al usuario por su ID o lanza un error si no existe.
-        return view('usuarioShow', compact('usuario'));; // Retorna la vista con los datos del usuario.
+        return view('show', compact('usuario'));; // Retorna la vista con los datos del usuario.
     }
 
     /**

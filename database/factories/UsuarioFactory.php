@@ -25,6 +25,10 @@ class UsuarioFactory extends Factory
             'telefono' => $this->faker->numerify('6########'), // Móvil español (9 dígitos) // Teléfono con un formato más corto            'foto_perfil' => null, // Puedes usar $this->faker->imageUrl() para una URL falsa
             'rol' => $this->faker->randomElement(['user', 'admin', 'superadmin']), // Rol aleatorio
             'fecha_registro' => now(), // Fecha de registro actual
+            'foto_perfil' => function () {
+                $number = rand(1, 70);
+                return "https://i.pravatar.cc/150?img={$number}";
+            },
         ];
     }
 }

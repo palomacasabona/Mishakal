@@ -21,8 +21,8 @@
                 @endif
             </div>
 
-            {{-- Foto de perfil --}}
-            @if(auth()->user()->rol === 'admin' || auth()->user()->rol === 'superadmin' && $usuario->foto_perfil)
+            {{-- Foto de perfil con modal --}}
+            @if((auth()->user()->rol === 'admin' || auth()->user()->rol === 'superadmin') && $usuario->foto_perfil)
                 <div class="mt-6 md:mt-0 md:ml-6">
                     <img src="{{ asset('storage/' . $usuario->foto_perfil) }}"
                          alt="Foto de perfil"
@@ -33,13 +33,19 @@
         </div>
 
         {{-- Modal para ampliar imagen --}}
-        <div id="modalFoto" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
-            <div class="relative">
-                <button onclick="document.getElementById('modalFoto').classList.add('hidden')"
-                        class="absolute top-0 right-0 mt-2 mr-2 text-white text-2xl">&times;</button>
-                <img src="{{ asset('storage/' . $usuario->foto_perfil) }}" class="max-h-[80vh] rounded shadow-lg">
+        @if((auth()->user()->rol === 'admin' || auth()->user()->rol === 'superadmin') && $usuario->foto_perfil)
+            <div id="modalFoto" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
+                <div class="relative">
+                    <button onclick="document.getElementById('modalFoto').classList.add('hidden')"
+                            class="absolute top-0 right-0 mt-2 mr-2 text-white text-2xl">&times;</button>
+                    @if($usuario->foto_perfil)
+                        <img src="{{ $usuario->foto_perfil }}" alt="Foto de perfil" style="width: 120px; height: 120px; border-radius: 50%;">
+                    @else
+                        <p>Sin foto de perfil</p>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endif
 
         {{-- Aviso si no es admin --}}
         @if(!(auth()->user()->rol === 'admin' || auth()->user()->rol === 'superadmin'))

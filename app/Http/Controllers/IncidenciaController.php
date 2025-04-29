@@ -15,9 +15,8 @@ class IncidenciaController extends Controller
     public function __construct()
     {   // Este middleware obliga a estar logueado para acceder a cualquier método,
         // excepto al método 'show', que permite ver detalles de una incidencia sin login.
-        $this->middleware('auth')->except(['show']);
+        $this->middleware('auth')->except(['index', 'show']);
     }
-
     /**
      * Muestra una lista de todas las incidencias con búsqueda.
      */

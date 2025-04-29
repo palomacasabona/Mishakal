@@ -31,14 +31,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // INCIDENCIAS - PÚBLICAS
 //////////////////////////
 Route::get('/incidencias', [IncidenciaController::class, 'index'])->name('incidencias.index');
+Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show');
 
 //////////////////////////
 // INCIDENCIAS - PRIVADAS
 //////////////////////////
 Route::middleware(['auth'])->group(function () {
     Route::post('/incidencias', [IncidenciaController::class, 'store'])->name('incidencias.store');
-    Route::get('/incidencias/{id_incidencia}', [IncidenciaController::class, 'show'])->name('incidencias.show');
-});//MIRAR ESTA RUTA
+});
 
 
 //////////////////////////

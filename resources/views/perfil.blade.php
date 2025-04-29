@@ -291,6 +291,33 @@
             </div>
         </div>
     </div>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = {!! $labels !!};
+        const data = {
+            labels: labels,
+            datasets: [{
+                data: {!! $dataValues !!},
+                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6c757d', '#e83e8c', '#fd7e14'],
+                borderWidth: 1,
+            }]
+        };
+
+        const config = {
+            type: 'doughnut',
+            data: data,
+            options: {
+                circumference: 180,
+                rotation: -90,
+                cutout: '60%',
+                plugins: {
+                    legend: { display: true, position: 'bottom' }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('semicircleChart'), config);
+    </script>
 @endsection
 
 {{-- prueba comentario git --}}

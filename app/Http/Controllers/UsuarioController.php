@@ -82,9 +82,9 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        $usuario = Usuario::findOrFail($id); // Busca al usuario por su ID o lanza un error si no existe.
-        return view('show', compact('usuario'));; // Retorna la vista con los datos del usuario.
-    }
+        $usuario = Usuario::findOrFail($id);
+        $incidencias = $usuario->incidencias ?? collect(); // Si tienes la relación en el modelo
+        return view('show', compact('usuario', 'incidencias'));    }
 
     /**
      * Almacena un nuevo usuario en la base de datos.

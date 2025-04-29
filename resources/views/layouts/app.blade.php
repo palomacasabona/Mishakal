@@ -42,11 +42,13 @@
 
 <header class="flex items-center justify-between p-4 text-white shadow-md w-screen" style="background-color: #007bff;">
     <div class="flex items-center">
-        <div class="mr-4">
-            <!-- LOGO  -->
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 sm:h-12 md:h-12 w-auto">
-        </div>
-        <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>
+        <a href="{{ url('/incidencias') }}" class="flex items-center hover:opacity-80 transition-opacity">
+            <div class="mr-4">
+                <!-- LOGO  -->
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 sm:h-12 md:h-12 w-auto">
+            </div>
+            <h1 class="text-lg sm:text-xl font-bold">MISHAKAL</h1>
+        </a>
     </div>
     <div class="flex items-center space-x-4">
         <!----------------------------------------------------------------------------->

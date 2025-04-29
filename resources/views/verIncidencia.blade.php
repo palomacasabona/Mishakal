@@ -127,21 +127,33 @@
                     </div>
                 @endforeach
             </div>
-
             {{-- FORMULARIO ENVIAR MENSAJE --}}
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-700">Enviar Mensaje</h3>
+
                 <form action="{{ route('mensajes.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="incidencia_id" value="{{ $incidencia->id_incidencia }}">
-                    <input type="hidden" name="remitente_id" value="{{ auth()->id() }}">
                     @if(auth()->id() == $incidencia->usuario_id)
                         <input type="hidden" name="destinatario_id" value="{{ $incidencia->asignado_a }}">
                     @else
                         <input type="hidden" name="destinatario_id" value="{{ $incidencia->usuario_id }}">
                     @endif
-                    <textarea name="contenido" class="w-full p-4 border rounded-lg mb-4" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
+
+                    <textarea name="contenido"
+                              class="w-full p-4 border rounded-lg mb-2 focus:outline-none focus:ring focus:border-blue-300"
+                              rows="4"
+                              placeholder="Escribe tu mensaje aquí"
+                              required>{{ old('contenido') }}</textarea>
+
+                    @error('contenido')
+                    <p class="text-sm text-red-500 mb-2">{{ $message }}</p>
+                    @enderror
+
+                    <button type="submit"
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                        Enviar
+                    </button>
                 </form>
             </div>
 

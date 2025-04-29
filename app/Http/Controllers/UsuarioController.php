@@ -182,5 +182,28 @@ class UsuarioController extends Controller
         ], 200);
 
     }
+
+    // funcion estadisticas menu lateral
+
+    public function estadisticas()
+    {
+        $totalUsuarios = \App\Models\Usuario::count();
+        $totalIncidencias = \App\Models\Incidencia::count();
+        $abiertas = \App\Models\Incidencia::where('estado', 'abierta')->count();
+        $enProceso = \App\Models\Incidencia::where('estado', 'en proceso')->count();
+        $cerradas = \App\Models\Incidencia::where('estado', 'cerrada')->count();
+
+        $porEstado = [
+            'Abiertas' => $abiertas,
+            'En Proceso' => $enProceso,
+            'Cerradas' => $cerradas
+        ];
+
+        $porCategoria = \App\Models\Incidencia::selectRaw('categoria, COUNT(*) as total')
+            ->groupBy('categoria')
+            ->pluck('total', 'categoria');
+
+        return view('dashboard', compact('totalUsuarios', 'totalIncidencias', 'porEstado', 'porCategoria'));
+    }
 }
 

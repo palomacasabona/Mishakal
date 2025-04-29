@@ -1,12 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
-<body>
-<h1>Bienvenido al Dashboard</h1>
-<p>Próximamente aquí estarán las estadísticas.</p>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+
+@section('content')
+    <div class="container mx-auto px-4 py-6">
+        <h1 class="text-2xl font-bold mb-6">Estadísticas Generales</h1>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded shadow p-4 text-center">
+                <p class="text-sm text-gray-500">Usuarios</p>
+                <p class="text-xl font-bold">{{ $totalUsuarios }}</p>
+            </div>
+            <div class="bg-white rounded shadow p-4 text-center">
+                <p class="text-sm text-gray-500">Incidencias</p>
+                <p class="text-xl font-bold">{{ $totalIncidencias }}</p>
+            </div>
+            <div class="bg-white rounded shadow p-4 text-center">
+                <p class="text-sm text-gray-500">Abiertas</p>
+                <p class="text-xl font-bold">{{ $porEstado['Abiertas'] }}</p>
+            </div>
+            <div class="bg-white rounded shadow p-4 text-center">
+                <p class="text-sm text-gray-500">Cerradas</p>
+                <p class="text-xl font-bold">{{ $porEstado['Cerradas'] }}</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white rounded shadow p-4">
+                <h2 class="font-semibold mb-4">Incidencias por Estado</h2>
+                <canvas id="estadoChart"></canvas>
+            </div>
+            <div class="bg-white rounded shadow p-4">
+                <h2 class="font-semibold mb-4">Incidencias por Categoría</h2>
+                <canvas id="categoriaChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const estadoChart = new Chart(document.getElementById('estadoChart'), {
+            type: 'doughnut',
+            data: {
+                labels: {!! json_encode(array_keys($porEstado)) !!},
+                datasets: [{
+                    data: {!! json_encode(array_values($porEstado)) !!},
+                    backgroundColor: ['#3b82f6', '#facc15', '#10b981']
+                }]
+            }
+        });
+
+        const categoriaChart = new Chart(document.getElementById('categoriaChart'), {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($porCategoria->keys()) !!},
+                datasets: [{
+                    label: 'Cantidad',
+                    data: {!! json_encode($porCategoria->values()) !!},
+                    backgroundColor: '#6366f1'
+                }]
+            }
+        });
+    </script>
+@endsection

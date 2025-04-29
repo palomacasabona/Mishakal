@@ -98,3 +98,11 @@ Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.st
 // AUTOASIGNAR INCIDENCIA
 //////////////////////////
 Route::post('/incidencias/{id}/autoasignar', [IncidenciaController::class, 'autoasignar'])->name('incidencias.autoasignar');
+
+
+/////////////////////////
+/// ESTADISTICAS
+/////////////////////////
+Route::middleware(['auth'])->group(function () {
+    Route::get('/estadisticas', [UsuarioController::class, 'estadisticas'])->name('estadisticas');
+});

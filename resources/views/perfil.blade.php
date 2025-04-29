@@ -50,11 +50,11 @@
             $labels = json_encode(array_keys($incidenciasPorCategoria->toArray()));
             $dataValues = json_encode(array_column($incidenciasPorCategoria->toArray(), 'count'));
         @endphp
-
+    {{--LEYENDA DE TOROIDE
         <pre>
     Labels: {{ $labels }}
     Data Values: {{ $dataValues }}
-</pre>
+        </pre>--}}
         <div class="flex justify-center items-center space-x-4 mt-4 mb-2">
             <!-- Semicírculo -->
             <div class="w-1/2 flex justify-left">
@@ -293,30 +293,42 @@
     </div>-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const ctx = document.getElementById('semicircleChart').getContext('2d');
         const labels = {!! $labels !!};
-        const data = {
-            labels: labels,
-            datasets: [{
-                data: {!! $dataValues !!},
-                backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6c757d', '#e83e8c', '#fd7e14'],
-                borderWidth: 1,
-            }]
-        };
+        const dataValues = {!! $dataValues !!};
 
-        const config = {
+        new Chart(ctx, {
             type: 'doughnut',
-            data: data,
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: ['#007bff', '#28a745', '#ffc107', '#17a2b8', '#6c757d', '#e83e8c', '#fd7e14'],
+                    borderWidth: 1
+                }]
+            },
             options: {
                 circumference: 180,
                 rotation: -90,
-                cutout: '60%',
+                cutout: '70%',
                 plugins: {
-                    legend: { display: true, position: 'bottom' }
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.parsed;
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${context.label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
                 }
             }
-        };
-
-        new Chart(document.getElementById('semicircleChart'), config);
+        });
     </script>
 @endsection
 

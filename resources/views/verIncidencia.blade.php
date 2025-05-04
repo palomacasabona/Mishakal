@@ -112,21 +112,39 @@
             </div>
 
             {{-- HILO DE MENSAJES --}}
-            <div class="mt-10">
-                <h3 class="text-xl font-bold text-gray-700 mb-4">Mensajes</h3>
-                @foreach($incidencia->mensajes as $mensaje)
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        {{-- Si no encuentra al remitente, muestra "Usuario eliminado" --}}
-                        <p class="text-sm text-gray-500">
-                            De:
-                            {{ optional($mensaje->remitente)->nombre ?? 'Usuario eliminado' }}
-                            {{ optional($mensaje->remitente)->apellido ?? '' }}
-                        </p>
-                        <p class="text-gray-700">{{ $mensaje->contenido }}</p>
-                        <p class="text-sm text-gray-500 mt-2">{{ $mensaje->created_at->format('d/m/Y H:i') }}</p>
-                    </div>
-                @endforeach
-            </div>
+            @foreach($incidencia->mensajes->where('mensaje_id', null) as $mensaje)
+                <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                    {{-- INFO DEL MENSAJE PRINCIPAL --}}
+                    <p class="text-sm text-gray-500">
+                        De: {{ optional($mensaje->remitente)->nombre ?? 'Usuario eliminado' }}
+                        {{ optional($mensaje->remitente)->apellido ?? '' }}
+                    </p>
+                    <p class="text-gray-700">{{ $mensaje->contenido }}</p>
+                    <p class="text-sm text-gray-500 mt-2">{{ $mensaje->created_at->format('d/m/Y H:i') }}</p>
+
+                    {{-- FORMULARIO PARA RESPONDER AL MENSAJE --}}
+                    <form action="{{ route('mensajes.store') }}" method="POST" class="mt-2">
+                        @csrf
+                        <input type="hidden" name="mensaje_id" value="{{ $mensaje->id_mensaje }}">
+                        <input type="hidden" name="incidencia_id" value="{{ $incidencia->id_incidencia }}">
+                        <input type="hidden" name="destinatario_id" value="{{ $mensaje->remitente_id }}">
+                        <textarea name="contenido" class="w-full mt-2 p-2 border rounded" placeholder="Responder..." required></textarea>
+                        <button type="submit" class="mt-1 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Responder</button>
+                    </form>
+
+                    {{-- RESPUESTAS (una sola capa) --}}
+                    @foreach($mensaje->respuestas as $respuesta)
+                        <div class="ml-6 mt-2 p-3 bg-white border-l-4 border-blue-300 rounded">
+                            <p class="text-sm text-gray-500">
+                                Respuesta de {{ optional($respuesta->remitente)->nombre ?? 'Usuario eliminado' }}
+                                {{ optional($respuesta->remitente)->apellido ?? '' }}
+                            </p>
+                            <p class="text-gray-700">{{ $respuesta->contenido }}</p>
+                            <p class="text-sm text-gray-400">{{ $respuesta->created_at->format('d/m/Y H:i') }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @endforeach
             {{-- FORMULARIO ENVIAR MENSAJE --}}
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-700">Enviar Mensaje</h3>

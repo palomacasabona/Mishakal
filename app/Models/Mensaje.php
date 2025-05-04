@@ -21,6 +21,7 @@ class Mensaje extends Model
         'remitente_id',
         'destinatario_id',
         'fecha_envio',
+        'mensaje_id', // 👈 añadido
     ];
 
     // Relación con la incidencia
@@ -37,5 +38,17 @@ class Mensaje extends Model
     public function destinatario()
     {
         return $this->belongsTo(Usuario::class, 'destinatario_id', 'id_usuario');
+    }
+
+    // Relación: este mensaje puede tener respuestas
+    // Relaciones de hilo
+    public function respuestas()
+    {
+        return $this->hasMany(Mensaje::class, 'mensaje_id', 'id_mensaje');
+    }
+
+    public function padre()
+    {
+        return $this->belongsTo(Mensaje::class, 'mensaje_id', 'id_mensaje');
     }
 }

@@ -74,7 +74,6 @@
         </form>
         <!-- BARRA CON LOS ICONOS NAVBAR -->
         <nav>
-
             <ul class="flex items-center space-x-6">
                 @if(Auth::check())
                     <!-- Usuario autenticado -->

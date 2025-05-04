@@ -17,6 +17,8 @@ class Handler extends ExceptionHandler
         //
     ];
 
+
+
     /**
      * Define los inputs que nunca deben ser devueltos en errores de validación.
      *
@@ -37,11 +39,11 @@ class Handler extends ExceptionHandler
             //
         });
     }
-
+ //METODO PARA REDIRIGIR AL 419
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-            return response()->view('error.419', [], 419);
+            return redirect()->route('login')->with('error', 'Tu sesión ha expirado. Inicia sesión de nuevo.');
         }
 
         return parent::render($request, $exception);
@@ -51,5 +53,7 @@ class Handler extends ExceptionHandler
     {
         return redirect()->route('login')->with('error', 'Debes iniciar sesión para continuar.');
     }
+
+
 
 }

@@ -52,6 +52,7 @@ class MensajeController extends Controller
             'remitente_id' => $usuario->id_usuario,
             'destinatario_id' => $validated['destinatario_id'],
             'fecha_envio' => now(),
+            'mensaje_id' => $request->input('mensaje_id'), // 👈 esto es clave
         ]);
 
         return redirect()

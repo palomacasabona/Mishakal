@@ -57,4 +57,14 @@ class Incidencia extends Model
     {
         return $this->hasMany(Mensaje::class, 'incidencia_id', 'id_incidencia');
     }
+
+    public function creador()
+    {
+        return $this->belongsTo(Usuario::class, 'creado_por_id', 'id_usuario');
+    }
+
+    public function asignado()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id_usuario');
+    }
 }

@@ -6,6 +6,7 @@
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-bold mb-6">Estadísticas Generales</h1>
 
+        {{-- Indicadores principales --}}
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
             <div class="bg-blue-100 p-4 rounded shadow text-center">
                 <p class="text-xl font-semibold text-blue-700">📝 Total</p>
@@ -21,6 +22,7 @@
             </div>
         </div>
 
+        {{-- Indicadores adicionales --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div class="bg-white rounded shadow p-4 text-center">
                 <p class="text-sm text-gray-500">Usuarios</p>
@@ -40,6 +42,7 @@
             </div>
         </div>
 
+        {{-- Gráficos --}}
         <div class="grid md:grid-cols-2 gap-6">
             <div class="bg-white rounded shadow p-4">
                 <h2 class="font-semibold mb-4">Incidencias por Estado</h2>
@@ -51,27 +54,36 @@
             </div>
         </div>
 
-        {{-- Aviso + botón de descarga --}}
-        <div class="mt-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8
-                             3.582-8 8 3.582 8 8 8z"/>
-                </svg>
-                Puedes descargar un informe detallado de las incidencias actuales en PDF.
-            </div>
+        {{-- Filtro por fecha + aviso + botón --}}
+        <div class="mt-10">
+            <form method="GET" action="{{ route('estadisticas.informe') }}" class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8
+                                 3.582-8 8 3.582 8 8 8z"/>
+                    </svg>
+                    Puedes filtrar por fecha y descargar un informe PDF de las incidencias.
+                </div>
 
-            <a href="{{ route('estadisticas.informe') }}"
-               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
-                📄 Descargar Informe PDF
-            </a>
+                <div class="flex items-center gap-2">
+                    <label for="desde" class="text-sm">Desde:</label>
+                    <input type="date" name="desde" id="desde" class="border rounded px-2 py-1">
+                    <label for="hasta" class="text-sm">Hasta:</label>
+                    <input type="date" name="hasta" id="hasta" class="border rounded px-2 py-1">
+                </div>
+
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+                    📄 Descargar Informe PDF
+                </button>
+            </form>
         </div>
     </div>
 
+    {{-- Chart.js --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Contadores animados
         document.querySelectorAll('.counter').forEach(counter => {
             const updateCount = () => {
                 const target = +counter.getAttribute('data-target');
@@ -87,7 +99,6 @@
             updateCount();
         });
 
-        // Gráfico de estado
         new Chart(document.getElementById('estadoChart'), {
             type: 'doughnut',
             data: {
@@ -117,7 +128,6 @@
             }
         });
 
-        // Gráfico de categoría
         new Chart(document.getElementById('categoriaChart'), {
             type: 'bar',
             data: {

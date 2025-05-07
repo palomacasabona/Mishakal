@@ -63,10 +63,20 @@ class UsuarioController extends Controller
     /**
      * LISTA todos los usuarios registrados.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = Usuario::all(); // Obtiene todos los usuarios.
-        return view('usuarios', compact('usuarios')); // Muestra una vista con la lista de usuarios.
+        $query = Usuario::query();
+
+        if ($request->filled('buscar')) {
+            $buscar = $request->input('buscar');
+            $query->where('nombre', 'like', "%$buscar%")
+                ->orWhere('email', 'like', "%$buscar%");
+        }
+
+        $usuarios = $query->orderBy('nombre')->paginate(40);
+
+        // 👇 cambia la vista a 'usuarios' (sin .index)
+        return view('usuarios', compact('usuarios'));
     }
 
     /**

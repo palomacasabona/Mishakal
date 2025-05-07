@@ -6,6 +6,8 @@ use App\Models\Archivo;
 use App\Models\Incidencia;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 
@@ -162,6 +164,14 @@ class IncidenciaController extends Controller
     public function mensajes()
     {
         return $this->hasMany(Mensaje::class, 'incidencia_id', 'id_incidencia');
+    }
+ // FUNCION PARA DESCARGAR UN PDF
+    public function exportarInforme()
+    {
+        $incidencias = Incidencia::with('usuario')->orderBy('fecha_creacion', 'desc')->get();
+
+        $pdf = Pdf::loadView('estadisticas.informe', compact('incidencias'));
+        return $pdf->download('informe_incidencias.pdf');
     }
 
 }

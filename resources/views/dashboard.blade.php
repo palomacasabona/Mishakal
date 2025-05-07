@@ -50,6 +50,23 @@
                 <canvas id="categoriaChart"></canvas>
             </div>
         </div>
+
+        {{-- Aviso + botón de descarga --}}
+        <div class="mt-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8
+                             3.582-8 8 3.582 8 8 8z"/>
+                </svg>
+                Puedes descargar un informe detallado de las incidencias actuales en PDF.
+            </div>
+
+            <a href="{{ route('estadisticas.informe') }}"
+               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+                📄 Descargar Informe PDF
+            </a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

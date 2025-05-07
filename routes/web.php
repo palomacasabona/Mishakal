@@ -106,3 +106,5 @@ Route::post('/incidencias/{id}/autoasignar', [IncidenciaController::class, 'auto
 Route::middleware(['auth'])->group(function () {
     Route::get('/estadisticas', [UsuarioController::class, 'estadisticas'])->name('estadisticas');
 });
+
+Route::get('/estadisticas/informe', [IncidenciaController::class, 'exportarInforme'])->name('estadisticas.informe');

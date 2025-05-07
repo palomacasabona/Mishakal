@@ -32,7 +32,7 @@ class IncidenciaController extends Controller
         }
 
         // Agregamos orderBy para asegurar el orden correcto
-        $incidencias = $query->orderBy('created_at', 'desc')->paginate(14)->appends(['search' => $search]);
+        $incidencias = $query->orderBy('created_at', 'desc')->paginate(30)->appends(['search' => $search]);
 
         //dd($incidencias);
 

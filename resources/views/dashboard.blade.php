@@ -55,16 +55,44 @@
         </div>
 
         {{-- Botón para generar PDF --}}
-        <div class="mt-6">
+        <div class="mt-10">
             <button onclick="generarPDF()"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
                 📄 Descargar Informe PDF
             </button>
         </div>
 
-        {{-- Contenido oculto para PDF --}}
-        <div id="areaPdf" class="hidden">
-            {{-- Si necesitas meter contenido real aquí para el PDF, hazlo luego --}}
+        {{-- Área oculta para PDF --}}
+        <div id="areaPdf" style="position: absolute; left: -9999px; top: -9999px;">
+            <div class="flex justify-between items-center mb-4">
+                <img src="{{ asset('images/logo.png') }}" class="h-12" alt="Logo">
+                <p class="text-sm text-gray-500">Fecha: {{ now()->format('d/m/Y H:i') }}</p>
+            </div>
+            <h2 class="text-xl font-bold mb-4">Informe de Incidencias</h2>
+            <table class="w-full text-sm table-auto border border-gray-300">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th class="border px-2 py-1">Título</th>
+                    <th class="border px-2 py-1">Estado</th>
+                    <th class="border px-2 py-1">Prioridad</th>
+                    <th class="border px-2 py-1">Categoría</th>
+                    <th class="border px-2 py-1">Usuario</th>
+                    <th class="border px-2 py-1">Fecha</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($incidencias as $i)
+                    <tr>
+                        <td class="border px-2 py-1">{{ $i->titulo }}</td>
+                        <td class="border px-2 py-1">{{ $i->estado }}</td>
+                        <td class="border px-2 py-1">{{ $i->prioridad }}</td>
+                        <td class="border px-2 py-1">{{ $i->categoria }}</td>
+                        <td class="border px-2 py-1">{{ $i->usuario->nombre ?? 'N/A' }}</td>
+                        <td class="border px-2 py-1">{{ \Carbon\Carbon::parse($i->fecha_creacion)->format('d/m/Y') }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 

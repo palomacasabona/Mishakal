@@ -34,11 +34,11 @@
             </div>
             <div class="bg-white rounded shadow p-4 text-center">
                 <p class="text-sm text-gray-500">Abiertas</p>
-                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Abiertas'] ?? 0 }}">0</p>
+                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Abierta'] ?? 0 }}">0</p>
             </div>
             <div class="bg-white rounded shadow p-4 text-center">
                 <p class="text-sm text-gray-500">Cerradas</p>
-                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Cerradas'] ?? 0 }}">0</p>
+                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Cerrada'] ?? 0 }}">0</p>
             </div>
         </div>
 
@@ -54,30 +54,17 @@
             </div>
         </div>
 
-        {{-- Filtro por fecha + aviso + botón --}}
-        <div class="mt-10">
-            <form method="GET" action="{{ route('estadisticas.informe') }}" class="flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8
-                                 3.582-8 8 3.582 8 8 8z"/>
-                    </svg>
-                    Puedes filtrar por fecha y descargar un informe PDF de las incidencias.
-                </div>
+        {{-- Botón para generar PDF --}}
+        <div class="mt-6">
+            <button onclick="generarPDF()"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+                📄 Descargar Informe PDF
+            </button>
+        </div>
 
-                <div class="flex items-center gap-2">
-                    <label for="desde" class="text-sm">Desde:</label>
-                    <input type="date" name="desde" id="desde" class="border rounded px-2 py-1">
-                    <label for="hasta" class="text-sm">Hasta:</label>
-                    <input type="date" name="hasta" id="hasta" class="border rounded px-2 py-1">
-                </div>
-
-                <button type="submit"
-                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
-                    📄 Descargar Informe PDF
-                </button>
-            </form>
+        {{-- Contenido oculto para PDF --}}
+        <div id="areaPdf" class="hidden">
+            {{-- Si necesitas meter contenido real aquí para el PDF, hazlo luego --}}
         </div>
     </div>
 
@@ -102,9 +89,9 @@
         new Chart(document.getElementById('estadoChart'), {
             type: 'doughnut',
             data: {
-                labels: {!! json_encode(array_keys($porEstado)) !!},
+                labels: {!! json_encode($porEstado->keys()) !!},
                 datasets: [{
-                    data: {!! json_encode(array_values($porEstado)) !!},
+                    data: {!! json_encode($porEstado->values()) !!},
                     backgroundColor: ['#3b82f6', '#facc15', '#10b981']
                 }]
             },
@@ -152,5 +139,20 @@
                 }
             }
         });
+    </script>
+
+    {{-- html2pdf --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function generarPDF() {
+            const element = document.getElementById('areaPdf');
+            html2pdf().from(element).set({
+                margin: 0.5,
+                filename: 'informe_incidencias.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            }).save();
+        }
     </script>
 @endsection

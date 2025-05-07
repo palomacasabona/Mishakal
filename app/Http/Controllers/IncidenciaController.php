@@ -166,12 +166,70 @@ class IncidenciaController extends Controller
         return $this->hasMany(Mensaje::class, 'incidencia_id', 'id_incidencia');
     }
  // FUNCION PARA DESCARGAR UN PDF
-    public function exportarInforme()
+   /* public function exportarInforme(Request $request)
+    {
+        $desde = $request->input('desde');
+        $hasta = $request->input('hasta');
+
+        $query = Incidencia::with('usuario');
+
+        if ($desde) {
+            $query->whereDate('fecha_creacion', '>=', $desde);
+        }
+
+        if ($hasta) {
+            $query->whereDate('fecha_creacion', '<=', $hasta);
+        }
+
+        $incidencias = $query->orderBy('fecha_creacion', 'desc')->get();
+
+        $pdf = Pdf::loadView('dashboard', compact('incidencias'));
+        return $pdf->download('informe_incidencias.pdf'); // <- aquí fuerza la descarga
+    }*/
+
+ /*   public function dashboard()
     {
         $incidencias = Incidencia::with('usuario')->orderBy('fecha_creacion', 'desc')->get();
 
-        $pdf = Pdf::loadView('estadisticas.informe', compact('incidencias'));
-        return $pdf->download('informe_incidencias.pdf');
-    }
+        // También asegúrate de pasar estas si las usas:
+        $totalIncidencias = $incidencias->count();
+        $enProceso = $incidencias->where('estado', 'en proceso')->count();
+        $cerradas = $incidencias->where('estado', 'cerrada')->count();
+        $totalUsuarios = \App\Models\Usuario::count();
+        $porEstado = $incidencias->groupBy('estado')->map->count();
+        $porCategoria = $incidencias->groupBy('categoria')->map->count();
 
+        return view('dashboard', compact(
+            'incidencias',
+            'totalIncidencias',
+            'enProceso',
+            'cerradas',
+            'totalUsuarios',
+            'porEstado',
+            'porCategoria'
+        ));
+    }
+*/
+
+    public function dashboard()
+    {
+        $incidencias = Incidencia::with('usuario')->orderBy('fecha_creacion', 'desc')->get();
+
+        $totalIncidencias = $incidencias->count();
+        $enProceso = $incidencias->where('estado', 'en proceso')->count();
+        $cerradas = $incidencias->where('estado', 'cerrada')->count();
+        $totalUsuarios = \App\Models\Usuario::count();
+        $porEstado = $incidencias->groupBy('estado')->map->count();
+        $porCategoria = $incidencias->groupBy('categoria')->map->count();
+
+        return view('dashboard', compact(
+            'incidencias',
+            'totalIncidencias',
+            'enProceso',
+            'cerradas',
+            'totalUsuarios',
+            'porEstado',
+            'porCategoria'
+        ));
+    }
 }

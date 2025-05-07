@@ -100,11 +100,10 @@ Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.st
 Route::post('/incidencias/{id}/autoasignar', [IncidenciaController::class, 'autoasignar'])->name('incidencias.autoasignar');
 
 
-/////////////////////////
+//////////////////////////
 /// ESTADISTICAS
-/////////////////////////
+//////////////////////////
 Route::middleware(['auth'])->group(function () {
-    Route::get('/estadisticas', [UsuarioController::class, 'estadisticas'])->name('estadisticas');
+    Route::get('/estadisticas', [IncidenciaController::class, 'dashboard'])->name('estadisticas');
+    Route::get('/estadisticas/informe', [IncidenciaController::class, 'exportarInforme'])->name('estadisticas.informe');
 });
-
-Route::get('/estadisticas/informe', [IncidenciaController::class, 'exportarInforme'])->name('estadisticas.informe');

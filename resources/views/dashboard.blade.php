@@ -34,11 +34,11 @@
             </div>
             <div class="bg-white rounded shadow p-4 text-center">
                 <p class="text-sm text-gray-500">Abiertas</p>
-                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Abierta'] ?? 0 }}">0</p>
+                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Abiertas'] ?? 0 }}">0</p>
             </div>
             <div class="bg-white rounded shadow p-4 text-center">
                 <p class="text-sm text-gray-500">Cerradas</p>
-                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Cerrada'] ?? 0 }}">0</p>
+                <p class="text-xl font-bold counter" data-target="{{ $porEstado['Cerradas'] ?? 0 }}">0</p>
             </div>
         </div>
 
@@ -54,49 +54,57 @@
             </div>
         </div>
 
-        {{-- Botón para generar PDF --}}
-        <div class="mt-10">
+        {{-- Botón PDF con aviso --}}
+        <div class="mt-6 flex items-start md:items-center gap-4">
+            <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"/>
+                </svg>
+                Puedes generar un informe en PDF con los datos actuales de las incidencias.
+            </div>
+
             <button onclick="generarPDF()"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
                 📄 Descargar Informe PDF
             </button>
         </div>
 
-        {{-- Área oculta para PDF --}}
-        <div id="areaPdf" style="position: absolute; left: -9999px; top: -9999px;">
-            <div class="flex justify-between items-center mb-4">
-                <img src="{{ asset('images/logo.png') }}" class="h-12" alt="Logo">
-                <p class="text-sm text-gray-500">Fecha: {{ now()->format('d/m/Y H:i') }}</p>
-            </div>
-            <h2 class="text-xl font-bold mb-4">Informe de Incidencias</h2>
-            <table class="w-full text-sm table-auto border border-gray-300">
-                <thead class="bg-gray-100">
-                <tr>
-                    <th class="border px-2 py-1">Título</th>
-                    <th class="border px-2 py-1">Estado</th>
-                    <th class="border px-2 py-1">Prioridad</th>
-                    <th class="border px-2 py-1">Categoría</th>
-                    <th class="border px-2 py-1">Usuario</th>
-                    <th class="border px-2 py-1">Fecha</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($incidencias as $i)
+        {{-- Tabla para PDF: Oculta pero imprimible --}}
+        {{-- TEMPORAL: Ver cuántas incidencias hay :( --}}
+        <p>Total incidencias para el PDF: {{ $incidencias->count() }}</p>
+        <div id="areaPdf" style="opacity: 0; height:1px; overflow: hidden;">
+            <div class="p-6">
+                <h2 class="text-xl font-bold mb-4">Informe de Incidencias</h2>
+                <table class="w-full text-sm table-auto border border-gray-300">
+                    <thead class="bg-gray-100">
                     <tr>
-                        <td class="border px-2 py-1">{{ $i->titulo }}</td>
-                        <td class="border px-2 py-1">{{ $i->estado }}</td>
-                        <td class="border px-2 py-1">{{ $i->prioridad }}</td>
-                        <td class="border px-2 py-1">{{ $i->categoria }}</td>
-                        <td class="border px-2 py-1">{{ $i->usuario->nombre ?? 'N/A' }}</td>
-                        <td class="border px-2 py-1">{{ \Carbon\Carbon::parse($i->fecha_creacion)->format('d/m/Y') }}</td>
+                        <th class="border px-2 py-1">Título</th>
+                        <th class="border px-2 py-1">Estado</th>
+                        <th class="border px-2 py-1">Prioridad</th>
+                        <th class="border px-2 py-1">Categoría</th>
+                        <th class="border px-2 py-1">Usuario</th>
+                        <th class="border px-2 py-1">Fecha</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($incidencias as $i)
+                        <tr>
+                            <td class="border px-2 py-1">{{ $i->titulo }}</td>
+                            <td class="border px-2 py-1">{{ $i->estado }}</td>
+                            <td class="border px-2 py-1">{{ $i->prioridad }}</td>
+                            <td class="border px-2 py-1">{{ $i->categoria }}</td>
+                            <td class="border px-2 py-1">{{ $i->usuario->nombre ?? 'N/A' }}</td>
+                            <td class="border px-2 py-1">{{ \Carbon\Carbon::parse($i->fecha_creacion)->format('d/m/Y') }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    {{-- Chart.js --}}
+    {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.querySelectorAll('.counter').forEach(counter => {
@@ -169,18 +177,22 @@
         });
     </script>
 
-    {{-- html2pdf --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         function generarPDF() {
             const element = document.getElementById('areaPdf');
-            html2pdf().from(element).set({
+            if (!element) {
+                alert("No se encontró el contenido para generar el PDF.");
+                return;
+            }
+
+            html2pdf().set({
                 margin: 0.5,
                 filename: 'informe_incidencias.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            }).save();
+            }).from(element).save();
         }
     </script>
 @endsection

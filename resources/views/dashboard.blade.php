@@ -73,7 +73,9 @@
         {{-- Tabla para PDF: Oculta pero imprimible --}}
         {{-- TEMPORAL: Ver cuántas incidencias hay :( --}}
         <p>Total incidencias para el PDF: {{ $incidencias->count() }}</p>
-        <div id="areaPdf" style="opacity: 0; height:1px; overflow: hidden;">
+        <!-- CAMBIAMOS este style -->
+        <div id="areaPdf" style=" display:none">
+            <p>{{ isset($incidencias) ? $incidencias->count() : 'no definida' }}</p>
             <div class="p-6">
                 <h2 class="text-xl font-bold mb-4">Informe de Incidencias</h2>
                 <table class="w-full text-sm table-auto border border-gray-300">
@@ -180,19 +182,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         function generarPDF() {
-            const element = document.getElementById('areaPdf');
-            if (!element) {
-                alert("No se encontró el contenido para generar el PDF.");
+            const elemento = document.getElementById("areaPdf");
+            if (!elemento) {
+                alert("❌ No se encontró el div #areaPdf");
                 return;
             }
 
-            html2pdf().set({
-                margin: 0.5,
-                filename: 'informe_incidencias.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            }).from(element).save();
+            console.log("✅ Elemento encontrado, generando PDF...");
+            elemento.style.display = "block";
+            html2pdf().from(elemento).save();
+            setTimeout(function() {
+                elemento.style.display = "none";
+            }, 500);
+            /*elemento.style.visibility = "visible";*/
+
         }
     </script>
 @endsection

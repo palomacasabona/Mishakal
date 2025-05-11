@@ -54,26 +54,43 @@
             </div>
         </div>
 
-        {{-- Botón PDF con aviso --}}
-        <div class="mt-6 flex items-start md:items-center gap-4">
-            <div class="flex items-center text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"/>
-                </svg>
-                Puedes generar un informe en PDF con los datos actuales de las incidencias.
+        {{-- Bloque informativo + filtro + botón PDF bien alineado --}}
+        <div class="mt-6 mb-6 bg-blue-50 border border-blue-200 rounded shadow-sm p-4">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                {{-- Aviso de PDF --}}
+                <div class="flex items-center text-sm text-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"/>
+                    </svg>
+                    Puedes generar un informe en PDF con los datos actuales de las incidencias.
+                </div>
+
+                {{-- Filtro y botón --}}
+                <div class="flex flex-col md:flex-row md:items-end gap-4">
+                    {{-- Filtro por categoría con Select2 (si lo usas) --}}
+                    <div>
+                        <label for="filtroCategoria" class="block text-sm font-medium text-gray-700">Filtrar por categoría:</label>
+                        <select id="filtroCategoria" class="select-categoria mt-1 w-full md:w-64 p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300 text-sm">
+                            <option value="">Todas</option>
+                            @foreach($porCategoria->keys() as $categoria)
+                                <option value="{{ $categoria }}">{{ $categoria }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Botón PDF --}}
+                    <div>
+                        <label class="block invisible text-sm font-medium">Botón</label>
+                        <button onclick="generarPDF()"
+                                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
+                            📄 Descargar Informe PDF
+                        </button>
+                    </div>
+                </div>
             </div>
-
-            <button onclick="generarPDF()"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition">
-                📄 Descargar Informe PDF
-            </button>
         </div>
-
-        {{-- Tabla para PDF: Oculta pero imprimible --}}
-        {{-- TEMPORAL: Ver cuántas incidencias hay :( --}}
-        <p>Total incidencias para el PDF: {{ $incidencias->count() }}</p>
-        <!-- CAMBIAMOS este style -->
         <div id="areaPdf" style=" display:none">
             <p>{{ isset($incidencias) ? $incidencias->count() : 'no definida' }}</p>
             <div class="p-6">
@@ -112,6 +129,9 @@
 
     {{-- Scripts --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         document.querySelectorAll('.counter').forEach(counter => {
             const updateCount = () => {

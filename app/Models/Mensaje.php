@@ -22,6 +22,8 @@ class Mensaje extends Model
         'destinatario_id',
         'fecha_envio',
         'mensaje_id', // 👈 añadido
+        'notificado' => 'boolean', // para las notis
+
     ];
 
     // Relación con la incidencia

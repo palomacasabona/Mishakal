@@ -119,18 +119,32 @@
                     </li>
                 @endif
                 <!-- Botón NOTIFICACIONES -->
-                <li>
-                    <a href="#" class="hover:text-gray-300 relative text-2xl" title="Notificaciones">
-                        <i class="fas fa-bell"></i>
-                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"></span>
-                    </a>
-                </li>
+                    <li class="relative group">
+                        <a href="#" class="hover:text-gray-300 text-2xl" title="Notificaciones">
+                            <i class="fas fa-bell"></i>
+                            <span id="campanaNotificaciones" class="hidden absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full"></span>
+                        </a>
+
+                        <!-- Mini globo -->
+                        <div class="hidden group-hover:block absolute right-0 mt-2 w-64 bg-white text-black border border-gray-300 rounded shadow-lg z-50" id="globoNotificaciones">
+                            <ul id="listaNotificaciones" class="p-2 text-sm space-y-1">
+                                <li class="text-gray-500 italic">Cargando notificaciones...</li>
+                            </ul>
+                        </div>
+                    </li>
                 <!-- Botón AJUSTES -->
-                <li>
-                    <a href="#" class="hover:text-gray-300 text-2xl" title="Ajustes">
-                        <i class="fas fa-cog"></i>
-                    </a>
-                </li>
+                    <li class="relative group">
+                        <a href="#" id="toggleAjustes" class="hover:text-gray-300 text-2xl" title="Ajustes">
+                            <i class="fas fa-cog"></i>
+                        </a>
+
+                        <div id="panelAjustes" class="hidden absolute right-0 mt-2 w-48 bg-white text-black border border-gray-300 rounded shadow-lg z-50">
+                            <ul class="text-sm p-2 space-y-1">
+                                <li><button id="btnModoOscuro" class="w-full text-left hover:bg-gray-100 px-2 py-1">🌓 Modo oscuro</button></li>
+                                <li><button class="w-full text-left hover:bg-gray-100 px-2 py-1">🌐 Cambiar idioma</button></li>
+                            </ul>
+                        </div>
+                    </li>
             </ul>
         </nav>
     </div>
@@ -304,6 +318,72 @@
         </div>
     </div>
 </div>
+<script>
+    function actualizarCampana() {
+        fetch('{{ url('/notificaciones/contar') }}')
+            .then(res => res.json())
+            .then(data => {
+                const span = document.getElementById('campanaNotificaciones');
+                if (data.count > 0) {
+                    span.innerText = data.count;
+                    span.classList.remove('hidden');
+                } else {
+                    span.classList.add('hidden');
+                }
+            });
+    }
 
+    function cargarUltimasNotis() {
+        fetch('{{ url('/notificaciones/ultimas') }}')
+            .then(res => res.json())
+            .then(data => {
+                const lista = document.getElementById('listaNotificaciones');
+                lista.innerHTML = '';
+
+                if (!data.length) {
+                    lista.innerHTML = '<li class="text-gray-500 italic">Sin notificaciones nuevas</li>';
+                    return;
+                }
+
+                data.forEach(msg => {
+                    const li = document.createElement('li');
+                    li.textContent = msg.contenido.slice(0, 50) + '...';
+                    lista.appendChild(li);
+                });
+            });
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        actualizarCampana();
+        cargarUltimasNotis();
+        setInterval(() => {
+            actualizarCampana();
+            cargarUltimasNotis();
+        }, 10000);
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+        const ajustes = document.getElementById('toggleAjustes');
+        const panel = document.getElementById('panelAjustes');
+        const modoOscuroBtn = document.getElementById('btnModoOscuro');
+
+        // Mostrar el panel
+        ajustes.addEventListener('click', (e) => {
+            e.preventDefault();
+            panel.classList.toggle('hidden');
+        });
+
+        // Activar modo oscuro + guardar
+        modoOscuroBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode') ? '1' : '0');
+        });
+
+        // Cargar desde localStorage
+        if (localStorage.getItem('modoOscuro') === '1') {
+            document.body.classList.add('dark-mode');
+        }
+    });
+
+</script>
 </body>
+
 </html>

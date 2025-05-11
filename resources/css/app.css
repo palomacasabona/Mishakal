@@ -306,11 +306,47 @@ nav[role="navigation"] {
     animation: fall linear infinite;
 }
 
+/* === MODO OSCURO === */
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode .bg-white {
+    background-color: #1e1e1e !important;
+}
+
+.dark-mode .text-black {
+    color: white !important;
+}
+
+.dark-mode .border-gray-300 {
+    border-color: #444 !important;
+}
+
+.dark-mode table {
+    background-color: #1e1e1e !important;
+}
+
+.dark-mode th,
+.dark-mode td {
+    border-color: #444 !important;
+    color: white !important;
+}
+
+.dark-mode .btn-registrar {
+    background-color: #444 !important;
+    color: white !important;
+}
+
 @keyframes fall {
     to {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0.5;
     }
+
+
 }
 
 

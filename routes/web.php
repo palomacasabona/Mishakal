@@ -90,9 +90,18 @@ Route::post('/noMostrarModal', [UsuarioController::class, 'noMostrarModal'])->na
 Route::get('/usuarios/{id}', [UsuarioController::class, 'show'])->name('usuarios.show');
 
 //////////////////////////
-// GUARDAR MENSAJES
+// GUARDAR MENSAJES Y DEMÁS
 //////////////////////////
 Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.store');
+Route::get('/notificaciones/contar', function () {
+    $userId = auth()->id();
+
+    $count = \App\Models\Mensaje::where('destinatario_id', $userId)
+        ->where('notificado', false)
+        ->count();
+
+    return response()->json(['count' => $count]);
+})->name('notificaciones.contar');
 
 //////////////////////////
 // AUTOASIGNAR INCIDENCIA

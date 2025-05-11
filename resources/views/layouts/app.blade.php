@@ -141,8 +141,7 @@
                         <div id="panelAjustes" class="hidden absolute right-0 mt-2 w-48 bg-white text-black border border-gray-300 rounded shadow-lg z-50">
                             <ul class="text-sm p-2 space-y-1">
                                 <li><button id="btnModoOscuro" class="w-full text-left hover:bg-gray-100 px-2 py-1">🌓 Modo oscuro</button></li>
-                                <li><button class="w-full text-left hover:bg-gray-100 px-2 py-1">🌐 Cambiar idioma</button></li>
-                            </ul>
+                                <li><button id="btnIdioma" class="w-full text-left hover:bg-gray-100 px-2 py-1">🌐 Cambiar idioma</button></li>                            </ul>
                         </div>
                     </li>
             </ul>
@@ -319,40 +318,70 @@
     </div>
 </div>
 <script>
-    function actualizarCampana() {
-        fetch('{{ url('/notificaciones/contar') }}')
-            .then(res => res.json())
-            .then(data => {
-                const span = document.getElementById('campanaNotificaciones');
-                if (data.count > 0) {
-                    span.innerText = data.count;
-                    span.classList.remove('hidden');
-                } else {
-                    span.classList.add('hidden');
-                }
-            });
-    }
-
-    function cargarUltimasNotis() {
-        fetch('{{ url('/notificaciones/ultimas') }}')
-            .then(res => res.json())
-            .then(data => {
-                const lista = document.getElementById('listaNotificaciones');
-                lista.innerHTML = '';
-
-                if (!data.length) {
-                    lista.innerHTML = '<li class="text-gray-500 italic">Sin notificaciones nuevas</li>';
-                    return;
-                }
-
-                data.forEach(msg => {
-                    const li = document.createElement('li');
-                    li.textContent = msg.contenido.slice(0, 50) + '...';
-                    lista.appendChild(li);
-                });
-            });
-    }
     document.addEventListener("DOMContentLoaded", () => {
+        // 🔔 CAMPANA
+        function actualizarCampana() {
+            fetch('{{ url('/notificaciones/contar') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const span = document.getElementById('campanaNotificaciones');
+                    if (data.count > 0) {
+                        span.innerText = data.count;
+                        span.classList.remove('hidden');
+                    } else {
+                        span.classList.add('hidden');
+                    }
+                });
+        }
+
+        // 📬 NOTIFICACIONES RECIENTES
+        function cargarUltimasNotis() {
+            fetch('{{ url('/notificaciones/ultimas') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const lista = document.getElementById('listaNotificaciones');
+                    lista.innerHTML = '';
+
+                    if (!data.length) {
+                        lista.innerHTML = '<li class="text-gray-500 italic">Sin notificaciones nuevas</li>';
+                        return;
+                    }
+
+                    data.forEach(msg => {
+                        const li = document.createElement('li');
+                        li.textContent = msg.contenido.slice(0, 50) + '...';
+                        lista.appendChild(li);
+                    });
+                });
+        }
+
+        // ⚙️ PANEL DE AJUSTES
+        const ajustes = document.getElementById('toggleAjustes');
+        const panel = document.getElementById('panelAjustes');
+        const modoOscuroBtn = document.getElementById('btnModoOscuro');
+        const idiomaBtn = document.getElementById('btnIdioma'); // ✅ Añadido
+
+        ajustes.addEventListener('click', (e) => {
+            e.preventDefault();
+            panel.classList.toggle('hidden');
+        });
+
+        // 🌙 Modo oscuro
+        modoOscuroBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode') ? '1' : '0');
+        });
+
+        if (localStorage.getItem('modoOscuro') === '1') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 🌐 Cambiar idioma (simulado)
+        idiomaBtn?.addEventListener('click', () => {
+            alert("🌐 Esta función aún no está implementada.");
+        });
+
+        // ⏱️ Iniciar ciclo
         actualizarCampana();
         cargarUltimasNotis();
         setInterval(() => {
@@ -360,29 +389,6 @@
             cargarUltimasNotis();
         }, 10000);
     });
-    document.addEventListener("DOMContentLoaded", () => {
-        const ajustes = document.getElementById('toggleAjustes');
-        const panel = document.getElementById('panelAjustes');
-        const modoOscuroBtn = document.getElementById('btnModoOscuro');
-
-        // Mostrar el panel
-        ajustes.addEventListener('click', (e) => {
-            e.preventDefault();
-            panel.classList.toggle('hidden');
-        });
-
-        // Activar modo oscuro + guardar
-        modoOscuroBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode') ? '1' : '0');
-        });
-
-        // Cargar desde localStorage
-        if (localStorage.getItem('modoOscuro') === '1') {
-            document.body.classList.add('dark-mode');
-        }
-    });
-
 </script>
 </body>
 

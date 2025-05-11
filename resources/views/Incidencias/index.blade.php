@@ -45,7 +45,7 @@
                     {{-- Prioridad --}}
                     <td class="px-4 py-2">
                             <span class="px-2 py-1 rounded text-white text-xs
-                                @if($incidencia->prioridad == 'alta') bg-red-600
+                                @if($incidencia->prioridad == 'alta') bg-red-600 parpadea
                                 @elseif($incidencia->prioridad == 'media') bg-orange-500
                                 @else bg-green-500 @endif">
                                 {{ ucfirst($incidencia->prioridad) }}
@@ -55,8 +55,8 @@
                     {{-- Estado --}}
                     <td class="px-4 py-2">
                             <span class="px-2 py-1 rounded-full text-xs font-semibold
-                                @if($incidencia->estado == 'cerrada') bg-red-100 text-red-700
-                                @elseif($incidencia->estado == 'en proceso') bg-yellow-100 text-yellow-700
+                                @if($incidencia->estado == 'cerrada') bg-red-100 text-red-700 parpadea
+                                @elseif($incidencia->estado == 'en proceso') bg-yellow-100 text-yellow-700 parpadea
                                 @else bg-green-100 text-green-700 @endif">
                                 {{ ucfirst($incidencia->estado) }}
                             </span>

@@ -77,27 +77,31 @@
         <div id="areaPdf" style=" display:none">
             <p>{{ isset($incidencias) ? $incidencias->count() : 'no definida' }}</p>
             <div class="p-6">
-                <h2 class="text-xl font-bold mb-4">Informe de Incidencias</h2>
-                <table class="w-full text-sm table-auto border border-gray-300">
-                    <thead class="bg-gray-100">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="{{ public_path('images/logo.png') }}" alt="Logo" style="height: 60px; margin-bottom: 10px;">
+                    <h2 style="font-size: 22px; font-weight: bold;">Informe de Incidencias</h2>
+                    <p style="font-size: 14px; color: #666;">Generado: {{ now()->format('d/m/Y H:i') }}</p>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead style="background-color: #f3f4f6;">
                     <tr>
-                        <th class="border px-2 py-1">Título</th>
-                        <th class="border px-2 py-1">Estado</th>
-                        <th class="border px-2 py-1">Prioridad</th>
-                        <th class="border px-2 py-1">Categoría</th>
-                        <th class="border px-2 py-1">Usuario</th>
-                        <th class="border px-2 py-1">Fecha</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Título</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Estado</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Prioridad</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Categoría</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Usuario</th>
+                        <th style="border: 1px solid #ccc; padding: 6px;">Fecha</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($incidencias as $i)
                         <tr>
-                            <td class="border px-2 py-1">{{ $i->titulo }}</td>
-                            <td class="border px-2 py-1">{{ $i->estado }}</td>
-                            <td class="border px-2 py-1">{{ $i->prioridad }}</td>
-                            <td class="border px-2 py-1">{{ $i->categoria }}</td>
-                            <td class="border px-2 py-1">{{ $i->usuario->nombre ?? 'N/A' }}</td>
-                            <td class="border px-2 py-1">{{ \Carbon\Carbon::parse($i->fecha_creacion)->format('d/m/Y') }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ $i->titulo }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ $i->estado }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ $i->prioridad }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ $i->categoria }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ $i->usuario->nombre ?? 'N/A' }}</td>
+                            <td style="border: 1px solid #ddd; padding: 5px;">{{ \Carbon\Carbon::parse($i->fecha_creacion)->format('d/m/Y') }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -190,12 +194,12 @@
 
             console.log("✅ Elemento encontrado, generando PDF...");
             elemento.style.display = "block";
+
             html2pdf().from(elemento).save();
             setTimeout(function() {
                 elemento.style.display = "none";
             }, 500);
             /*elemento.style.visibility = "visible";*/
-
         }
     </script>
 @endsection

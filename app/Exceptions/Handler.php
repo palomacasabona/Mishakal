@@ -39,11 +39,11 @@ class Handler extends ExceptionHandler
             //
         });
     }
- //METODO PARA REDIRIGIR AL 419
+    //METODO PARA REDIRIGIR AL 419
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-            return redirect()->route('login')->with('error', 'Tu sesión ha expirado. Inicia sesión de nuevo.');
+            return response()->view('error.419', [], 419);
         }
 
         return parent::render($request, $exception);

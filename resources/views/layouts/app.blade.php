@@ -140,8 +140,17 @@
 
                         <div id="panelAjustes" class="hidden absolute right-0 mt-2 w-48 bg-white text-black border border-gray-300 rounded shadow-lg z-50">
                             <ul class="text-sm p-2 space-y-1">
-                                <li><button id="btnModoOscuro" class="w-full text-left hover:bg-gray-100 px-2 py-1">🌓 Modo oscuro</button></li>
-                                <li><button id="btnIdioma" class="w-full text-left hover:bg-gray-100 px-2 py-1">🌐 Cambiar idioma</button></li>                            </ul>
+                                <li>
+                                    <button id="btnModoOscuro" class="w-full text-left hover:bg-gray-100 px-2 py-1">
+                                        🌓 {{ __('ui.Modo oscuro') }}
+                                    </button>
+                                </li>
+                                <li>
+                                    <button id="btnIdioma" class="w-full text-left hover:bg-gray-100 px-2 py-1">
+                                        🌐 {{ __('ui.Cambiar idioma') }}
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </li>
             </ul>

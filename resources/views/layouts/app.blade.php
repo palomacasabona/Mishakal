@@ -36,7 +36,7 @@
 
 <div class="snow-container"></div>
 
-<!--  ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬆⬆️⬆️-->
+<!--  ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬆️⬆️-->
 
 <!-- Barra de navegación superior -->
 

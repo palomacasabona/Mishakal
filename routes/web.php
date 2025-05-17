@@ -9,6 +9,8 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Mensaje;
 
 //////////////////////////
 // RUTA TEST CACHE
@@ -116,3 +118,27 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/estadisticas', [IncidenciaController::class, 'dashboard'])->name('estadisticas');
     Route::get('/estadisticas/informe', [IncidenciaController::class, 'exportarInforme'])->name('estadisticas.informe');
 });
+
+//////////////////////////
+/// NOTIFICACIONES
+//////////////////////////
+
+Route::get('/notificaciones/contar', function () {
+    $usuario = Auth::user();
+    $count = Mensaje::where('destinatario_id', $usuario->id_usuario)
+        ->where('notificado', false)
+        ->count();
+
+    return response()->json(['count' => $count]);
+})->middleware('auth');
+
+Route::get('/notificaciones/ultimas', function () {
+    $usuario = Auth::user();
+    $mensajes = Mensaje::where('destinatario_id', $usuario->id_usuario)
+        ->where('notificado', false)
+        ->latest()
+        ->take(5)
+        ->get(['contenido']);
+
+    return response()->json($mensajes);
+})->middleware('auth');

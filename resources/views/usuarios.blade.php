@@ -33,9 +33,18 @@
             <tbody>
             @forelse ($usuarios as $usuario)
                 <tr class="hover:bg-gray-50">
+                    @php
+                        $esURL = Str::startsWith($usuario->foto_perfil, ['http://', 'https://']);
+                    @endphp
+
                     <td class="border px-4 py-2 text-center">
-                        <img src="{{ asset('storage/' . $usuario->foto_perfil) }}"
-                             class="w-10 h-10 rounded-full object-cover mx-auto" alt="Foto de perfil">
+                        @if($usuario->foto_perfil)
+                            <img src="{{ $esURL ? $usuario->foto_perfil : asset('storage/' . $usuario->foto_perfil) }}"
+                                 class="w-10 h-10 rounded-full object-cover mx-auto"
+                                 alt="Foto de {{ $usuario->nombre }}">
+                        @else
+                            <span class="text-gray-400 text-sm italic">Sin foto</span>
+                        @endif
                     </td>
                     <td class="border px-4 py-2">{{ $usuario->nombre }}</td>
                     <td class="border px-4 py-2">{{ $usuario->email }}</td>
@@ -46,14 +55,9 @@
                             <span class="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded-full">Usuario</span>
                         @endif
                     </td>
-                    <td class="border px-4 py-2 text-sm text-center">
+                    <td class="border px-4 py-2 text-center">
                         <a href="{{ route('usuarios.show', $usuario->id_usuario) }}"
                            class="text-blue-500 hover:underline">Ver</a>
-                        @can('update', $usuario)
-                            |
-                            <a href="{{ route('usuarios.edit', $usuario->id_usuario) }}"
-                               class="text-yellow-500 hover:underline">Editar</a>
-                        @endcan
                     </td>
                 </tr>
             @empty

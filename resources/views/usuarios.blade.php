@@ -23,27 +23,42 @@
         <table class="table-auto w-full border-collapse border border-gray-300 shadow-sm">
             <thead class="bg-gray-100">
             <tr>
-                <th class="border px-4 py-2">ID</th>
+                <th class="border px-4 py-2">Foto</th>
                 <th class="border px-4 py-2">Nombre</th>
                 <th class="border px-4 py-2">Correo Electrónico</th>
-                <th class="border px-4 py-2">Perfil</th>
+                <th class="border px-4 py-2">Rol</th>
+                <th class="border px-4 py-2">Acciones</th>
             </tr>
             </thead>
             <tbody>
             @forelse ($usuarios as $usuario)
                 <tr class="hover:bg-gray-50">
-                    <td class="border px-4 py-2">{{ $usuario->id_usuario }}</td>
+                    <td class="border px-4 py-2 text-center">
+                        <img src="{{ asset('storage/' . $usuario->foto_perfil) }}"
+                             class="w-10 h-10 rounded-full object-cover mx-auto" alt="Foto de perfil">
+                    </td>
                     <td class="border px-4 py-2">{{ $usuario->nombre }}</td>
                     <td class="border px-4 py-2">{{ $usuario->email }}</td>
                     <td class="border px-4 py-2">
-                        <a href="{{ route('usuarios.show', $usuario->id_usuario) }}" class="text-blue-500 hover:underline">
-                            Ver Perfil
-                        </a>
+                        @if($usuario->rol === 'admin')
+                            <span class="px-2 py-1 text-xs bg-blue-200 text-blue-800 rounded-full">Administrador</span>
+                        @else
+                            <span class="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded-full">Usuario</span>
+                        @endif
+                    </td>
+                    <td class="border px-4 py-2 text-sm text-center">
+                        <a href="{{ route('usuarios.show', $usuario->id_usuario) }}"
+                           class="text-blue-500 hover:underline">Ver</a>
+                        @can('update', $usuario)
+                            |
+                            <a href="{{ route('usuarios.edit', $usuario->id_usuario) }}"
+                               class="text-yellow-500 hover:underline">Editar</a>
+                        @endcan
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center text-gray-500 py-4">No se encontraron usuarios.</td>
+                    <td colspan="5" class="text-center text-gray-500 py-4">No se encontraron usuarios.</td>
                 </tr>
             @endforelse
             </tbody>

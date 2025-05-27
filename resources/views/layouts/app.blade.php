@@ -168,9 +168,13 @@
             <li class="mb-2">
                 <a href="/incidencias" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Incidencias</a>
             </li>
-            <li class="mb-2">
-                <a href="/usuarios" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Usuarios</a>
-            </li>
+            @auth
+                @if(Auth::user()->rol === 'admin')
+                    <li class="mb-2">
+                        <a href="/usuarios" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Usuarios</a>
+                    </li>
+                @endif
+            @endauth
             <li class="mb-2">
                 <a href="/estadisticas" class="block py-2 px-2 hover:bg-gray-600 rounded text-sm">Estadísticas</a>
             </li>

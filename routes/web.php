@@ -64,7 +64,6 @@ Route::middleware(['auth'])->group(function () {
 
 //////////////////////////
 // DASHBOARD
-
 //////////////////////////
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [IncidenciaController::class, 'dashboard'])->name('dashboard');
@@ -151,3 +150,10 @@ Route::get('/notificaciones/ultimas', function () {
 Route::get('/logout', function () {
     return view('logout-info'); // Una vista que simplemente explica que no se puede cerrar sesión así
 });
+
+////////////////////
+/// 419
+///////////////////
+Route::get('/sesion-expirada', function () {
+    return view('errors.419');
+})->name('expired.session');

@@ -63,7 +63,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //////////////////////////
-// DASHBOARD (OPCIONAL)
+// DASHBOARD
+
 //////////////////////////
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [IncidenciaController::class, 'dashboard'])->name('dashboard');
@@ -142,3 +143,11 @@ Route::get('/notificaciones/ultimas', function () {
 
     return response()->json($mensajes);
 })->middleware('auth');
+
+
+//////////////////////////
+/// LOUGOUT
+//////////////////////////
+Route::get('/logout', function () {
+    return view('logout-info'); // Una vista que simplemente explica que no se puede cerrar sesión así
+});

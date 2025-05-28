@@ -30,6 +30,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
+    <!-- RIVESCRIPT PARA EL CHATBOR -->
+
+
 </head>
 <body class="bg-gray-100">
 <!--  ANIMACIÓN DE COPOS DE NIEVE CAYENDO ⬇️⬇️ -->
@@ -330,6 +333,114 @@
         </div>
     </div>
 </div>
+<!-- Chatbot UI -->
+<div id="chatbot" class="fixed bottom-4 right-4 w-72 bg-white border rounded-xl shadow-lg z-50 text-sm">
+    <div class="bg-blue-600 text-white px-4 py-2 rounded-t-xl font-semibold flex justify-between items-center">
+        <span>Asistente rápido 🤖</span>
+        <button id="minimizarChat" class="text-white font-bold text-lg leading-none hover:text-gray-200">–</button>
+    </div>
+    <div id="chatlog" class="p-3 h-40 overflow-y-auto space-y-2">
+        <div class="text-gray-700">💬 Hola, ¿en qué puedo ayudarte?</div>
+    </div>
+    <div class="border-t px-3 py-2 flex">
+        <input id="chatInput" type="text" class="flex-1 p-1 border rounded" placeholder="Escribe tu pregunta...">
+        <button onclick="sendMessage()" class="ml-2 text-blue-600 font-semibold">➤</button>
+    </div>
+</div>
+<script src="https://unpkg.com/rivescript@latest/dist/rivescript.min.js"></script>
+<script>
+    if (typeof RiveScript === 'undefined') {
+        alert("❌ No se ha cargado RiveScript. Revisa el script src.");
+    }
+</script>
+<script>
+    const chatbot = document.getElementById('chatbot');
+    const minimizarBtn = document.getElementById('minimizarChat');
+    const chatlog = document.getElementById('chatlog');
+    const input = document.getElementById('chatInput');
+
+    minimizarBtn.addEventListener('click', () => {
+        if (chatlog.style.display === 'none') {
+            chatlog.style.display = 'block';
+            input.parentElement.style.display = 'flex';
+            minimizarBtn.textContent = '–';
+        } else {
+            chatlog.style.display = 'none';
+            input.parentElement.style.display = 'none';
+            minimizarBtn.textContent = '+';
+        }
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+        // Aquí puedes poner las funciones de campana, ajustes, etc.
+
+        // 🔁 INICIALIZAR RIVESCRIPT AQUÍ, DENTRO DEL DOMContentLoaded
+        const bot = new RiveScript();
+
+        bot.stream(`
++ hola
++ buenas
++ hey
+- ¡Hola! ¿En qué puedo ayudarte?
+
++ como subir incidencia
++ crear incidencia
++ crear ticket
++ subir ticket
+- 📝 Para subir una incidencia, haz clic en el botón verde "CREAR TICKET" arriba a la derecha.
+
++ ver incidencias
++ donde estan mis incidencias
++ incidencias
+- 📋 Puedes verlas en el menú lateral, sección "Incidencias".
+
++ cerrar sesión
++ salir
+- 🔐 Puedes cerrar sesión desde el menú arriba a la derecha, donde aparece tu nombre.
+
++ ayuda
++ necesito ayuda
++ como funciona esto
+- 🤖 Estoy aquí para ayudarte. Pregúntame sobre incidencias, tickets, o navegación.
+
++ gracias
++ muchas gracias
+- ¡De nada! 😊 Estoy para ayudarte.
+
++ *
+- No entendí eso. Intenta preguntarme de otra forma.
+        `);
+
+        bot.sortReplies();
+
+        window.sendMessage = async function () {
+            const input = document.getElementById('chatInput');
+
+            input.addEventListener('input', () => {
+                input.value = input.value
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^\w\s]/gi, '');
+            });
+            const log = document.getElementById('chatlog');
+
+            const text = input.value
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")            // elimina tildes
+                .replace(/[^\x00-\x7F]/g, "")               // elimina todo lo NO ASCII (emoji incluido)
+                .replace(/[^\w\s]/gi, "")                   // limpia cualquier cosa extra rara
+                .trim()
+                .toLowerCase();
+
+            if (!text) return;
+
+            log.innerHTML += `<div class="text-right text-blue-700">🧑 ${input.value}</div>`;
+            const reply = await bot.reply("local-user", text);
+            log.innerHTML += `<div class="text-gray-700">${reply}</div>`;
+            log.scrollTop = log.scrollHeight;
+            input.value = '';
+        }
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // 🔔 CAMPANA
@@ -403,6 +514,7 @@
         }, 10000);
     });
 </script>
+
 </body>
 
 </html>

@@ -42,8 +42,8 @@ class Handler extends ExceptionHandler
     //METODO PARA REDIRIGIR AL 419
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
-            return response()->view('errors.419', [], 419);
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() === 413) {
+            return response()->view('errors.413', [], 413);
         }
 
         return parent::render($request, $exception);

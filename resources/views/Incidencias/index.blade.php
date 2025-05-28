@@ -16,6 +16,7 @@
     @endif
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold text-gray-700 mb-6">Listado de Incidencias</h1>
+        <p class="text-sm text-gray-500 mb-6">Tipo de incidencias a día de {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
 
         <table class="table-auto w-full border-collapse shadow-md rounded">
             <thead class="bg-gray-100">
@@ -39,7 +40,10 @@
                         </a>
                     </td>
 
-                    <td class="px-4 py-2 text-gray-800">{{ $incidencia->titulo }}</td>
+                    <td class="px-4 py-2 text-gray-800">
+                        <div class="font-medium">{{ $incidencia->titulo }}</div>
+                        <div class="text-xs text-gray-500 mt-1">{{ $incidencia->descripcion }}</div>
+                    </td>
                     <td class="px-4 py-2 text-gray-600">{{ $incidencia->categoria }}</td>
 
                     {{-- Prioridad --}}

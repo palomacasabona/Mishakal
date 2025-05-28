@@ -15,8 +15,19 @@
         </div>
     @endif
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold text-gray-700 mb-6">Listado de Incidencias</h1>
-        <p class="text-sm text-gray-500 mb-6">Tipo de incidencias a día de {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
+        <div class="relative">
+            <div class="absolute right-0 top-0 mt-[-2rem] bg-white border border-blue-300 text-blue-800 px-4 py-2 rounded-xl shadow-md text-sm flex items-center gap-2 animate-fadeIn">
+                <span class="text-lg">💬</span>
+                <div>
+                    Bienvenido/a, <strong>{{ Auth::user()->nombre ?? 'usuario' }}</strong><br>
+                    ¿Listo para revisar tus incidencias?
+                </div>
+            </div>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-700 mb-2">Listado de Incidencias</h1>
+        <p class="text-sm text-gray-500 mb-6">
+            Actualizado a fecha y hora del sistema: {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}
+        </p>
 
         <table class="table-auto w-full border-collapse shadow-md rounded">
             <thead class="bg-gray-100">
@@ -98,4 +109,12 @@
             {{ $incidencias->appends(request()->query())->links() }}
         </div>
     </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('opacity-0'), 4000);
+            setTimeout(() => toast.remove(), 5000);
+        });
+    </script>
 @endsection

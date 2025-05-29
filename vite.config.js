@@ -7,7 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/sidebar.js', // Agrega esta línea
+                'resources/js/sidebar.js',
+                'resources/js/chatbot.js', // 👈 AÑADE ESTA LÍNEA
             ],
             refresh: true,
         }),
